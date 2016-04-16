@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >  
+  
+<hibernate-mapping package="com.cs.liwei.pojo">  
+    <class name="Course" table="course">  
+    <!-- pojo类 与字段对应  -->
+        <id name="courseNo" column="courseNo">  
+            <generator class="native"></generator>  
+        </id>  
+        <property name="courseName" column="courseName" type="java.lang.String"  />  
+        <property name="courseType" column="courseType" type="java.lang.String" />  
+        <property name="credit" column="credit" type="java.lang.Integer" />
+        <property name="professionNo" column="professionNo" type="java.lang.Integer" />
+        <property name="term" column="term" type="java.lang.Integer" />
+    </class>  
+</hibernate-mapping> 

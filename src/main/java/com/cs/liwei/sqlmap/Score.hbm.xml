@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >  
+  
+<hibernate-mapping package="com.cs.liwei.pojo">  
+    <class name="Score" table="score">  
+    <!-- pojo类 与字段对应  -->
+        <!-- 复合主键配置 -->
+        <composite-id>
+        	<key-property name="studentNo" column="studentNo" type="java.lang.Integer" />
+        	<key-property name="courseNo" column="courseNo" type="java.lang.Integer" />
+        </composite-id>
+        <property name="examType" column="examType" type="java.lang.String" />  
+        <property name="pingshiScore" column="pingshiScore" type="java.lang.Integer" />  
+        <property name="examScore" column="examScore" type="java.lang.Integer" />
+        <property name="finalScore" column="finalScore" type="java.lang.Integer" />
+        <property name="gradePoint" column="gradePoint" type="java.lang.Float" />  
+    </class>  
+</hibernate-mapping> 

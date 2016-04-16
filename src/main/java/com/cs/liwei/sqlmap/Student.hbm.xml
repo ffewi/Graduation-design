@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >  
+  
+<hibernate-mapping package="com.cs.liwei.pojo">  
+    <class name="Student" table="student">  
+    <!-- pojo类 与字段对应  -->
+        <id name="studentNo" column="studentNo">  
+            <generator class="native"></generator>  
+        </id>  
+        <property name="studentName" column="studentName" type="java.lang.String"  />  
+        <property name="sex" column="sex" type="java.lang.String" />  
+        <property name="className" column="className" type="java.lang.String" /> 
+        <property name="stuPass" column="stuPass" type="java.lang.String" /> 
+        <property name="stuState" column="stuState" type="java.lang.Integer" /> 
+    </class>  
+</hibernate-mapping> 

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context   
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">  
+  
+    <!-- 定义数据源的信息 -->  
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver">
+        </property>
+        <property name="url" value="jdbc:mysql://localhost:3306/tmdb?useUnicode=true&amp;characterEncoding=utf8">
+        </property>
+        <property name="username" value="root"></property>
+        <property name="password" value=""></property>
+    </bean>  
+  
+    <!--定义Hibernate的SessionFactory -->  
+    <!-- SessionFactory使用的数据源为上面的数据源 -->  
+    <!-- 指定了Hibernate的映射文件和配置信息 -->  
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+        <property name="mappingResources">
+            <list>
+                <!-- <value>com.liwei.ssh.pojo.User</value> -->
+                <value>com/cs/liwei/sqlmap/User.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/UserLogin.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Teacher.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Student.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Admin.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Course.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Score.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">
+                	org.hibernate.dialect.MySQLDialect 
+                </prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>  
+  
+    <bean id="transactionManager"  
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">  
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>  
+    
+   <!--  <bean id="baseDao" class="com.cs.liwei.dao.impl.UserLoginDaoImpl">  
+        <property name="sessionFactory">  
+            <ref bean="sessionFactory" />  
+        </property>  
+    </bean>   -->
+  
+    <!--用户注册业务逻辑类 -->  
+    <!-- <bean id="userManager" class="com.cs.liwei.service.impl.UserManagerImpl">  
+        <property name="dao">  
+            <ref bean="baseDao" />  
+        </property>  
+    </bean> -->
+  
+    <!-- 用户注册的Action  scope解決validation重複-->  
+    <bean id="regAction" class="com.cs.liwei.action.RegisterAction" scope="prototype" >  
+        <!-- <property name="userManager">  
+            <ref bean="userManager" />  
+        </property>  --> 
+    </bean>  
+  	<!-- <bean id="logAction" class="com.cs.liwei.action.LoginAction" scope="prototype" >  
+    </bean> -->
+    <!-- more bean definitions go here -->  
+    
+    <context:component-scan base-package="com.cs.liwei" />
+  
+</beans> 
