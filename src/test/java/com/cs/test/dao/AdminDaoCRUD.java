@@ -7,12 +7,13 @@ import javax.annotation.Resource;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.cs.liwei.dao.IAdminDao;
 import com.cs.liwei.dao.IBaseDao;
 import com.cs.liwei.pojo.Admin;
 
 public class AdminDaoCRUD {
 //    @Resource(name="iBaseDaoImpl")
-    private static IBaseDao dao;
+    private static IAdminDao dao;
     
     @Test
     public void testSave(){
@@ -22,7 +23,7 @@ public class AdminDaoCRUD {
         obj.setAccountName("33老大来了");
         obj.setPassword("123456");
         System.out.println(obj.getAccount()+":"+obj.getAccountName()+":"+obj.getPassword());
-        System.out.println(dao.save(obj));
+        //System.out.println(dao.save(obj));
     }
     @Test
     public void testUpdate(){
@@ -32,7 +33,7 @@ public class AdminDaoCRUD {
         obj.setAccountName("是打发第三方！");
         obj.setPassword("789456");
         System.out.println(obj.getAccount()+":"+obj.getAccountName()+":"+obj.getPassword());
-        dao.update(obj);
+        //dao.update(obj);
         System.out.println();
     }
     @Test
@@ -43,7 +44,7 @@ public class AdminDaoCRUD {
         obj.setAccountName("二老大来了");
         obj.setPassword("123456");
         System.out.println(obj.getAccount()+":"+obj.getAccountName()+":"+obj.getPassword());
-        dao.delete(obj);
+        //dao.delete(obj);
         System.out.println();
     }
     @Test
@@ -54,7 +55,7 @@ public class AdminDaoCRUD {
 //        obj.setAccount(9016003);
 //        obj.setAccountName("老大来了");
 //        obj.setPassword("123456");
-        obj=(Admin) dao.findByID(obj, 9016001);
+       // obj=(Admin) dao.findByID(obj, 9016001);
         System.out.println(obj.getAccount()+":"+obj.getAccountName()+":"+obj.getPassword());
     }
     @Test
@@ -76,6 +77,7 @@ public class AdminDaoCRUD {
     
     public static void getCx(){
     	ClassPathXmlApplicationContext cx = new ClassPathXmlApplicationContext("spring-hibernate.xml");
-        dao=cx.getBean("iBaseDaoImpl", IBaseDao.class);
+//        dao=cx.getBean("iBaseDaoImpl", IBaseDao.class);
+        dao=cx.getBean("adminDaoImpl", IAdminDao.class);
     }
 }

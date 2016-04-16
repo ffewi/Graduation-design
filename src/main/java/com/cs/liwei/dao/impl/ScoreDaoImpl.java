@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cs.liwei.dao.IScoreDao;
 @Repository
-public class ScoreDaoImpl extends MySessionFactory implements IScoreDao {
+public class ScoreDaoImpl extends IBaseDaoImpl implements IScoreDao {
 
     @Override
     public void searchAllExample() {

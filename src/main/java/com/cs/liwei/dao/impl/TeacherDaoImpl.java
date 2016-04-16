@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cs.liwei.dao.ITeacherDao;
 @Repository
-public class TeacherDaoImpl extends MySessionFactory implements ITeacherDao {
+public class TeacherDaoImpl extends IBaseDaoImpl implements ITeacherDao {
 
     @Override
     public void searchAllExample() {

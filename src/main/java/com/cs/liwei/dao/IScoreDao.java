@@ -8,7 +8,7 @@ package com.cs.liwei.dao;
  * @createDate 2016年4月13日
  *
  */
-public interface IScoreDao {
+public interface IScoreDao extends IBaseDao {
     /*
      * 增 删 改 查
      * 定义一些其他特殊的操作
