@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >  
+  
+<hibernate-mapping package="com.cs.liwei.pojo">  
+    <class name="Dept" table="dept">  
+    <!-- pojo类 与字段对应  -->
+        <id name="deptNo" column="deptNo" type="java.lang.Integer">  
+            <generator class="native"></generator> 
+        </id>  
+        <property name="deptName" column="deptName" type="java.lang.String" />  
+    </class>  
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >  
+  
+<hibernate-mapping package="com.cs.liwei.pojo">  
+    <class name="Teaching" table="teaching">  
+    <!-- pojo类 与字段对应  -->
+        <!-- 复合主键配置 -->
+        <composite-id>
+        	<key-property name="courseNo" column="courseNo" type="java.lang.Integer" />
+        	<key-property name="teacherNo" column="teacherNo" type="java.lang.Integer" />
+        	<key-property name="className" column="className" type="java.lang.String" />
+        </composite-id>
+        <property name="courseName" column="courseName" type="java.lang.String" />  
+        <property name="professionNo" column="professionNo" type="java.lang.Integer" />  
+        <property name="teachWeekNum" column="teachWeekNum" type="java.lang.Integer" />
+        <property name="teachWeekPoint" column="teachWeekPoint" type="java.lang.Integer" />
+    </class>  
+</hibernate-mapping> 

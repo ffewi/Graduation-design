@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >  
+  
+<hibernate-mapping package="com.cs.liwei.pojo">  
+    <class name="Profession" table="profession">  
+    <!-- pojo类 与字段对应  -->
+        <id name="professionNo" column="professionNo" type="java.lang.Integer">  
+            <generator class="native"></generator> 
+        </id>  
+        <property name="professionName" column="professionName" type="java.lang.String" />
+        <property name="deptNo" column="deptNo" type="java.lang.Integer" />  
+    </class>  
+</hibernate-mapping>

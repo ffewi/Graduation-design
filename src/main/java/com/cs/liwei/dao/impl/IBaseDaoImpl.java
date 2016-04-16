@@ -49,12 +49,9 @@ public class IBaseDaoImpl extends MySessionFactory implements IBaseDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> findAll(Object obj) {
-		// TODO Auto-generated method stub
 		session = getSession();
 		List<?> list =session.createQuery("from "+obj.getClass().getSimpleName()).list();
 		return (List<Object>) list;
 	}
-
-	
 
 }

@@ -28,13 +28,16 @@
         <property name="mappingResources">
             <list>
                 <!-- <value>com.liwei.ssh.pojo.User</value> -->
-                <value>com/cs/liwei/sqlmap/User.hbm.xml</value>
-                <value>com/cs/liwei/sqlmap/UserLogin.hbm.xml</value>
-                <value>com/cs/liwei/sqlmap/Teacher.hbm.xml</value>
-                <value>com/cs/liwei/sqlmap/Student.hbm.xml</value>
                 <value>com/cs/liwei/sqlmap/Admin.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Assistant.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/ClassTable.hbm.xml</value>
                 <value>com/cs/liwei/sqlmap/Course.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Dept.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Profession.hbm.xml</value>
                 <value>com/cs/liwei/sqlmap/Score.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Student.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Teacher.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Teaching.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">

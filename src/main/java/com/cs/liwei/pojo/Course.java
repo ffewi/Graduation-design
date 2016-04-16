@@ -116,6 +116,15 @@ public class Course implements Serializable {
     public void setTerm(int term) {
         this.term = term;
     }
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Course [courseNo=" + courseNo + ", courseName=" + courseName + ", courseType="
+                + courseType + ", credit=" + credit + ", professionNo=" + professionNo + ", term="
+                + term + "]";
+    }
     
     
 }

@@ -1,23 +1,18 @@
 package com.cs.liwei.action;
 
 
-import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.cs.liwei.beans.UserForm;
-import com.cs.liwei.service.UserManager;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 @Controller(value="logAction")
 @Scope(value="prototype")
 public class LoginAction extends ActionSupport {
-    private static final long serialVersionUID = 1L;  
     
     private UserForm user;  
-    @Resource(name="userManagerImpl")
-    private UserManager userManager;
+
     
     public String invokeUser() {
         ActionContext.getContext().getSession().put("用户名：可以定义一个常量","getUsername()");  
@@ -40,7 +35,7 @@ public class LoginAction extends ActionSupport {
 //               this.addActionMessage("密码或者用户名错误！");
 //                return INPUT;
 //            }
-            boolean pass = userManager.loginUser(user);
+            boolean pass =true; //userManager.loginUser(user);
             if (pass) {
                 System.out.println("success");
                 if (user.getType()==1) {

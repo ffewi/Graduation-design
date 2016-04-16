@@ -11,7 +11,7 @@ import com.cs.liwei.dao.IBaseDao;
 import com.cs.liwei.pojo.Admin;
 
 public class AdminDaoCRUD {
-    @Resource(name="iBaseDaoImpl")
+//    @Resource(name="iBaseDaoImpl")
     private static IBaseDao dao;
     
     @Test
@@ -54,7 +54,7 @@ public class AdminDaoCRUD {
 //        obj.setAccount(9016003);
 //        obj.setAccountName("老大来了");
 //        obj.setPassword("123456");
-        obj=(Admin) dao.findByID(obj, 9016004);
+        obj=(Admin) dao.findByID(obj, 9016001);
         System.out.println(obj.getAccount()+":"+obj.getAccountName()+":"+obj.getPassword());
     }
     @Test
