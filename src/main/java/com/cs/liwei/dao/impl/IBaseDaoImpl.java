@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.cs.liwei.dao.IBaseDao;
 @Repository("iBaseDaoImpl")
 public class IBaseDaoImpl extends MySessionFactory implements IBaseDao {
-	private Session session;
+	protected Session session;
 
 	@Override
     public Integer save(Object obj) {

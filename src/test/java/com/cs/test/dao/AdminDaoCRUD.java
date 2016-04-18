@@ -2,13 +2,10 @@ package com.cs.test.dao;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.cs.liwei.dao.IAdminDao;
-import com.cs.liwei.dao.IBaseDao;
 import com.cs.liwei.pojo.Admin;
 
 public class AdminDaoCRUD {

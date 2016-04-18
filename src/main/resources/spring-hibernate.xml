@@ -38,6 +38,7 @@
                 <value>com/cs/liwei/sqlmap/Student.hbm.xml</value>
                 <value>com/cs/liwei/sqlmap/Teacher.hbm.xml</value>
                 <value>com/cs/liwei/sqlmap/Teaching.hbm.xml</value>
+                <value>com/cs/liwei/sqlmap/Mishu.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">

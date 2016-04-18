@@ -4,13 +4,13 @@
                             "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >  
   
 <hibernate-mapping package="com.cs.liwei.pojo">  
-    <class name="Mishu" table="mishu">  
+    <class name="Assistant" table="assistant">  
     <!-- pojo类 与字段对应  -->
-        <id name="mishuNo" column="mishuNo" type="java.lang.Integer">  
+        <id name="assistantNo" column="assistantNo" type="java.lang.Integer">  
             <generator class="native"></generator> 
         </id>  
-        <property name="mishuName" column="mishuName" type="java.lang.String" />  
-        <property name="mishuPwd" column="mishuPwd" type="java.lang.String" />  
+        <property name="assistantName" column="assistantName" type="java.lang.String" />  
+        <property name="assistantPwd" column="assistantPwd" type="java.lang.String" />  
         <property name="deptNo" column="deptNo" type="java.lang.Integer" /> 
     </class>  
 </hibernate-mapping> 
