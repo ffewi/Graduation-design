@@ -52,7 +52,7 @@ public class LoginAction extends ActionSupport {
             admin.setPassword(user.getPassword());
             isLogin = adminManager.checkLogin(admin);
             if (isLogin) {
-                ActionContext.getContext().getSession().put("admin", "getUsername()");
+                ActionContext.getContext().getSession().put("admin", admin);
                 return "adminHome";
             }
             break;

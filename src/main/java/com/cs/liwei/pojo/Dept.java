@@ -15,7 +15,7 @@ public class Dept implements Serializable {
     /**
      * 
      */
-    private static final long serialVersionUID = 7204901953903052017L;
+    private static final long serialVersionUID = -3438403066888299772L;
     /*
      * some propertype 属性
      */

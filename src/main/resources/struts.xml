@@ -10,7 +10,7 @@
     <!-- com.liwei.ssh.action.RegisterAction -->
         <action name="register" class="regAction">  
             <result name="input">/Register.jsp</result>  
-            <result name="success">/Login.jsp</result>  
+            <result name="success">/login.jsp</result>  
             <result name="error">/Fail.jsp</result>  
         </action> 
         <action name="login" class="logAction">  
@@ -19,10 +19,14 @@
             <result name="success">/index.jsp</result>  
             <result name="error">/Fail.jsp</result>  
         </action> 
-        <action name="admin*" class="adminAction" method="{1}">  
-            <result name="input">/page/BYSJPage/home/login.jsp</result>  
-            <result name="success">/index.jsp</result>  
-            <result name="error">/Fail.jsp</result>  
+        <action name="admin*" class="adminAction" method="{1}">
+            <result name="dept">/admin/adminOfDept.jsp</result>
+            <result name="deptUpdate">/admin/adminOfDeptUpdate.jsp</result> 
+            <result name="deptAdd">/admin/adminOfDeptAdd.jsp</result>
+            <result name="proIndex">/admin/adminOfPro.jsp</result>
+            <result name="professionUpdate">/admin/adminOfProUpdate.jsp</result>
+            <result name="courseIndex">/admin/adminOfCourse.jsp</result>
+            
         </action> 
         <action name="assistant" class="assistantAction" method="{1}">  
             <result name="input">/page/BYSJPage/home/login.jsp</result>  

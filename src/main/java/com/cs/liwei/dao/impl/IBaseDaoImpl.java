@@ -16,6 +16,7 @@ public class IBaseDaoImpl extends MySessionFactory implements IBaseDao {
     public Integer save(Object obj) {
 		session = getSession();
         Serializable id = session.save(obj);
+        session.close();
         return (Integer) id;
     }
 
@@ -26,6 +27,7 @@ public class IBaseDaoImpl extends MySessionFactory implements IBaseDao {
     	tran.begin();
     	session.delete(obj);
     	tran.commit();
+    	session.close();
     }
 
     @Override
@@ -35,6 +37,7 @@ public class IBaseDaoImpl extends MySessionFactory implements IBaseDao {
     	tran.begin();
         Object result = session.get(obj.getClass(), id);
         tran.commit();
+        session.close();
         return result;
     }
 
@@ -44,6 +47,7 @@ public class IBaseDaoImpl extends MySessionFactory implements IBaseDao {
         Transaction tran = session.beginTransaction();
         session.update(obj);
         tran.commit();
+        session.close();
     }
 
 	@SuppressWarnings("unchecked")
@@ -51,6 +55,7 @@ public class IBaseDaoImpl extends MySessionFactory implements IBaseDao {
 	public List<Object> findAll(Object obj) {
 		session = getSession();
 		List<?> list =session.createQuery("from "+obj.getClass().getSimpleName()).list();
+		session.close();
 		return (List<Object>) list;
 	}
 

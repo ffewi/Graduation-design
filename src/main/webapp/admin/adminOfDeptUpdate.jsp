@@ -38,19 +38,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>-->
-            <!-- (Admin) .getAccount()-->
-				<a class="navbar-brand" href="#">欢迎您：</a><span class="navbar-brand"><%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount() %></span>
+				<a class="navbar-brand" href="#">欢迎您：</a><span class="navbar-brand"><%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></span>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 
-					<li><a href="#">设置</a></li>
+					<li><a href="javascript:void(0)" onclick="showcaoz();">设置</a></li>
 					<li><a href="#">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
-				<form class="navbar-form navbar-right" action="#">
-					<input id="deptID" name="deptForm.content" type="text" class="form-control" placeholder="Search...">
-					<input type="submit" class="form-control btn btn-info" value="查询">
+				<form class="navbar-form navbar-right "  action="adminsearchDeptByNameForLike" method="get">
+					<input id="deptID" name="deptForm.content" disabled="disabled" type="text" class="form-control " placeholder="Search...">
+					<input type="submit" disabled="disabled" class="form-control btn btn-info " value="查询">
 				</form>
 			</div>
 		</div>
@@ -60,10 +59,10 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#">详情(点我没有用！)</a></li>
-					<li><a href="admingetAllDeptList">学院管理</a></li>
+					<li><a href="#">详情(点我没有用！)</a></li>
+					<li class="active"><a href="#">学院管理</a></li>
 					<li><a href="admingetAllProList?proForm.pageNo=0">专业管理</a></li>
-					<li><a href="admingetAllCourseList?courseForm.pageNo=1">课程管理</a></li>
+					<li><a href="#">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="#">教师管理</a></li>
@@ -81,12 +80,23 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 				<h2 class="sub-header">
-					欢迎：<%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<pre>
-						请选择你要操作的类型
-						！！！！！！！！！！！
-				</pre>
-				<span class="icon-bar">请选择你要操作的类型1123</span>
+					欢迎：<%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
+				<s:form action="adminexeUpdateDeptById" method="get" >
+					<div class="row input-group col-sm-4" style="margin-top: 60px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">ID</span> <input type="text"  readonly="readonly"
+							name="deptForm.deptNo" class="form-control" value="<s:property value='deptForm.deptNo'/>">
+					</div>
+					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">院系名称</span> <input type="text"
+							name="deptForm.deptName" class="form-control" placeholder="<s:property value="deptForm.deptName"/>">
+					</div>
+					<div align="center" class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px;">
+						<button type="submit" style="width:120px" class="btn btn-default">确定</button>
+						<button type="button" style="margin-left: 40px;width:120px" class="btn btn-default"
+							onclick="javascript:history.go(-1);">返回</button>	
+					</div>
+						
+				</s:form>
 			</div>
 		</div>
 	</div>

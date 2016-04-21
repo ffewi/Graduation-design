@@ -9,7 +9,7 @@
     	<param-value>classpath:spring-hibernate.xml</param-value>
     </context-param>
   	<welcome-file-list>  
-        <welcome-file>Login.jsp</welcome-file>  
+        <welcome-file>login.jsp</welcome-file>  
     </welcome-file-list> 
     <listener>  
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  

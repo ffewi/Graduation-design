@@ -60,10 +60,10 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#">详情(点我没有用！)</a></li>
+					<li><a href="#">详情(点我没有用！)</a></li>
 					<li><a href="admingetAllDeptList">学院管理</a></li>
 					<li><a href="admingetAllProList?proForm.pageNo=0">专业管理</a></li>
-					<li><a href="admingetAllCourseList?courseForm.pageNo=1">课程管理</a></li>
+					<li class="active"><a href="#">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="#">教师管理</a></li>
@@ -82,11 +82,36 @@
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<pre>
-						请选择你要操作的类型
-						！！！！！！！！！！！
-				</pre>
-				<span class="icon-bar">请选择你要操作的类型1123</span>
+				<button type="button" class="btn btn-success " onclick="javascript:location.href='adminadd?msg.method=1'">添加</button>
+				
+				<table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="col-sm-2">ID</th>
+                        <th class="col-sm-2">课程名称</th>
+                        <th class="col-sm-1">课程类型</th>
+                        <th class="col-sm-1">学分</th>
+                        <th class="col-sm-2">开课学期</th>
+                        <th class="col-sm-2">专业名称</th>
+                        <th class="col-sm-2">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                   	<s:iterator id="list" value="courseList">
+                   		<tr>
+                   		<td><s:property value="courseNo"/></td>
+                   		<td><s:property value="courseName"/></td>
+                   		<td><s:property value="courseType"/></td>
+                   		<td><s:property value="credit"/></td>
+                   		<td><s:property value="term"/></td>
+                   		<td><s:property value="professionName"/></td>
+                   		<td><button type="button" class="btn btn-default btn-sm" onclick="btnClick(this);">修改</button>
+                   		<button type="button" class="btn btn-default btn-sm" onclick="btnClickDel(this);">删除</button>
+                   		</td>
+                   		</tr>
+                   	</s:iterator>
+                    </tbody>
+                </table>
 			</div>
 		</div>
 	</div>
