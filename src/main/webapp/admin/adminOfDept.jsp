@@ -82,7 +82,7 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="#">详情(点我没有用！)</a></li>
 					<li class="active"><a href="#">学院管理</a></li>
-					<li><a href="admingetAllProList?proForm.pageNo=0">专业管理</a></li>
+					<li><a href="admingetAllProList?proForm.pageNo=1">专业管理</a></li>
 					<li><a href="admingetAllCourseList?courseForm.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
@@ -124,6 +124,21 @@
                    	</s:iterator>
                     </tbody>
                 </table>
+                <!-- 设置分页  -->
+                <div>
+					<ul class="pager">
+						<li class="previous"><a
+							href="javascript:void(0)">&larr;
+								上一页</a></li>
+						<li class=""><span>总计：<s:property
+									value="deptForm.pageNo" />/<s:property
+									value="deptForm.pageCount" />页
+						</span></li>
+						<li class="next"><a
+							href="javascript:void(0)">下一页
+								&rarr;</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -26,6 +26,8 @@
             <result name="proIndex">/admin/adminOfPro.jsp</result>
             <result name="professionUpdate">/admin/adminOfProUpdate.jsp</result>
             <result name="courseIndex">/admin/adminOfCourse.jsp</result>
+            <result name="courseAdd">/admin/adminOfCourseAdd.jsp</result>
+            <result name="courseUpdate">/admin/adminOfCourseUpdate.jsp</result>
             
         </action> 
         <action name="assistant" class="assistantAction" method="{1}">  

@@ -26,11 +26,16 @@ public interface AdminManager {
     /**
      * 获取dept 所有信息
      * 
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     List<Dept> getAllDept();
+    
+    /**
+     * 获取profeesion 所有信息
+     * 
+     * @return
+     */
+    List<ProForm> getAllProfessionNameIndex();
     /**
      * 获取profession 按照指定的页面 及其 页面大小 显示
      * 
@@ -60,6 +65,12 @@ public interface AdminManager {
      */
     List<ProForm> queryByProName(String name);
     /**
+     * 模糊查询 course
+     * @param name
+     * @return
+     */
+    List<CourseForm> queryByCourseName(String name);
+    /**
      * 更新dept 的信息 通过id
      * @param deptMsg
      * @return
@@ -72,6 +83,12 @@ public interface AdminManager {
      */
     List<ProForm> updateProByID(ProForm proMsg);
     /**
+     * 更新course 的信息 通过id
+     * @param deptMsg
+     * @return
+     */
+    List<CourseForm> updateCourseByID(CourseForm courseMsg);
+    /**
      * 登录检查 admin
      * 成功：true  不成功：false
      * @param admin
@@ -83,6 +100,14 @@ public interface AdminManager {
      */
     void delDeptById(int deptNo);
     /**
+     * 删除profession 通过主键professionNo
+     */
+    void delProById(int professionNo);
+    /**
+     * 删除course 通过主键courseNo
+     */
+    void delCourseById(int courseNo);
+    /**
      * 添加dept 只需要名称，自动生成id
      */
     List<Dept> addDept(String deptName);
@@ -90,4 +115,15 @@ public interface AdminManager {
      * 添加profession 只需要名称，和院系编号，自动生成id
      */
     List<ProForm> addPro(ProForm proForm);
+    /**
+     * 添加course 只需要名称，和专业编号，学分，学期，类型，自动生成id
+     */
+    List<CourseForm> addCourse(CourseForm courseForm);
+    /**
+     * 通过com.cs.liwei.bean.Method 里面的常量
+     * 分类统计页面大小
+     * @param categoryOfMethod
+     * @return
+     */
+    int getPageTotal(int categoryOfMethod);
 }

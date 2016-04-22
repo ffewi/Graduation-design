@@ -7,7 +7,7 @@
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="margin: 0">
 		<div class="modal-content">
-		<form role="form" action="adminaddPro" method="post">
+		<form role="form" action="adminaddPro?pageMsg.pageNo=1&&pageMsg.pageCount=1" method="post">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>

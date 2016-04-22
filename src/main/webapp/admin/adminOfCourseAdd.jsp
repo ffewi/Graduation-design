@@ -32,11 +32,6 @@
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
             </button>-->
 				<a class="navbar-brand" href="#">欢迎您：</a><span class="navbar-brand"><%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></span>
 			</div>
@@ -60,9 +55,9 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="#">详情(点我没有用！)</a></li>
-					<li class="active"><a href="#">学院管理</a></li>
-					<li><a href="admingetAllProList?proForm.pageNo=0">专业管理</a></li>
-					<li><a href="admingetAllCourseList?courseForm.pageNo=1">课程管理</a></li>
+					<li><a href="admingetAllDeptList?deptForm.pageNo=1">学院管理</a></li>
+					<li><a href="admingetAllProList?proForm.pageNo=1">专业管理</a></li>
+					<li class="active"><a href="#">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="#">教师管理</a></li>
@@ -81,18 +76,53 @@
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-
-				<%-- <s:text name="deptNo"><s:property value="deptForm.deptNo"/></s:text>
-                   	<s:text name="deptName"><s:property value="deptForm.deptName"/></s:text>
-                   	<button type="button" class="btn btn-default btn-sm">确认</button> --%>
-				<s:form action="adminaddDept" method="post" >
+				<s:form action="adminaddCourse" method="post" >
 					<div class="row input-group col-sm-4" style="margin-top: 60px;margin-left: 80px">
 						<span class="input-group-addon" style="width:100px">ID</span> <input type="text"  readonly="readonly"
-							name="deptForm.deptNo" class="form-control" placeholder="院系编号 你不需要填的，自动生成">
+							name="courseForm.courseNo" class="form-control" placeholder="课程编号 你不需要填的，自动生成">
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">院系名称</span> <input type="text"
-							name="deptForm.deptName" class="form-control" placeholder="院系名称">
+						<span class="input-group-addon" style="width:100px">课程名称</span> <input type="text"
+							name="courseForm.courseName" class="form-control" placeholder="课程名称">
+					</div>
+					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">专业名称</span> 
+						<select name="courseForm.selectProNo" class="form-control" >
+							<s:iterator id="list" value="proList">
+								<option value="<s:property value="professionNo"/>"><s:property value="professionNo"/>
+								<s:property value="professionName"/></option>
+							</s:iterator>
+						</select>
+					</div>
+					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">课程类型</span> 
+						<!-- 使用select -->
+						<select name="courseForm.selectType" class="form-control">
+							<option value="必修">必修</option>
+							<option value="选修">选修</option>
+						</select>
+					</div>
+					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">学分</span> 
+						<select name="courseForm.selectCredit" class="form-control" >
+							<option value="1" style="padding: 0 auto; ">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select>
+					</div>
+					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">开课学期</span> 
+						<select name="courseForm.selectTerm" class="form-control">
+							<option value="1">1 大一上</option>
+							<option value="2">2 大一下</option>
+							<option value="3">3 大二上</option>
+							<option value="4">4 大二下</option>
+							<option value="5">5 大三上</option>
+							<option value="6">6 大三下</option>
+							<option value="7">7 大四上</option>
+							<option value="8">8 大四下</option>
+						</select>
 					</div>
 					<div align="center" class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px;">
 						<button type="submit" style="width:120px" class="btn btn-default">确定</button>

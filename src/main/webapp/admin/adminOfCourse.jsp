@@ -26,7 +26,35 @@
 <!-- Custom styles for this template -->
 <link href="<%=application.getContextPath()%>/bootstrap/dashboard.css"
 	rel="stylesheet">
-
+<script type="text/javascript">
+	function btnClick(u){
+		//alert(u.innerText);
+		/* var val =a.parentNode.childNodes; */
+		//获取该行
+		var tr = u.parentNode.parentNode;
+		//获取第一列的内容
+		var td1 = tr.cells[0].innerText;
+		var td2 = tr.cells[1].innerText;
+		var td3 = tr.cells[2].innerText;
+		var td4 = tr.cells[3].innerText;
+		var td5 = tr.cells[4].innerText;
+		var td6 = tr.cells[5].innerText;
+		var td7 = tr.cells[6].innerText;
+		//alert(td1+":  "+td2);
+		location.href="adminupdate?courseForm.courseNo="+td1+"&& msg.method=3 && courseForm.courseName= "+td2
+				+"&& courseForm.courseType= "+td3+"&& courseForm.credit= "+td4+"&& courseForm.term= "+td5
+				+"&& courseForm.professionName= "+td6+"&& courseForm.professionNo= "+td7;
+		
+	}
+	function btnClickDel(d){
+		//获取该行
+		var tr = d.parentNode.parentNode;
+		//获取第一列的内容
+		var td1 = tr.cells[0].innerText;
+		//发送删除dept消息
+		location.href="admindelCourseById?courseForm.courseNo="+td1;
+	}
+</script>
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -48,8 +76,8 @@
 					<li><a href="#">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
-				<form class="navbar-form navbar-right" action="#">
-					<input id="deptID" name="deptForm.content" type="text" class="form-control" placeholder="Search...">
+				<form class="navbar-form navbar-right" action="adminsearchCourseByNameForLike" method="get">
+					<input  name="courseForm.content" type="text" class="form-control" placeholder="Search...">
 					<input type="submit" class="form-control btn btn-info" value="查询">
 				</form>
 			</div>
@@ -61,8 +89,8 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="#">详情(点我没有用！)</a></li>
-					<li><a href="admingetAllDeptList">学院管理</a></li>
-					<li><a href="admingetAllProList?proForm.pageNo=0">专业管理</a></li>
+					<li><a href="admingetAllDeptList?deptForm.pageNo=1">学院管理</a></li>
+					<li><a href="admingetAllProList?proForm.pageNo=1">专业管理</a></li>
 					<li class="active"><a href="#">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
@@ -82,7 +110,7 @@
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<button type="button" class="btn btn-success " onclick="javascript:location.href='adminadd?msg.method=1'">添加</button>
+				<button type="button" class="btn btn-success " onclick="javascript:location.href='adminadd?msg.method=3'">添加</button>
 				
 				<table class="table table-striped">
                     <thead>
@@ -93,6 +121,7 @@
                         <th class="col-sm-1">学分</th>
                         <th class="col-sm-2">开课学期</th>
                         <th class="col-sm-2">专业名称</th>
+                        <th class="hidden">专业编号</th>
                         <th class="col-sm-2">操作</th>
                     </tr>
                     </thead>
@@ -105,6 +134,7 @@
                    		<td><s:property value="credit"/></td>
                    		<td><s:property value="term"/></td>
                    		<td><s:property value="professionName"/></td>
+                   		<td class="hidden"><s:property value="professionNo"/></td>
                    		<td><button type="button" class="btn btn-default btn-sm" onclick="btnClick(this);">修改</button>
                    		<button type="button" class="btn btn-default btn-sm" onclick="btnClickDel(this);">删除</button>
                    		</td>
@@ -112,6 +142,20 @@
                    	</s:iterator>
                     </tbody>
                 </table>
+                <!-- 设置分页  -->
+                <div>
+					<ul class="pager">
+						<li class="previous"><a
+							href="javascript:void(0)">&larr;
+								上一页</a></li>
+						<li class=""><span>总计：<s:property
+									value="courseForm.pageNo" />/20页
+						</span></li>
+						<li class="next"><a
+							href="javascript:void(0)">下一页
+								&rarr;</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

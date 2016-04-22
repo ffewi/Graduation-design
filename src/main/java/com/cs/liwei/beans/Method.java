@@ -13,6 +13,14 @@ public class Method {
     public static final int ADD_DEPT = 1;
     /** 添加profession消息 */
     public static final int ADD_PROFESSION = 2;
+    /** 添加course消息 */
+    public static final int ADD_COURSE = 3;
+    /** 分页dept消息 */
+    public static final int PAGE_DETP = 1;
+    /** 分页profession消息 */
+    public static final int PAGE_PROFESSION = 2;
+    /** 分页course消息 */
+    public static final int PAGE_COURSE = 3;
     /** 请求方法参数接受器*/ 
     private int method;
 

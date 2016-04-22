@@ -5,6 +5,7 @@ import java.util.List;
 import com.cs.liwei.beans.CourseForm;
 import com.cs.liwei.beans.ProForm;
 import com.cs.liwei.pojo.Admin;
+import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Dept;
 import com.cs.liwei.pojo.Profession;
 
@@ -60,6 +61,12 @@ public interface IAdminDao extends IBaseDao {
      */
     List<ProForm> getProByNameForLike(String name);
     /**
+     * 通过传入courseName 的模糊数据查询
+     * @param name
+     * @return
+     */
+    List<CourseForm> getCourseByNameForLike(String name);
+    /**
      * 用户登录检查
      * 
      * @param admin
@@ -74,10 +81,16 @@ public interface IAdminDao extends IBaseDao {
     Dept updateDeptByID(Dept dept);
     /**
      * 通过id更新profession信息
-     * @param dept
+     * @param pro
      * @return
      */
     Profession updateProByID(Profession pro);
+    /**
+     * 通过id更新course信息
+     * @param course
+     * @return
+     */
+    Course updateCourseByID(Course course);
     /**
      * 保存professioin  需要传入prefession的全部列选项
      * @param pro
@@ -85,14 +98,40 @@ public interface IAdminDao extends IBaseDao {
      */
     boolean savePro(Profession pro);
     /**
+     * 保存course  需要传入course的全部列选项
+     * @param course
+     * @return
+     */
+    boolean saveCourse(Course course);
+    /**
      * 通过dept主键删除该条信息
      */
     void delDeptById(int deptNo);
+    /**
+     * 通过profession主键删除该条信息
+     */
+    void delProById(int professionNo);
+    /**
+     * 通过course主键删除该条信息
+     */
+    void delCourseById(int courseNo);
     /**
      * 通过deptNo 统计改院系下面有多少专业
      * @param DeptNo
      * @return
      */
     int countProByDeptId(int DeptNo);
+    /**
+     * 统计多少专业
+     * 
+     * @return
+     */
+    int countPro();
+    /**
+     * 通过professionNo 统计该专业下面有多少课程
+     * @param professionNo
+     * @return
+     */
+    int countCourseByProId(int professionNo);
     
 }

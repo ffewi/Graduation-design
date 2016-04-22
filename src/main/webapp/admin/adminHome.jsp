@@ -61,8 +61,8 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li class="active"><a href="#">详情(点我没有用！)</a></li>
-					<li><a href="admingetAllDeptList">学院管理</a></li>
-					<li><a href="admingetAllProList?proForm.pageNo=0">专业管理</a></li>
+					<li><a href="admingetAllDeptList?deptForm.pageNo=1">学院管理</a></li>
+					<li><a href="admingetAllProList?pageMsg.pageNo=1">专业管理</a></li>
 					<li><a href="admingetAllCourseList?courseForm.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">

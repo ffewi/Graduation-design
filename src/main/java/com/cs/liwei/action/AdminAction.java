@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import com.cs.liwei.beans.CourseForm;
 import com.cs.liwei.beans.DeptForm;
 import com.cs.liwei.beans.Method;
+import com.cs.liwei.beans.Page;
 import com.cs.liwei.beans.ProForm;
 import com.cs.liwei.pojo.Dept;
 import com.cs.liwei.service.AdminManager;
@@ -20,6 +21,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class AdminAction extends ActionSupport {
     @Resource(name = "adminManagerImpl")
     private AdminManager admin;
+    private Page pageMsg;
     private List<Dept> list;
     private List<ProForm> proList;
     private List<CourseForm> courseList;
@@ -34,7 +36,8 @@ public class AdminAction extends ActionSupport {
     private static final long serialVersionUID = -7243750676583760197L;
 
     public String exampleMethod() {
-        return null;
+        System.out.println("这是个测试");
+        return "dept";
     }
 
     // add 请求分类
@@ -47,6 +50,11 @@ public class AdminAction extends ActionSupport {
         case Method.ADD_PROFESSION:
             returnMsg = "deptAdd";
             break;
+        case Method.ADD_COURSE:
+            // 添加跳转页面
+            proList = admin.getAllProfessionNameIndex();
+            returnMsg = "courseAdd";
+            break;
         default:
             returnMsg = "错误页码";
             break;
@@ -55,7 +63,7 @@ public class AdminAction extends ActionSupport {
 
     }
 
-    // add 请求分类
+    // update 请求分类
     public String update() {
         String returnMsg = "";
         switch (msg.getMethod()) {
@@ -65,6 +73,11 @@ public class AdminAction extends ActionSupport {
         case Method.ADD_PROFESSION:
             list = admin.getAllDept();
             returnMsg = "professionUpdate";
+            break;
+        case Method.ADD_COURSE:
+            // 修改跳转页面
+            proList = admin.getAllProfessionNameIndex();
+            returnMsg = "courseUpdate";
             break;
 
         default:
@@ -90,9 +103,17 @@ public class AdminAction extends ActionSupport {
         // 模糊查询professionName获取的表
         System.out.println(proForm.getContent());
         proList = admin.queryByProName(proForm.getContent());
-        // 为添加 添加院系
+        // 为添加 添加院系 这里使用的是模态框 需要给下拉院系 加载值
         list = admin.getAllDept();
         return "proIndex";
+    }
+
+    // 模糊查询 课程名称
+    public String searchCourseByNameForLike() {
+        // 模糊查询courseName获取的表
+        System.out.println(courseForm.getContent());
+        courseList = admin.queryByCourseName(courseForm.getContent());
+        return "courseIndex";
     }
 
     /**
@@ -122,8 +143,23 @@ public class AdminAction extends ActionSupport {
             list = admin.getAllDept();
             return "proIndex";
         }
-        // return "修改错误是返回的页面";
-        return "dept";
+        return "修改错误是返回的页面";
+    }
+
+    // 更新course
+    public String exeUpdateCourse() {
+        System.out.println("test---------------------------");
+        System.out.println("1:" + courseForm.getCourseNo() + "2:" + courseForm.getCourseName());
+        System.out.println("3:" + courseForm.getSelectProNo()[0] + "5:"
+                + courseForm.getSelectType()[0] + "6:" + courseForm.getSelectCredit()[0] + "7:"
+                + courseForm.getSelectTerm()[0]);
+        courseList = admin.updateCourseByID(courseForm);
+        if (courseList != null) {
+            // 为添加添加院系
+            proList = admin.getAllProfessionNameIndex();
+            return "courseIndex";
+        }
+        return "修改错误是返回的页面";
     }
 
     // 删除dept
@@ -135,6 +171,32 @@ public class AdminAction extends ActionSupport {
         return "dept";
     }
 
+    // 删除profession
+    public String delProById() {
+        System.out.println(proForm.getProfessionNo() + "--------------delProById");
+        // 调用删除
+        admin.delProById(proForm.getProfessionNo());
+        int pages = admin.getPageTotal(Method.PAGE_PROFESSION);
+        pageMsg.setPageNo(1);
+        pageMsg.setPageCount(pages);
+        // 刷新数据
+        proList = admin.getProByPage(0, 10);
+        // 为添加下拉选择 加载内容
+        list = admin.getAllDept();
+        return "proIndex";
+    }
+
+    // 删除course
+    public String delCourseById() {
+        System.out.println(courseForm.getCourseNo() + "--------------delCourseById");
+        // 调用删除
+        // admin.delProById(proForm.getProfessionNo());
+        admin.delCourseById(courseForm.getCourseNo());
+        // 刷新数据
+        courseList = admin.getCourseByPage(0, 10);
+        return "courseIndex";
+    }
+
     // 添加dept
     public String addDept() {
         list = admin.addDept(deptForm.getDeptName());
@@ -143,13 +205,17 @@ public class AdminAction extends ActionSupport {
 
     // 添加profession
     public String addPro() {
-        System.out.println("addPro");
-        System.out.println(proForm.getSelectArr()[0] + ":" + proForm.getProfessionNo() + ":"
-                + proForm.getProfessionName());
+
         proList = admin.addPro(proForm);
         list = admin.getAllDept();
-        // System.out.println((proList == null) + "addPro 返回的数据");
         return "proIndex";
+    }
+
+    // 添加course
+    public String addCourse() {
+        // 开始添加course数据
+        courseList = admin.addCourse(courseForm);
+        return "courseIndex";
     }
 
     /**
@@ -168,8 +234,7 @@ public class AdminAction extends ActionSupport {
      * @return
      */
     public String getAllDeptList() {
-        // list = admin.getAllByPage(deptForm.getPageNo(), deptForm.getPageSize());
-        list = admin.getAllByPage(0, 10);
+        list = admin.getAllByPage(deptForm.getPageNo(), 10);
         System.out.println(list.size());
         return "dept";
     }
@@ -193,10 +258,11 @@ public class AdminAction extends ActionSupport {
      * @return
      */
     public String getAllProList() {
-        // list = admin.getAllByPage(deptForm.getPageNo(), deptForm.getPageSize());
-        proList = admin.getProByPage(proForm.getPageNo() + 1, 10);
-        System.out.println(proList.size() + "------------------------------");
+        proList = admin.getProByPage(pageMsg.getPageNo(), 10);
+        int pages = admin.getPageTotal(Method.PAGE_PROFESSION);
+        pageMsg.setPageCount(pages);
         // 为添加的dialog 加载数据
+        System.out.println(pages);
         list = admin.getAllDept();
         return "proIndex";
     }
@@ -291,6 +357,14 @@ public class AdminAction extends ActionSupport {
      */
     public void setCourseForm(CourseForm courseForm) {
         this.courseForm = courseForm;
+    }
+
+    public Page getPageMsg() {
+        return pageMsg;
+    }
+
+    public void setPageMsg(Page pageMsg) {
+        this.pageMsg = pageMsg;
     }
 
 }

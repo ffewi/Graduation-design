@@ -36,7 +36,8 @@
 	function showView() {
 		$('#myModal').css({
 			position : "absolute",
-			'top' : 30 ,'left':0
+			'top' : 30,
+			'left' : 0
 		})
 		$('#myModal').modal({
 
@@ -58,14 +59,14 @@
 				+ "&& msg.method=2 && proForm.deptName=" + td3;
 
 	}
-	
+
 	function btnClickDel(d) {
 		//获取该行
 		var tr = d.parentNode.parentNode;
 		//获取第一列的内容
 		var td1 = tr.cells[0].innerText;
 		//发送删除dept消息
-		location.href = "admindelDeptById?deptForm.deptNo=" + td1;
+		location.href = "admindelProById?proForm.professionNo=" + td1;
 	}
 </script>
 </head>
@@ -89,11 +90,12 @@
 					<li><a href="#">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
-				
-				<form class="navbar-form navbar-right" action="adminsearchProByNameForLike" method="get">
-					<input  name="proForm.content" type="text" class="form-control"
-						placeholder="Search...">
-					<input type="submit" class="form-control btn btn-info" value="查询">
+
+				<form class="navbar-form navbar-right"
+					action="adminsearchProByNameForLike" method="get">
+					<input name="proForm.content" type="text" class="form-control"
+						placeholder="Search..."> <input type="submit"
+						class="form-control btn btn-info" value="查询">
 				</form>
 			</div>
 		</div>
@@ -104,7 +106,7 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="#">详情(点我没有用！)</a></li>
-					<li><a href="admingetAllDeptList">学院管理</a></li>
+					<li><a href="admingetAllDeptList?deptForm.pageNo=1">学院管理</a></li>
 					<li class="active"><a href="#">专业管理</a></li>
 					<li><a href="admingetAllCourseList?courseForm.pageNo=1">课程管理</a></li>
 				</ul>
@@ -139,7 +141,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<s:iterator id="list" value="proList"  >
+						<s:iterator id="list" value="proList">
 							<tr>
 								<td><s:property value="professionNo" /></td>
 								<td><s:property value="professionName" /></td>
@@ -155,15 +157,30 @@
 				</table>
 				<div>
 					<ul class="pager">
-						<li class="previous"><a
-							href="javascript:location.href='admingetAllProList?proForm.pageNo=<s:property value="proForm.pageNo-1" />'">&larr;
-								上一页</a></li>
+						<s:if test="pageMsg.pageNo>1">
+							<li class="previous"><a
+								href="javascript:location.href='admingetAllProList?
+							pageMsg.pageNo=<s:property value="pageMsg.pageNo-1" />
+							&&pageMsg.pageCount=<s:property value="pageMsg.pageCount" />'">&larr;
+									上一页</a></li>
+						</s:if>
+						<s:else>
+							<li class="previous disabled"><a>&larr;上一页</a></li>
+						</s:else>
 						<li class=""><span>总计：<s:property
-									value="proForm.pageNo+1" />/20页
+									value="pageMsg.pageNo" />/<s:property
+									value="pageMsg.pageCount" /> 页
 						</span></li>
-						<li class="next"><a
-							href="javascript:location.href='admingetAllProList?proForm.pageNo=<s:property value="proForm.pageNo+1" />'">下一页
-								&rarr;</a></li>
+						<s:if test="pageMsg.pageNo+1<=pageMsg.pageCount">
+							<li class="next"><a
+								href="javascript:location.href='admingetAllProList?
+							pageMsg.pageNo=<s:property value="pageMsg.pageNo+1" />
+							&& pageMsg.pageCount=<s:property value="pageMsg.pageCount" />'">下一页
+									&rarr;</a></li>
+						</s:if>
+						<s:else>
+							<li class="next disabled"><a>&larr;上一页</a></li>
+						</s:else>
 					</ul>
 				</div>
 			</div>

@@ -11,6 +11,7 @@ import com.cs.liwei.beans.CourseForm;
 import com.cs.liwei.beans.ProForm;
 import com.cs.liwei.dao.IAdminDao;
 import com.cs.liwei.pojo.Admin;
+import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Dept;
 import com.cs.liwei.pojo.Profession;
 
@@ -144,11 +145,54 @@ public class AdminDaoImpl extends IBaseDaoImpl implements IAdminDao {
     }
 
     @Override
+    public Course updateCourseByID(Course course) {
+        session = getSession();
+        String hsql = "update Course c set c.courseName=?,c.courseType=?,c.credit=?, "
+                + "c.professionNo=?,c.term=? where c.courseNo=?";
+        // 设置更新值
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, course.getCourseName());
+        exe.setParameter(1, course.getCourseType());
+        exe.setParameter(2, course.getCredit());
+        exe.setParameter(3, course.getProfessionNo());
+        exe.setParameter(4, course.getTerm());
+        exe.setParameter(5, course.getCourseNo());
+        int num = exe.executeUpdate();
+        session.close();
+        if (num == 1) {
+            return course;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public int countProByDeptId(int DeptNo) {
         session = getSession();
         String hsql = "from Profession where deptNo=?";
         Query exe = session.createQuery(hsql);
         exe.setParameter(0, DeptNo);
+        int num = exe.list().size();
+        session.close();
+        return num;
+    }
+
+    @Override
+    public int countPro() {
+        session = getSession();
+        String hsql = "from Profession";
+        Query exe = session.createQuery(hsql);
+        int num = exe.list().size();
+        session.close();
+        return num;
+    }
+
+    @Override
+    public int countCourseByProId(int professionNo) {
+        session = getSession();
+        String hsql = "from Course where professionNo=?";
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, professionNo);
         int num = exe.list().size();
         session.close();
         return num;
@@ -162,6 +206,31 @@ public class AdminDaoImpl extends IBaseDaoImpl implements IAdminDao {
         exe.setParameter(0, pro.getProfessionNo());
         exe.setParameter(1, pro.getProfessionName());
         exe.setParameter(2, pro.getDeptNo());
+        int re = exe.executeUpdate();
+        session.close();
+        if (re == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean saveCourse(Course course) {
+        session = getSession();
+        String hsql = "insert into Course values(?,?,?,?,?,?)";
+        Query exe = session.createSQLQuery(hsql);
+        // 课程编号
+        exe.setParameter(0, course.getCourseNo());
+        // 课程名称
+        exe.setParameter(1, course.getCourseName());
+        // 课程类型
+        exe.setParameter(2, course.getCourseType());
+        // 学分
+        exe.setParameter(3, course.getCredit());
+        // 专业编号
+        exe.setParameter(4, course.getProfessionNo());
+        // 学期
+        exe.setParameter(5, course.getTerm());
         int re = exe.executeUpdate();
         session.close();
         if (re == 1) {
@@ -195,6 +264,34 @@ public class AdminDaoImpl extends IBaseDaoImpl implements IAdminDao {
     }
 
     @Override
+    public List<CourseForm> getCourseByNameForLike(String name) {
+        session = getSession();
+        String hsql = "select c.courseNo,c.courseName,c.courseType,c.credit,c.term,p.professionNo,p.professionName "
+                + "from Course c,Profession p where c.professionNo=p.professionNo and c.courseName like ?";
+        Query exe = session.createQuery(hsql);
+        // 模糊查询
+        exe.setParameter(0, "%" + name + "%");
+        List<?> result = exe.list();
+        session.close();
+        Iterator<?> it = result.iterator();
+        List<CourseForm> list = new ArrayList<CourseForm>();
+        CourseForm course = null;
+        while (it.hasNext()) {
+            course = new CourseForm();
+            Object[] arr = (Object[]) it.next();
+            course.setCourseNo((int) arr[0]);
+            course.setCourseName((String) arr[1]);
+            course.setCourseType((String) arr[2]);
+            course.setCredit((int) arr[3]);
+            course.setTerm((int) arr[4]);
+            course.setProfessionNo((int) arr[5]);
+            course.setProfessionName((String) arr[6]);
+            list.add(course);
+        }
+        return list;
+    }
+
+    @Override
     public List<CourseForm> getCourseByPage(int pageNo, int pageSize) {
         session = getSession();
         String hsql = "select c.courseNo,c.courseName,c.courseType,c.credit, "
@@ -222,6 +319,28 @@ public class AdminDaoImpl extends IBaseDaoImpl implements IAdminDao {
             list.add(c);
         }
         return list;
+    }
+
+    @Override
+    public void delProById(int professionNo) {
+        session = getSession();
+        String hsql = "delete from Profession where professionNo=?";
+        // 根据professionNo删除信息
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, professionNo);
+        exe.executeUpdate();
+        session.close();
+    }
+
+    @Override
+    public void delCourseById(int courseNo) {
+        session = getSession();
+        String hsql = "delete from Course where courseNo=?";
+        // 根据courseNo删除信息
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, courseNo);
+        exe.executeUpdate();
+        session.close();
     }
 
 }
