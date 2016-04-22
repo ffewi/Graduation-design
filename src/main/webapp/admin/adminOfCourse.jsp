@@ -52,7 +52,7 @@
 		//获取第一列的内容
 		var td1 = tr.cells[0].innerText;
 		//发送删除dept消息
-		location.href="admindelCourseById?courseForm.courseNo="+td1;
+		location.href="admindelCourseById?courseForm.courseNo="+td1+"&&pageMsg.pageNo=1";
 	}
 </script>
 </head>
@@ -60,13 +60,6 @@
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>-->
-            <!-- (Admin) .getAccount()-->
 				<a class="navbar-brand" href="#">欢迎您：</a><span class="navbar-brand"><%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount() %></span>
 			</div>
 			<div class="navbar-collapse collapse">
@@ -89,8 +82,8 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="#">详情(点我没有用！)</a></li>
-					<li><a href="admingetAllDeptList?deptForm.pageNo=1">学院管理</a></li>
-					<li><a href="admingetAllProList?proForm.pageNo=1">专业管理</a></li>
+					<li><a href="admingetAllDeptList?pageMsg.pageNo=1">学院管理</a></li>
+					<li><a href="admingetAllProList?pageMsg.pageNo=1">专业管理</a></li>
 					<li class="active"><a href="#">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
@@ -145,15 +138,30 @@
                 <!-- 设置分页  -->
                 <div>
 					<ul class="pager">
-						<li class="previous"><a
-							href="javascript:void(0)">&larr;
-								上一页</a></li>
+						<s:if test="pageMsg.pageNo>1">
+							<li class="previous"><a
+								href="javascript:location.href='admingetAllCourseList?
+							pageMsg.pageNo=<s:property value="pageMsg.pageNo-1" />
+							&&pageMsg.pageCount=<s:property value="pageMsg.pageCount" />'">&larr;
+									上一页</a></li>
+						</s:if>
+						<s:else>
+							<li class="previous disabled"><a>&larr;上一页</a></li>
+						</s:else>
 						<li class=""><span>总计：<s:property
-									value="courseForm.pageNo" />/20页
+									value="pageMsg.pageNo" />/<s:property
+									value="pageMsg.pageCount" /> 页
 						</span></li>
-						<li class="next"><a
-							href="javascript:void(0)">下一页
-								&rarr;</a></li>
+						<s:if test="pageMsg.pageNo+1<=pageMsg.pageCount">
+							<li class="next"><a
+								href="javascript:location.href='admingetAllCourseList?
+							pageMsg.pageNo=<s:property value="pageMsg.pageNo+1" />
+							&& pageMsg.pageCount=<s:property value="pageMsg.pageCount" />'">下一页
+									&rarr;</a></li>
+						</s:if>
+						<s:else>
+							<li class="next disabled"><a>&larr;上一页</a></li>
+						</s:else>
 					</ul>
 				</div>
 			</div>

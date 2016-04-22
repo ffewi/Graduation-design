@@ -66,7 +66,7 @@
 		//获取第一列的内容
 		var td1 = tr.cells[0].innerText;
 		//发送删除dept消息
-		location.href = "admindelProById?proForm.professionNo=" + td1;
+		location.href = "admindelProById?proForm.professionNo=" + td1+"&&pageMsg.pageNo=1";
 	}
 </script>
 </head>
@@ -106,9 +106,9 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="#">详情(点我没有用！)</a></li>
-					<li><a href="admingetAllDeptList?deptForm.pageNo=1">学院管理</a></li>
+					<li><a href="admingetAllDeptList?pageMsg.pageNo=1">学院管理</a></li>
 					<li class="active"><a href="#">专业管理</a></li>
-					<li><a href="admingetAllCourseList?courseForm.pageNo=1">课程管理</a></li>
+					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="#">教师管理</a></li>
