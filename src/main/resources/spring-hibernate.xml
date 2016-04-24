@@ -71,11 +71,11 @@
     </bean> -->
   
     <!-- 用户注册的Action  scope解決validation重複-->  
-    <bean id="regAction" class="com.cs.liwei.action.RegisterAction" scope="prototype" >  
-        <!-- <property name="userManager">  
+   <!--  <bean id="regAction" class="com.cs.liwei.action.RegisterAction" scope="prototype" >  
+        <property name="userManager">  
             <ref bean="userManager" />  
-        </property>  --> 
-    </bean>  
+        </property>  
+    </bean>  --> 
   	<!-- <bean id="logAction" class="com.cs.liwei.action.LoginAction" scope="prototype" >  
     </bean> -->
     <!-- more bean definitions go here -->  

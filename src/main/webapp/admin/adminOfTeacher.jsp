@@ -38,12 +38,9 @@
 		var td3 = tr.cells[2].innerText;
 		var td4 = tr.cells[3].innerText;
 		var td5 = tr.cells[4].innerText;
-		var td6 = tr.cells[5].innerText;
-		var td7 = tr.cells[6].innerText;
 		//alert(td1+":  "+td2);
-		location.href="adminupdate?courseForm.courseNo="+td1+"&& msg.method=3 && courseForm.courseName= "+td2
-				+"&& courseForm.courseType= "+td3+"&& courseForm.credit= "+td4+"&& courseForm.term= "+td5
-				+"&& courseForm.professionName= "+td6+"&& courseForm.professionNo= "+td7;
+		location.href="memberupdate?teacherForm.teacherNo="+td1+"&& msg.method=1 && teacherForm.teacherName= "+td2
+				+"&& teacherForm.positionCall= "+td3+"&& teacherForm.deptName= "+td4+"&& teacherForm.deptNo= "+td5;
 		
 	}
 	function btnClickDel(d){
@@ -52,7 +49,7 @@
 		//获取第一列的内容
 		var td1 = tr.cells[0].innerText;
 		//发送删除dept消息
-		location.href="admindelCourseById?courseForm.courseNo="+td1+"&&pageMsg.pageNo=1";
+		location.href="memberdelTeacherById?teacherForm.teacherNo="+td1+"&&pageMsg.pageNo=1";
 	}
 </script>
 </head>
@@ -69,8 +66,8 @@
 					<li><a href="#">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
-				<form class="navbar-form navbar-right" action="adminsearchCourseByNameForLike" method="get">
-					<input  name="courseForm.content" type="text" class="form-control" placeholder="Search...">
+				<form class="navbar-form navbar-right" action="membersearchTeacherByNameForLike" method="get">
+					<input  name="teacherForm.content" type="text" class="form-control" placeholder="Search...">
 					<input type="submit" class="form-control btn btn-info" value="查询">
 				</form>
 			</div>
@@ -84,10 +81,10 @@
 					<li><a href="#">详情(点我没有用！)</a></li>
 					<li><a href="admingetAllDeptList?pageMsg.pageNo=1">学院管理</a></li>
 					<li><a href="admingetAllProList?pageMsg.pageNo=1">专业管理</a></li>
-					<li class="active"><a href="#">课程管理</a></li>
+					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
+					<li class="active"><a href="#">教师管理</a></li>
 					<li><a href="#">辅导员管理</a></li>
 					<li><a href="#">教学秘书管理</a></li>
 					<li><a href="#">学生管理</a></li>
@@ -103,31 +100,26 @@
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<button type="button" class="btn btn-success " onclick="javascript:location.href='adminadd?msg.method=3'">添加</button>
+				<button type="button" class="btn btn-success " onclick="javascript:location.href='memberadd?msg.method=4'">添加</button>
 				
 				<table class="table table-striped">
                     <thead>
                     <tr>
                         <th class="col-sm-2">ID</th>
-                        <th class="col-sm-2">课程名称</th>
-                        <th class="col-sm-1">课程类型</th>
-                        <th class="col-sm-1">学分</th>
-                        <th class="col-sm-2">开课学期</th>
-                        <th class="col-sm-2">专业名称</th>
-                        <th class="hidden">专业编号</th>
+                        <th class="col-sm-3">教师名称</th>
+                        <th class="col-sm-3">职称类型</th>
+                        <th class="col-sm-2">院系名称</th>
                         <th class="col-sm-2">操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                   	<s:iterator id="list" value="courseList">
+                   	<s:iterator id="list" value="teaList">
                    		<tr>
-                   		<td><s:property value="courseNo"/></td>
-                   		<td><s:property value="courseName"/></td>
-                   		<td><s:property value="courseType"/></td>
-                   		<td><s:property value="credit"/></td>
-                   		<td><s:property value="term"/></td>
-                   		<td><s:property value="professionName"/></td>
-                   		<td class="hidden"><s:property value="professionNo"/></td>
+                   		<td><s:property value="teacherNo"/></td>
+                   		<td><s:property value="teacherName"/></td>
+                   		<td><s:property value="positionCall"/></td>
+                   		<td><s:property value="deptName"/></td>
+                   		<td class="hidden"><s:property value="deptNo"/></td>
                    		<td><button type="button" class="btn btn-default btn-sm" onclick="btnClick(this);">修改</button>
                    		<button type="button" class="btn btn-default btn-sm" onclick="btnClickDel(this);">删除</button>
                    		</td>
@@ -140,7 +132,7 @@
 					<ul class="pager">
 						<s:if test="pageMsg.pageNo>1">
 							<li class="previous"><a
-								href="javascript:location.href='admingetAllCourseList?
+								href="javascript:location.href='membergetAllTeacherList?
 							pageMsg.pageNo=<s:property value="pageMsg.pageNo-1" />
 							&&pageMsg.pageCount=<s:property value="pageMsg.pageCount" />'">&larr;
 									上一页</a></li>
@@ -154,7 +146,7 @@
 						</span></li>
 						<s:if test="pageMsg.pageNo+1<=pageMsg.pageCount">
 							<li class="next"><a
-								href="javascript:location.href='admingetAllCourseList?
+								href="javascript:location.href='membergetAllTeacherList?
 							pageMsg.pageNo=<s:property value="pageMsg.pageNo+1" />
 							&& pageMsg.pageCount=<s:property value="pageMsg.pageCount" />'">下一页
 									&rarr;</a></li>

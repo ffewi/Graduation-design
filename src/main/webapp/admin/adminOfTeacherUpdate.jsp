@@ -32,11 +32,6 @@
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
             </button>-->
 				<a class="navbar-brand" href="#">欢迎您：</a><span class="navbar-brand"><%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></span>
 			</div>
@@ -60,12 +55,12 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="#">详情(点我没有用！)</a></li>
-					<li class="active"><a href="#">学院管理</a></li>
+					<li><a href="admingetAllDeptList?pageMsg.pageNo=1">学院管理</a></li>
 					<li><a href="admingetAllProList?pageMsg.pageNo=1">专业管理</a></li>
 					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
+					<li class="active"><a href="#">教师管理</a></li>
 					<li><a href="#">辅导员管理</a></li>
 					<li><a href="#">教学秘书管理</a></li>
 					<li><a href="#">学生管理</a></li>
@@ -81,18 +76,40 @@
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-
-				<%-- <s:text name="deptNo"><s:property value="deptForm.deptNo"/></s:text>
-                   	<s:text name="deptName"><s:property value="deptForm.deptName"/></s:text>
-                   	<button type="button" class="btn btn-default btn-sm">确认</button> --%>
-				<s:form action="adminaddDept" method="post" >
+				<s:form action="memberexeUpdateTeacher" method="post" >
 					<div class="row input-group col-sm-4" style="margin-top: 60px;margin-left: 80px">
 						<span class="input-group-addon" style="width:100px">ID</span> <input type="text"  readonly="readonly"
-							name="deptForm.deptNo" class="form-control" placeholder="院系编号 你不需要填的，自动生成">
+							name="teacherForm.teacherNo" class="form-control" value="<s:property value="teacherForm.teacherNo"/>">
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">院系名称</span> <input type="text"
-							name="deptForm.deptName" class="form-control" placeholder="院系名称">
+						<span class="input-group-addon" style="width:100px">教师名称</span> <input type="text"
+							name="teacherForm.teacherName" class="form-control" value="<s:property value="teacherForm.teacherName"/>">
+					</div>
+					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">性别</span>
+							<!-- 使用select -->
+						<select name="teacherForm.sex" class="form-control">
+							<option value="男">男</option>
+							<option value="女">女</option>
+						</select>
+					</div>
+					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">教师职称</span><input type="text"
+							name="teacherForm.positionCall" class="form-control" value="<s:property value="teacherForm.positionCall"/>">
+					</div>
+					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">所属院系</span>
+							<!-- 使用select -->
+						<select name="teacherForm.deptNo" class="form-control">
+							<s:iterator id="list" value="list" >
+								<option value='<s:property value="deptNo"/>'><s:property value="deptNo"/>
+								<s:property value="deptName"/></option>
+							</s:iterator>
+							<option hidden=""
+								value="<s:property value="teacherForm.deptNo"/>" selected>
+								<s:property value="teacherForm.deptNo" /><s:property value="teacherForm.deptName" />
+							</option>
+						</select>
 					</div>
 					<div align="center" class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px;">
 						<button type="submit" style="width:120px" class="btn btn-default">确定</button>

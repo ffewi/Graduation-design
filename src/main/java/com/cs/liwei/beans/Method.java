@@ -15,13 +15,23 @@ public class Method {
     public static final int ADD_PROFESSION = 2;
     /** 添加course消息 */
     public static final int ADD_COURSE = 3;
+    /** 添加teacher消息 */
+    public static final int ADD_TEACHER = 4;
+    /** 添加student消息 */
+    public static final int ADD_STUDENT = 5;
     /** 分页dept消息 */
     public static final int PAGE_DETP = 1;
     /** 分页profession消息 */
     public static final int PAGE_PROFESSION = 2;
     /** 分页course消息 */
     public static final int PAGE_COURSE = 3;
-    /** 请求方法参数接受器*/ 
+    /** 分页teacher消息 */
+    public static final int PAGE_TEACHER = 4;
+    /** 分页assistant消息 */
+    public static final int PAGE_ASSISTANT = 5;
+    /** 分页mishu消息 */
+    public static final int PAGE_MISHU = 6;
+    /** 请求方法参数接受器*/
     private int method;
 
     /**

@@ -111,7 +111,7 @@
 					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="#">教师管理</a></li>
+					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
 					<li><a href="#">辅导员管理</a></li>
 					<li><a href="#">教学秘书管理</a></li>
 					<li><a href="#">学生管理</a></li>

@@ -19,6 +19,7 @@
             <result name="success">/index.jsp</result>  
             <result name="error">/Fail.jsp</result>  
         </action> 
+        <!-- admin  管理学院，专业，课程  -->
         <action name="admin*" class="adminAction" method="{1}">
             <result name="dept">/admin/adminOfDept.jsp</result>
             <result name="deptUpdate">/admin/adminOfDeptUpdate.jsp</result> 
@@ -29,7 +30,16 @@
             <result name="courseAdd">/admin/adminOfCourseAdd.jsp</result>
             <result name="courseUpdate">/admin/adminOfCourseUpdate.jsp</result>
             
-        </action> 
+        </action>
+        <!-- admin 管理 员工 教师，辅导，教学秘书，学生 --> 
+        <action name="member*" class="adminMember" method="{1}">
+        	<result name="teacherIndex">/admin/adminOfTeacher.jsp</result>
+        	<result name="teacherAdd">/admin/adminOfTeacherAdd.jsp</result>
+        	<result name="teacherUpdate">/admin/adminOfTeacherUpdate.jsp</result>
+        	<result name="assistant"></result>
+        	<result name="mishu"></result>
+        	<result name="student"></result>
+        </action>
         <action name="assistant" class="assistantAction" method="{1}">  
             <result name="input">/page/BYSJPage/home/login.jsp</result>  
             <result name="success">/index.jsp</result>  
