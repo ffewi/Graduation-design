@@ -3,7 +3,10 @@ package com.cs.liwei.dao;
 import java.util.List;
 
 import com.cs.liwei.beans.TeacherForm;
+import com.cs.liwei.beans.TeachingPlanForm;
+import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Teacher;
+import com.cs.liwei.pojo.Teaching;
 
 /**
  * 
@@ -54,4 +57,21 @@ public interface ITeacherDao extends IBaseDao {
 	 * @return
 	 */
 	List<TeacherForm> getTeacherByNameForLike(String name);
+	/**
+	 * 获取以班级号为单位的教学制定计划
+	 * @param ting
+	 * @return
+	 */
+	List<TeachingPlanForm> getTeachingPlanByClassName(Teaching ting);
+	/**
+	 * 获取所有老师
+	 * @return
+	 */
+	List<Teacher> getAllTeacher();
+	/**
+	 * 获取term 下的课程
+	 * @param term
+	 * @return
+	 */
+	List<Course> getCourseByTerm(int term);
 }

@@ -3,6 +3,9 @@ package com.cs.liwei.service;
 import java.util.List;
 
 import com.cs.liwei.beans.TeacherForm;
+import com.cs.liwei.beans.TeachingPlanForm;
+import com.cs.liwei.pojo.Course;
+import com.cs.liwei.pojo.Teacher;
 
 public interface TeacherManager {
     /**
@@ -43,4 +46,18 @@ public interface TeacherManager {
      *  
      */
     List<TeacherForm> queryByTeacherName(String name);
+    /**
+     * 通过className 取得某班级的教学制定计划
+     * @param tpForm
+     * @return
+     */
+    List<TeachingPlanForm> getTeachingPlanByClassName(TeachingPlanForm tpForm);
+    /**
+     * 获取教师下拉选项
+     */
+    List<Teacher> getAllTeacher();
+    /**
+     * 获取学期下的课程拉选项
+     */
+    List<Course> getAllCourseByTerm(int termID);
 }

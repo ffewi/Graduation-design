@@ -19,6 +19,8 @@ public class Method {
     public static final int ADD_TEACHER = 4;
     /** 添加student消息 */
     public static final int ADD_STUDENT = 5;
+    /** 添加teaching消息 */
+    public static final int ADD_TEACHING = 6;
     /** 分页dept消息 */
     public static final int PAGE_DETP = 1;
     /** 分页profession消息 */
