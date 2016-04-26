@@ -21,6 +21,8 @@ public class Method {
     public static final int ADD_STUDENT = 5;
     /** 添加teaching消息 */
     public static final int ADD_TEACHING = 6;
+    /** 添加class消息 */
+    public static final int ADD_CLASS = 7;
     /** 分页dept消息 */
     public static final int PAGE_DETP = 1;
     /** 分页profession消息 */
@@ -30,7 +32,7 @@ public class Method {
     /** 分页teacher消息 */
     public static final int PAGE_TEACHER = 4;
     /** 分页assistant消息 */
-    public static final int PAGE_ASSISTANT = 5;
+    public static final int PAGE_CLASS = 5;
     /** 分页mishu消息 */
     public static final int PAGE_MISHU = 6;
     /** 请求方法参数接受器*/

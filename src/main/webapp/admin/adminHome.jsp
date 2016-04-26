@@ -68,7 +68,7 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
 					<li><a href="#">辅导员管理</a></li>
-					<li><a href="#">教学秘书管理</a></li>
+					<li><a href="membergetClassIndex?pageMsg.pageNo=1">班级管理</a></li>
 					<li><a href="membergetStudentIndex">学生管理</a></li>
 					<li><a href="#"></a></li>
 				</ul>

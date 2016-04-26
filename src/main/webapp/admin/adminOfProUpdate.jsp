@@ -75,7 +75,7 @@
 					<li><a href="#"></a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="#">课程管理</a></li>
+					<li><a href="membergetTeachingPlanIndex?tpForm.className=2016001">教学方案制定（班级选课）</a></li>
 					<li><a href="#">成绩管理</a></li>
 					<li><a href="#"></a></li>
 				</ul>

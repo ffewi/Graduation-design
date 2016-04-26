@@ -119,6 +119,11 @@
     	<artifactId>spring-test</artifactId>
     	<version>4.1.4.RELEASE</version>
     </dependency>
+    <dependency>
+    	<groupId>net.sf.json-lib</groupId>
+    	<artifactId>json-lib</artifactId>
+    	<version>0.8</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>graduation</finalName>

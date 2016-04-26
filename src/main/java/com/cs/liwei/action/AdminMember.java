@@ -1,17 +1,24 @@
 package com.cs.liwei.action;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
+
+import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.cs.liwei.beans.ClassForm;
 import com.cs.liwei.beans.Method;
 import com.cs.liwei.beans.Page;
+import com.cs.liwei.beans.ProForm;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.beans.TeacherForm;
 import com.cs.liwei.beans.TeachingPlanForm;
+import com.cs.liwei.pojo.ClassTable;
 import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Dept;
 import com.cs.liwei.pojo.Teacher;
@@ -35,11 +42,14 @@ public class AdminMember extends ActionSupport {
     private List<Dept> list;
     private List<Teacher> teacherList;
     private List<Course> courseList;
+    private List<ClassTable> classList;
     private List<StudentForm> stuList;
     private List<TeachingPlanForm> tpList;
+    private List<ClassForm> cfList;
     private TeacherForm teacherForm;
     private StudentForm studentForm;
     private TeachingPlanForm tpForm;
+    private ClassForm cfForm;
     private Page pageMsg;
     private Method msg;
 
@@ -51,6 +61,26 @@ public class AdminMember extends ActionSupport {
     public String exampleMethod() {
         System.out.println("这是个测试");
         return "adminMember";
+    }
+
+    // 测试ajax
+    public String getTerm() {
+        System.out.println("ajax----------test!" + ":" + tpForm.getTerm() + ":"
+                + tpForm.getClassName());
+        courseList = teacher.getAllCourseByTerm(tpForm.getTerm(), tpForm.getClassName());
+        for (Course course : courseList) {
+            System.out.println(course);
+        }
+        JSONArray json = JSONArray.fromCollection(courseList);
+        System.out.println(json.toString());
+        try {
+            ServletActionContext.getResponse().setCharacterEncoding("UTF-8");
+            ServletActionContext.getResponse().getWriter().println(json.toString());
+        } catch (IOException e) {
+            System.out.println("json error!");
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // 修改页面跳转
@@ -66,6 +96,11 @@ public class AdminMember extends ActionSupport {
             // student修改也跳转
             returnMsg = "studentUpdate";
             break;
+        case 3:
+            // teaching修改也跳转
+            teacherList = teacher.getAllTeacher();
+            returnMsg = "teachingUpdate";
+            break;
         default:
             break;
         }
@@ -80,17 +115,22 @@ public class AdminMember extends ActionSupport {
             returnMsg = "teacherAdd";
             break;
         case Method.ADD_STUDENT:
-            // list = admin.getAllDept();
             // 其实这里应该准备className数据，但是我比较懒，写死算了
             returnMsg = "studentAdd";
             break;
         case Method.ADD_TEACHING:
             // 获取所有老师
             teacherList = teacher.getAllTeacher();
-            //获取学期下面的课程
-            courseList = teacher.getAllCourseByTerm(1);
+            // 获取学期下面的课程
+            System.out.println("className: add teaching:" + tpForm.getClassName());
+            courseList = teacher.getAllCourseByTerm(1, tpForm.getClassName());
             // 其实这里应该准备className数据，但是我比较懒，写死算了
             returnMsg = "teachingAdd";
+            break;
+        case Method.ADD_CLASS:
+            //准备专业信息
+            
+            returnMsg = "classAdd";
             break;
         default:
             break;
@@ -112,6 +152,21 @@ public class AdminMember extends ActionSupport {
         return "teacherIndex";
     }
 
+    // 执行更新teaching
+    public String exeUpdateTeaching() {
+        System.out.println(tpForm.getClassName() + ":" + tpForm.getCourseNo() + ":"
+                + tpForm.getTeacherNo() + "：" + tpForm.getTerm());
+        // 修改，只修改上课老师
+        tpList = teacher.updateTeachingJustChangeTeacher(tpForm);
+        classList = teacher.getAllClassName();
+        if (pageMsg == null) {
+            pageMsg = new Page();
+        }
+        pageMsg.setPageNo(1);
+        pageMsg.setPageCount(1);
+        return "teachingIndex";
+    }
+
     // 获取老师默认页面
     public String getAllTeacherList() {
         System.out.println("adminMember");
@@ -130,9 +185,11 @@ public class AdminMember extends ActionSupport {
         pageMsg.setPageCount(0);
         return "studentIndex";
     }
- // 获取student默认页面，进入时，页面为空
+
+    // 获取student默认页面，进入时，页面为空
     public String getTeachingPlanIndex() {
         tpList = teacher.getTeachingPlanByClassName(tpForm);
+        classList = teacher.getAllClassName();
         if (pageMsg == null) {
             pageMsg = new Page();
         }
@@ -145,11 +202,16 @@ public class AdminMember extends ActionSupport {
         }
         return "teachingIndex";
     }
+    //获取班级默认页面
+    public String getClassIndex(){
+        System.out.println("classIndex!--------------------");
+        cfList=teacher.getClassIndexList(pageMsg.getPageNo());
+        pageMsg.setPageCount(teacher.getPageTotal(Method.PAGE_CLASS));
+        return "classIndex";
+    }
 
     // 添加老师
     public String addTeacher() {
-        // System.out.println(teacherForm.getTeacherName()+":"+teacherForm.getPositionCall()+":"
-        // +"deptNO:"+teacherForm.getDeptNo()+":"+teacherForm.getSex());
         teaList = teacher.addTeacher(teacherForm);
         list = admin.getAllDept();
         if (pageMsg == null) {
@@ -170,14 +232,13 @@ public class AdminMember extends ActionSupport {
         pageMsg.setPageCount(1);
         return "studentIndex";
     }
-    public String addTeaching(){
-        System.out.println(tpForm.getClassName()+":"+tpForm.getTerm()+":"+tpForm.getTeacherNo()
-                +":"+tpForm.getCourseNo());
-        /*if (tpForm==null) {
-            tpForm = new TeachingPlanForm();
-            tpForm.setClassName("2016001");
-        }
-        tpList = teacher.getTeachingPlanByClassName(tpForm);
+
+    public String addTeaching() {
+        System.out.println(tpForm.getClassName() + ":" + tpForm.getTerm() + ":"
+                + tpForm.getTeacherNo() + ":" + tpForm.getCourseNo());
+        // 保存教学制定 saveTeachingPlan；
+        tpList = teacher.saveTeachingPlan(tpForm);
+        classList = teacher.getAllClassName();
         if (pageMsg == null) {
             pageMsg = new Page();
         }
@@ -187,9 +248,10 @@ public class AdminMember extends ActionSupport {
         } else {
             pageMsg.setPageNo(1);
             pageMsg.setPageCount(1);
-        }*/
+        }
         return "teachingIndex";
     }
+
     // 执行 studentUpdate
     public String exeUpdateStudent() {
         stuList = student.updateStudentByID(studentForm);
@@ -229,6 +291,30 @@ public class AdminMember extends ActionSupport {
         return "错误页面";
     }
 
+    // 删除teaching
+    public String delTeachingByCourseNoAndClassName() {
+        System.out.println(":---" + tpForm.getClassName() + ":" + tpForm.getCourseNo());
+        // 调用删除
+        boolean isOk = teacher.delTeachingByCourseNoAndClassName(tpForm);
+        // 刷新数据
+        if (isOk) {
+            tpList = teacher.getTeachingPlanByClassName(tpForm);
+            classList = teacher.getAllClassName();
+            if (pageMsg == null) {
+                pageMsg = new Page();
+            }
+            if (tpList == null || tpList.size() == 0) {
+                pageMsg.setPageNo(0);
+                pageMsg.setPageCount(0);
+            } else {
+                pageMsg.setPageNo(1);
+                pageMsg.setPageCount(1);
+            }
+        }
+
+        return "teachingIndex";
+    }
+
     // 模糊查询老师姓名
     public String searchTeacherByNameForLike() {
         teaList = teacher.queryByTeacherName(teacherForm.getContent());
@@ -262,6 +348,27 @@ public class AdminMember extends ActionSupport {
         }
         list = admin.getAllDept();
         return "studentIndex";
+    }
+
+    // 模糊查询teaching by className
+    public String searchTeachingByNameForLike() {
+        System.out.println("hello-------------" + tpForm.getContent() + ":  "
+                + tpForm.getClassName());
+        // 调用查询
+        tpList = teacher.getTeachingByNameForLike(tpForm);
+        classList = teacher.getAllClassName();
+        if (pageMsg == null) {
+            pageMsg = new Page();
+        }
+        if (tpList == null || tpList.size() == 0) {
+            pageMsg.setPageNo(0);
+            pageMsg.setPageCount(0);
+        } else {
+            pageMsg.setPageNo(1);
+            pageMsg.setPageCount(1);
+        }
+
+        return "teachingIndex";
     }
 
     // getter and setter method
@@ -352,6 +459,30 @@ public class AdminMember extends ActionSupport {
 
     public void setCourseList(List<Course> courseList) {
         this.courseList = courseList;
+    }
+
+    public List<ClassTable> getClassList() {
+        return classList;
+    }
+
+    public void setClassList(List<ClassTable> classList) {
+        this.classList = classList;
+    }
+
+    public ClassForm getCfForm() {
+        return cfForm;
+    }
+
+    public void setCfForm(ClassForm cfForm) {
+        this.cfForm = cfForm;
+    }
+
+    public List<ClassForm> getCfList() {
+        return cfList;
+    }
+
+    public void setCfList(List<ClassForm> cfList) {
+        this.cfList = cfList;
     }
 
 }

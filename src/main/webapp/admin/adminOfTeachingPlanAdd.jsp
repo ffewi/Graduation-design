@@ -26,12 +26,37 @@
 <!-- Custom styles for this template -->
 <link href="<%=application.getContextPath()%>/bootstrap/dashboard.css"
 	rel="stylesheet">
+<script type="text/javascript" src="../jquery/jquery-1.6.js" ></script>
 <script type="text/javascript">
 	function getCourse(s){
 		//alert(s.value);
+		var term = s.value;
+		var cno = $('#classNo').val();
 		
-		//var l1= document.getElementById("list1").innerHTML;
-		//alert(l1+"222");
+		alert(cno);
+		var url = "membergetTerm.action";
+		var param ={
+				'tpForm.term':term,
+				'tpForm.className':cno
+		};
+		$.post(url,param,callback);
+	}
+	function callback(result,textStatus){
+		if (textStatus  == 'success') {
+			if (result!=null) {
+				//alert(result);
+				var selectCourse =  $('#list1');
+				selectCourse.empty();
+				//var s = result.split(",");
+				var json =  eval("(" + result + ")");
+				//alert(json.length);
+				for (var v1 = 0; v1 < json.length; v1++) {
+					var courseNo = json[v1].courseNo;
+					var courseName = json[v1].courseName;
+					selectCourse.append("<option value='"+courseNo+"'>"+courseNo+courseName+"</option>");
+				}
+			}
+		}
 	}
 </script>
 </head>
@@ -86,18 +111,21 @@
 				<s:form action="memberaddTeaching" method="post" >
 					<div class="row input-group col-sm-4" style="margin-top: 60px;margin-left: 80px">
 						<span class="input-group-addon" style="width:100px">班级号</span> <input type="text"  readonly="readonly"
-							name="tpForm.className" class="form-control"  value='<s:property value="tpForm.className"/>'>
+							id="classNo" name="tpForm.className" class="form-control"  value='<s:property value="tpForm.className"/>'>
 					</div>
 					
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
 						<span class="input-group-addon" style="width:100px">学期</span>
 							<!-- 使用select -->
 						<select name="tpForm.term" class="form-control" onchange="getCourse(this);">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
+							<option value="1">1 大一上</option>
+							<option value="2">2 大一下</option>
+							<option value="3">3 大二上</option>
+							<option value="4">4 大二下</option>
+							<option value="5">5 大三上</option>
+							<option value="6">6 大三下</option>
+							<option value="7">7 大四上</option>
+							<option value="8">8 大四下</option>
 						</select>
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
@@ -112,7 +140,7 @@
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
 						<span class="input-group-addon" style="width:100px">课程</span>
 							<!-- 使用select -->
-						<select id="list1" name="tpForm.courseName" class="form-control">
+						<select id="list1" name="tpForm.courseNo" class="form-control">
 							<s:iterator id="list" value="courseList">
 								<option value="<s:property value="courseNo"/>">
 								<s:property value="courseNo"/><s:property value="courseName"/></option>

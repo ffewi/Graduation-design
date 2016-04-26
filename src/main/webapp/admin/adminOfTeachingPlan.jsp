@@ -36,11 +36,12 @@
 		var td1 = tr.cells[0].innerText;
 		var td2 = tr.cells[1].innerText;
 		var td3 = tr.cells[2].innerText;
-		//var td4 = tr.cells[3].innerText;
+		var td4 = tr.cells[3].innerText;
 		var td5 = tr.cells[4].innerText;
+		var td6 = tr.cells[5].innerText;
 		//alert(td1+":  "+td2);
-		location.href="memberupdate?studentForm.studentNo="+td1+"&& msg.method=2 && studentForm.studentName= "+td2
-				+"&& studentForm.className="+td3+"&& studentForm.sex="+td5;
+		location.href="memberupdate?tpForm.courseNo="+td1+"&& msg.method=3 && tpForm.courseName= "+td2
+				+"&& tpForm.teacherNo="+td3+"&& tpForm.teacherName="+td4+"&& tpForm.className="+td5+"&& tpForm.term="+td6;
 		
 	}
 	function btnClickDel(d){
@@ -48,11 +49,12 @@
 		var tr = d.parentNode.parentNode;
 		//获取第一列的内容
 		var td1 = tr.cells[0].innerText;
+		var td2 = tr.cells[4].innerText;
 		//发送删除dept消息
-		location.href="memberdelStudentById?studentForm.studentNo="+td1+"&&pageMsg.pageNo=1";
+		location.href="memberdelTeachingByCourseNoAndClassName?tpForm.courseNo="+td1+"&& tpForm.className="+td2;
 	}
 	function changeSelect(s){
-		alert(s.value);
+		//alert(s.value);
 		location.href="membergetTeachingPlanIndex?tpForm.className="+s.value;
 	}
 </script>
@@ -70,8 +72,9 @@
 					<li><a href="#">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
-				<form class="navbar-form navbar-right" action="membersearchStudentByNameForLike" method="get">
-					<input  name="studentForm.content" type="text" class="form-control" placeholder="Search...">
+				<form class="navbar-form navbar-right" action="membersearchTeachingByNameForLike" method="get">
+					<input  name="tpForm.content" type="text" class="form-control" placeholder="Search...">
+					<input name="tpForm.className" type="text" class="form-control hidden" value="<s:property value="tpForm.className"/>">
 					<input type="submit" class="form-control btn btn-info" value="查询">
 				</form>
 			</div>
@@ -88,10 +91,10 @@
 					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="#">教师管理</a></li>
+					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
 					<li><a href="#">辅导员管理</a></li>
 					<li><a href="#">教学秘书管理</a></li>
-					<li><a href="#">学生管理</a></li>
+					<li><a href="membergetStudentIndex">学生管理</a></li>
 					<li><a href="#"></a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
@@ -104,12 +107,11 @@
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<button type="button" class="btn btn-success " onclick="javascript:location.href='memberadd?msg.method=6&&tpFrom.className=<s:property value="tpForm.className"/>'">添加</button>
+				<button type="button" class="btn btn-success " onclick="javascript:location.href='memberadd?msg.method=6&&tpForm.className=<s:property value="tpForm.className"/>'">添加</button>
 				<select name="teachingForm.className" class="form-control" onchange="changeSelect(this);">
-					<option value="2016001">2016001</option>
-					<option value="2016002">2016002</option>
-					<option value="2016003">2016003</option>
-					<option value="2016004">2016004</option>
+					<s:iterator id="list" value="classList">
+					<option value="<s:property value="className"/>"><s:property value="className"/></option>
+					</s:iterator>
 					<option hidden="hidden" selected="selected" value="<s:property value="tpForm.className"/>"><s:property value="tpForm.className"/></option>
 					
 				</select>

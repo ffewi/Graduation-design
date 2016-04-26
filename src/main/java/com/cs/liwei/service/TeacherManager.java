@@ -2,8 +2,10 @@ package com.cs.liwei.service;
 
 import java.util.List;
 
+import com.cs.liwei.beans.ClassForm;
 import com.cs.liwei.beans.TeacherForm;
 import com.cs.liwei.beans.TeachingPlanForm;
+import com.cs.liwei.pojo.ClassTable;
 import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Teacher;
 
@@ -42,6 +44,12 @@ public interface TeacherManager {
      */
     boolean delTeacherById(int teacherNo);
     /**
+     * 
+     * @param teaching
+     * @return
+     */
+    boolean delTeachingByCourseNoAndClassName(TeachingPlanForm teaching);
+    /**
      *  模糊查询 ，通过老师名称
      *  
      */
@@ -53,11 +61,38 @@ public interface TeacherManager {
      */
     List<TeachingPlanForm> getTeachingPlanByClassName(TeachingPlanForm tpForm);
     /**
+     * 通过className  根据courseName模糊查询
+     * @param tpForm
+     * @return
+     */
+    List<TeachingPlanForm>getTeachingByNameForLike(TeachingPlanForm tpForm);
+    /**
      * 获取教师下拉选项
      */
     List<Teacher> getAllTeacher();
     /**
-     * 获取学期下的课程拉选项
+     * 获取班级下拉选项
      */
-    List<Course> getAllCourseByTerm(int termID);
+    List<ClassTable> getAllClassName();
+    /**
+     * 获取学期下的课程拉选项 并且加入班级筛选
+     */
+    List<Course> getAllCourseByTerm(int termID,String className);
+    /**
+     * 保存teachingplan
+     * @param tpForm
+     * @return
+     */
+    List<TeachingPlanForm> saveTeachingPlan(TeachingPlanForm tpForm);
+    /**
+     * 修改上课老师
+     * @param tpForm
+     * @return
+     */
+    List<TeachingPlanForm> updateTeachingJustChangeTeacher(TeachingPlanForm tpForm);
+    /**
+     * 获取班级管理页面默认信息，信息问全部，分页
+     * @return
+     */
+    List<ClassForm> getClassIndexList(int pageNo);
 }
