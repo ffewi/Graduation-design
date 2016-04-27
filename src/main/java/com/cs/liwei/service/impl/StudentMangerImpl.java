@@ -7,10 +7,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.cs.liwei.beans.ScoreForm;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.dao.IStudentDao;
+import com.cs.liwei.pojo.Course;
+import com.cs.liwei.pojo.Score;
 import com.cs.liwei.pojo.Student;
 import com.cs.liwei.service.StudentManager;
+import com.cs.liwei.utils.CountGradePoint;
+import com.cs.liwei.utils.CountTotalGrade;
 
 @Service
 public class StudentMangerImpl implements StudentManager {
@@ -89,4 +94,83 @@ public class StudentMangerImpl implements StudentManager {
         return list;
     }
 
+    @Override
+    public List<ScoreForm> queryByStudentNoAndIsHaveGrade(int studentNo) {
+        // 调用dao层 查询出有成绩的课程
+        List<ScoreForm> list = dao.getScoreMsgIsHaveGrade(studentNo);
+        return list;
+    }
+
+    @Override
+    public List<ScoreForm> getIsNotHaveCoureIndex(int studentNo) {
+        // 调用dao层 查询出有课 没有成绩的课程
+        List<ScoreForm> list = dao.getIsNotHaveCoureIndex(studentNo);
+        return list;
+    }
+
+    @Override
+    public List<ScoreForm> addScoreByScore(ScoreForm sf) {
+        // 调用daoceng插入成绩
+        // CountGradePoint gp= new CountGradePoint();
+        Score s = new Score();
+        s.setStudentNo(sf.getStudentNo());
+        s.setCourseNo(sf.getCourseNo());
+        s.setPingshiScore(sf.getPingshiScore());
+        s.setExamScore(sf.getExamScore());
+        s.setExamType("闭卷");
+        int fenshu = CountTotalGrade.finalScore(sf.getPingshiScore(), sf.getExamScore());
+        float jidian = CountGradePoint.countPoint(fenshu);
+        s.setGradePoint(jidian);
+        s.setFinalScore(fenshu);
+        boolean isOk = dao.addScore(s);
+        if (isOk) {
+            List<ScoreForm> list = new ArrayList<ScoreForm>();
+            sf.setFinalScore(fenshu);
+            sf.setGradePoint(jidian);
+            Course cs = new Course();
+            cs = (Course) dao.findByID(cs, sf.getCourseNo());
+            sf.setCourseName(cs.getCourseName());
+            list.add(sf);
+            return list;
+        }
+        return null;
+    }
+
+    @Override
+    public List<ScoreForm> exeUpdateScore(ScoreForm sf) {
+        // 调用dao层 更新score
+        Score s = new Score();
+        s.setStudentNo(sf.getStudentNo());
+        s.setCourseNo(sf.getCourseNo());
+        s.setPingshiScore(sf.getPingshiScore());
+        s.setExamScore(sf.getExamScore());
+        int fenshu = CountTotalGrade.finalScore(sf.getPingshiScore(), sf.getExamScore());
+        float jidian = CountGradePoint.countPoint(fenshu);
+        s.setGradePoint(jidian);
+        s.setFinalScore(fenshu);
+        boolean isOk = dao.updateScore(s);
+        if (isOk) {
+            List<ScoreForm> list = new ArrayList<ScoreForm>();
+            sf.setFinalScore(fenshu);
+            sf.setGradePoint(jidian);
+            Course cs = new Course();
+            cs = (Course) dao.findByID(cs, sf.getCourseNo());
+            sf.setCourseName(cs.getCourseName());
+            list.add(sf);
+            return list;
+        }
+        return null;
+    }
+    @Override
+    public boolean delScoreByStuAndCou(ScoreForm sf) {
+        // 调用dao层 更新score
+        Score s = new Score();
+        s.setStudentNo(sf.getStudentNo());
+        s.setCourseNo(sf.getCourseNo());
+        boolean isOk = dao.delScore(s);
+        if (isOk) {
+            return true;
+        }
+        return false;
+    }
 }

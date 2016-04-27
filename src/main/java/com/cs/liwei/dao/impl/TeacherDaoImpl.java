@@ -11,6 +11,7 @@ import com.cs.liwei.beans.ClassForm;
 import com.cs.liwei.beans.TeacherForm;
 import com.cs.liwei.beans.TeachingPlanForm;
 import com.cs.liwei.dao.ITeacherDao;
+import com.cs.liwei.pojo.ClassTable;
 import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Teacher;
 import com.cs.liwei.pojo.Teaching;
@@ -108,7 +109,20 @@ public class TeacherDaoImpl extends IBaseDaoImpl implements ITeacherDao {
             return false;
         }
     }
-
+    @Override
+    public boolean delClassByClassName(String className) {
+        session = getSession();
+        String hsql = "delete from ClassTable where className=?";
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, className);
+        int re = exe.executeUpdate();
+        session.close();
+        if (re == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     @Override
     public List<TeacherForm> getTeacherByNameForLike(String name) {
         session = getSession();
@@ -238,7 +252,25 @@ public class TeacherDaoImpl extends IBaseDaoImpl implements ITeacherDao {
         }
         return false;
     }
-
+    @Override
+    public boolean saveClassByClassNameAndProNoAndstuTotal(ClassTable ct) {
+        // save
+        session = getSession();
+        System.out.println(ct);
+        String hsql = "insert into Class(className,professionNo,stuTotal,assisantNo) "
+                + " values(?,?,?,?) ";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, ct.getClassName());
+        exe.setParameter(1, ct.getProfessionNo());
+        exe.setParameter(2, ct.getStuTotal());
+        exe.setParameter(3, ct.getAssisantNo());
+        int num = exe.executeUpdate();
+        session.close();
+        if (num == 1) {
+            return true;
+        }
+        return false;
+    }
     @Override
     public boolean updateTeachingJustChangeTeacher(Teaching tMsg) {
         // update
@@ -273,7 +305,17 @@ public class TeacherDaoImpl extends IBaseDaoImpl implements ITeacherDao {
         return false;
 
     }
-
+    @Override
+    public boolean delTeachingByClassName(String className) {
+        // del
+        session = getSession();
+        String hsql = "delete from Teaching where className=?";
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, className);
+        exe.executeUpdate();
+        session.close();
+        return true;
+    }
     @Override
     public List<ClassForm> getAllClassListByPage(int pageNo) {
         // search
@@ -300,5 +342,20 @@ public class TeacherDaoImpl extends IBaseDaoImpl implements ITeacherDao {
         }
         //System.out.println(list);
         return list;
+    }
+
+    @Override
+    public boolean hasClassName(String name) {
+        // ishave?
+        session = getSession();
+        String hsql = "from ClassTable where className=? ";
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, name);
+        List<?> re = exe.list();
+        session.close();
+        if (re==null || re.size() != 1) {
+            return false;
+        }
+        return true;
     }
 }

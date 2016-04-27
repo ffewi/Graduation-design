@@ -38,12 +38,16 @@
         	<result name="teacherUpdate">/admin/adminOfTeacherUpdate.jsp</result>
         	<result name="classIndex">/admin/adminOfClass.jsp</result>
         	<result name="classAdd">/admin/adminOfClassAdd.jsp</result>
+        	<result name="classUpdate">/admin/adminOfClassUpdate.jsp</result>
         	<result name="teachingIndex">/admin/adminOfTeachingPlan.jsp</result>
         	<result name="teachingAdd">/admin/adminOfTeachingPlanAdd.jsp</result>
         	<result name="teachingUpdate">/admin/adminOfTeachingPlanUpdate.jsp</result>
         	<result name="studentIndex">/admin/adminOfStudent.jsp</result>
         	<result name="studentAdd">/admin/adminOfStudentAdd.jsp</result>
         	<result name="studentUpdate">/admin/adminOfStudentUpdate.jsp</result>
+        	<result name="scoreIndex">/admin/adminOfScore.jsp</result>
+        	<result name="scoreAdd">/admin/adminOfScoreAdd.jsp</result>
+        	<result name="scoreUpdate">/admin/adminOfScoreUpdate.jsp</result>
         </action>
         <action name="assistant" class="assistantAction" method="{1}">  
             <result name="input">/page/BYSJPage/home/login.jsp</result>  

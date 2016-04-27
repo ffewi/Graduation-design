@@ -44,6 +44,10 @@ public interface TeacherManager {
      */
     boolean delTeacherById(int teacherNo);
     /**
+     * 通过className删除
+     */
+    boolean delClassByClassName(String className);
+    /**
      * 
      * @param teaching
      * @return
@@ -95,4 +99,10 @@ public interface TeacherManager {
      * @return
      */
     List<ClassForm> getClassIndexList(int pageNo);
+    /**
+     * 保存class
+     * @param cfForm
+     * @return
+     */
+    List<ClassForm> saveClass(ClassForm cfForm);
 }

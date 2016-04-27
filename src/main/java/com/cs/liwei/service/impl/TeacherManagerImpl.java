@@ -15,6 +15,7 @@ import com.cs.liwei.dao.ITeacherDao;
 import com.cs.liwei.pojo.ClassTable;
 import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Dept;
+import com.cs.liwei.pojo.Profession;
 import com.cs.liwei.pojo.Teacher;
 import com.cs.liwei.pojo.Teaching;
 import com.cs.liwei.service.TeacherManager;
@@ -119,6 +120,17 @@ public class TeacherManagerImpl implements TeacherManager {
         }
     }
     @Override
+    public boolean delClassByClassName(String className) {
+        // 开始删除
+        boolean result = dao.delClassByClassName(className);
+        dao.delTeachingByClassName(className);
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    @Override
     public boolean delTeachingByCourseNoAndClassName(TeachingPlanForm teaching) {
         // 开始删除
         Teaching t = new Teaching();
@@ -131,6 +143,7 @@ public class TeacherManagerImpl implements TeacherManager {
             return false;
         }
     }
+
     @Override
     public List<TeacherForm> queryByTeacherName(String name) {
         List<TeacherForm> list = dao.getTeacherByNameForLike(name);
@@ -146,6 +159,7 @@ public class TeacherManagerImpl implements TeacherManager {
 
         return list;
     }
+
     @Override
     public List<TeachingPlanForm> getTeachingByNameForLike(TeachingPlanForm tpForm) {
         // 调用dao层获取 以className 的信息
@@ -156,12 +170,14 @@ public class TeacherManagerImpl implements TeacherManager {
 
         return list;
     }
+
     @Override
     public List<Teacher> getAllTeacher() {
         //
         List<Teacher> list = dao.getAllTeacher();
         return list;
     }
+
     @Override
     public List<ClassTable> getAllClassName() {
         //
@@ -175,6 +191,7 @@ public class TeacherManagerImpl implements TeacherManager {
         }
         return classList;
     }
+
     @Override
     public List<Course> getAllCourseByTerm(int termID, String className) {
         // 调用dao层
@@ -200,7 +217,7 @@ public class TeacherManagerImpl implements TeacherManager {
             List<TeachingPlanForm> list = new ArrayList<TeachingPlanForm>();
             tpForm.setCourseName(course.getCourseName());
             Teacher tea = new Teacher();
-            tea=(Teacher) dao.findByID(tea, tpForm.getTeacherNo());
+            tea = (Teacher) dao.findByID(tea, tpForm.getTeacherNo());
             tpForm.setTeacherName(tea.getTeacherName());
             list.add(tpForm);
             return list;
@@ -210,21 +227,21 @@ public class TeacherManagerImpl implements TeacherManager {
 
     @Override
     public List<TeachingPlanForm> updateTeachingJustChangeTeacher(TeachingPlanForm tpForm) {
-        //页面只传来了 className  couresNo teacherNo（要修改为的老师编号）
+        // 页面只传来了 className couresNo teacherNo（要修改为的老师编号）
         Teaching ti = new Teaching();
         ti.setClassName(tpForm.getClassName());
         ti.setCourseNo(tpForm.getCourseNo());
         ti.setTeacherNo(tpForm.getTeacherNo());
-        //执行更新
+        // 执行更新
         boolean isOk = dao.updateTeachingJustChangeTeacher(ti);
-        //数据处理 返回页面
+        // 数据处理 返回页面
         if (isOk) {
             Course course = new Course();
             course = (Course) dao.findByID(course, tpForm.getCourseNo());
             tpForm.setTerm(course.getTerm());
             tpForm.setCourseName(course.getCourseName());
             Teacher tea = new Teacher();
-            tea=(Teacher) dao.findByID(tea, tpForm.getTeacherNo());
+            tea = (Teacher) dao.findByID(tea, tpForm.getTeacherNo());
             tpForm.setTeacherName(tea.getTeacherName());
             List<TeachingPlanForm> list = new ArrayList<TeachingPlanForm>();
             list.add(tpForm);
@@ -235,8 +252,41 @@ public class TeacherManagerImpl implements TeacherManager {
 
     @Override
     public List<ClassForm> getClassIndexList(int pageNo) {
-        //调用dao层
+        // 调用dao层
         List<ClassForm> list = dao.getAllClassListByPage(pageNo);
         return list;
+    }
+
+    @Override
+    public List<ClassForm> saveClass(ClassForm cfForm) {
+        // 调用dao层保存
+        ClassTable ct = new ClassTable();
+        ct.setClassName(cfForm.getClassName());
+        ct.setProfessionNo(cfForm.getProfessionNo());
+        ct.setStuTotal(cfForm.getStuTotal());
+        int num = dao.countClass();
+        Integer className = 2016000+num;
+        boolean isHave = dao.hasClassName(className.toString());
+        if (isHave) {
+            className = 2016000;
+            while (isHave) {
+                className +=1;
+                isHave = dao.hasClassName(className.toString());
+            }
+        }
+//        System.out.println(ct1);
+        ct.setClassName(className.toString());
+        ct.setAssisantNo(20160101);
+        boolean isOk = dao.saveClassByClassNameAndProNoAndstuTotal(ct);
+        if (isOk) {
+            List<ClassForm> list = new ArrayList<ClassForm>();
+            Profession pro = new Profession();
+            pro = (Profession) dao.findByID(pro, cfForm.getProfessionNo());
+            cfForm.setProfessionName(pro.getProfessionName());
+            cfForm.setClassName(className.toString());
+            list.add(cfForm);
+            return list;
+        }
+        return null;
     }
 }

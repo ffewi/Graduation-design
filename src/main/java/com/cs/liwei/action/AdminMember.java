@@ -15,6 +15,7 @@ import com.cs.liwei.beans.ClassForm;
 import com.cs.liwei.beans.Method;
 import com.cs.liwei.beans.Page;
 import com.cs.liwei.beans.ProForm;
+import com.cs.liwei.beans.ScoreForm;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.beans.TeacherForm;
 import com.cs.liwei.beans.TeachingPlanForm;
@@ -46,10 +47,13 @@ public class AdminMember extends ActionSupport {
     private List<StudentForm> stuList;
     private List<TeachingPlanForm> tpList;
     private List<ClassForm> cfList;
+    private List<ScoreForm> scoreList;
+    private List<ProForm> proList;
     private TeacherForm teacherForm;
     private StudentForm studentForm;
     private TeachingPlanForm tpForm;
     private ClassForm cfForm;
+    private ScoreForm scoreForm;
     private Page pageMsg;
     private Method msg;
 
@@ -101,6 +105,17 @@ public class AdminMember extends ActionSupport {
             teacherList = teacher.getAllTeacher();
             returnMsg = "teachingUpdate";
             break;
+        case 4:
+            // class修改也跳转
+            System.out.println("calssUPDAE---------------------");
+            proList = admin.getAllProfessionNameIndex();
+            returnMsg = "classUpdate";
+            break;
+        case 5:
+            // score修改也跳转
+            returnMsg = "scoreUpdate";
+            break;
+
         default:
             break;
         }
@@ -128,9 +143,14 @@ public class AdminMember extends ActionSupport {
             returnMsg = "teachingAdd";
             break;
         case Method.ADD_CLASS:
-            //准备专业信息
-            
+            // 准备专业信息
+            proList = admin.getAllProfessionNameIndex();
             returnMsg = "classAdd";
+            break;
+        case Method.ADD_SCORE:
+            // 准备没有成绩课程信息
+            scoreList = student.getIsNotHaveCoureIndex(scoreForm.getStudentNo());
+            returnMsg = "scoreAdd";
             break;
         default:
             break;
@@ -150,6 +170,17 @@ public class AdminMember extends ActionSupport {
         pageMsg.setPageNo(1);
         pageMsg.setPageCount(1);
         return "teacherIndex";
+    }
+
+    // 更新score
+    public String exeUpdateScore() {
+        scoreList = student.exeUpdateScore(scoreForm);
+        if (pageMsg == null) {
+            pageMsg = new Page();
+        }
+        pageMsg.setPageNo(1);
+        pageMsg.setPageCount(1);
+        return "scoreIndex";
     }
 
     // 执行更新teaching
@@ -186,6 +217,16 @@ public class AdminMember extends ActionSupport {
         return "studentIndex";
     }
 
+    // 获取成绩默认页面，进入时，页面为空
+    public String getScoreIndex() {
+        if (pageMsg == null) {
+            pageMsg = new Page();
+        }
+        pageMsg.setPageNo(0);
+        pageMsg.setPageCount(0);
+        return "scoreIndex";
+    }
+
     // 获取student默认页面，进入时，页面为空
     public String getTeachingPlanIndex() {
         tpList = teacher.getTeachingPlanByClassName(tpForm);
@@ -202,10 +243,11 @@ public class AdminMember extends ActionSupport {
         }
         return "teachingIndex";
     }
-    //获取班级默认页面
-    public String getClassIndex(){
+
+    // 获取班级默认页面
+    public String getClassIndex() {
         System.out.println("classIndex!--------------------");
-        cfList=teacher.getClassIndexList(pageMsg.getPageNo());
+        cfList = teacher.getClassIndexList(pageMsg.getPageNo());
         pageMsg.setPageCount(teacher.getPageTotal(Method.PAGE_CLASS));
         return "classIndex";
     }
@@ -233,6 +275,33 @@ public class AdminMember extends ActionSupport {
         return "studentIndex";
     }
 
+    // 添加score
+    public String addScore() {
+        System.out.println(scoreForm.getStudentNo() + ":" + scoreForm.getPingshiScore() + ":"
+                + scoreForm.getExamScore() + scoreForm.getCourseNo());
+        scoreList = student.addScoreByScore(scoreForm);
+        if (pageMsg == null) {
+            pageMsg = new Page();
+        }
+        pageMsg.setPageNo(1);
+        pageMsg.setPageCount(1);
+        return "scoreIndex";
+    }
+
+    // 添加class
+    public String addClass() {
+        System.out.println(cfForm.getClassName() + ":" + cfForm.getProfessionNo() + ":"
+                + cfForm.getStuTotal());
+        cfList = teacher.saveClass(cfForm);
+        if (pageMsg == null) {
+            pageMsg = new Page();
+        }
+        pageMsg.setPageNo(1);
+        pageMsg.setPageCount(1);
+        return "classIndex";
+    }
+
+    // 添加teaching
     public String addTeaching() {
         System.out.println(tpForm.getClassName() + ":" + tpForm.getTerm() + ":"
                 + tpForm.getTeacherNo() + ":" + tpForm.getCourseNo());
@@ -291,6 +360,28 @@ public class AdminMember extends ActionSupport {
         return "错误页面";
     }
 
+    // 删除class
+    public String delClassByClassName() {
+        boolean isOk = teacher.delClassByClassName(cfForm.getClassName());
+        if (isOk) {
+            cfList = teacher.getClassIndexList(pageMsg.getPageNo());
+            pageMsg.setPageCount(teacher.getPageTotal(Method.PAGE_CLASS));
+        }
+        return "classIndex";
+    }
+//删除score 
+    public String delScoreByStuAndCou(){
+        boolean rs = student.delScoreByStuAndCou(scoreForm);
+        if (rs) {
+            scoreList = student.queryByStudentNoAndIsHaveGrade(scoreForm.getStudentNo());
+            if (pageMsg == null) {
+                pageMsg = new Page();
+            }
+            pageMsg.setPageNo(1);
+            pageMsg.setPageCount(1);
+        }
+        return "scoreIndex";
+    }
     // 删除teaching
     public String delTeachingByCourseNoAndClassName() {
         System.out.println(":---" + tpForm.getClassName() + ":" + tpForm.getCourseNo());
@@ -369,6 +460,18 @@ public class AdminMember extends ActionSupport {
         }
 
         return "teachingIndex";
+    }
+
+    // 精确查询学生
+    public String searchScoreByStuNo() {
+        System.out.println(scoreForm.getStudentNo());
+        scoreList = student.queryByStudentNoAndIsHaveGrade(scoreForm.getStudentNo());
+        if (pageMsg == null) {
+            pageMsg = new Page();
+        }
+        pageMsg.setPageNo(1);
+        pageMsg.setPageCount(1);
+        return "scoreIndex";
     }
 
     // getter and setter method
@@ -483,6 +586,30 @@ public class AdminMember extends ActionSupport {
 
     public void setCfList(List<ClassForm> cfList) {
         this.cfList = cfList;
+    }
+
+    public List<ProForm> getProList() {
+        return proList;
+    }
+
+    public void setProList(List<ProForm> proList) {
+        this.proList = proList;
+    }
+
+    public List<ScoreForm> getScoreList() {
+        return scoreList;
+    }
+
+    public void setScoreList(List<ScoreForm> scoreList) {
+        this.scoreList = scoreList;
+    }
+
+    public ScoreForm getScoreForm() {
+        return scoreForm;
+    }
+
+    public void setScoreForm(ScoreForm scoreForm) {
+        this.scoreForm = scoreForm;
     }
 
 }

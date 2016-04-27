@@ -53,10 +53,11 @@
 		var td1 = tr.cells[0].innerText;
 		var td2 = tr.cells[1].innerText;
 		var td3 = tr.cells[2].innerText;
+		var td4 = tr.cells[3].innerText;
 		//alert(td1+":  "+td2);
-		location.href = "adminupdate?proForm.professionNo=" + td1
-				+ "&& proForm.professionName= " + td2
-				+ "&& msg.method=2 && proForm.deptName=" + td3;
+		location.href = "memberupdate?cfForm.className=" + td1
+				+ "&& cfForm.professionName= " + td2
+				+ "&& msg.method=4 && cfForm.stuTotal=" + td3+"&& cfForm.professionNo="+td4;
 
 	}
 
@@ -66,7 +67,7 @@
 		//获取第一列的内容
 		var td1 = tr.cells[0].innerText;
 		//发送删除dept消息
-		location.href = "admindelProById?proForm.professionNo=" + td1+"&&pageMsg.pageNo=1";
+		location.href = "memberdelClassByClassName?cfForm.className=" + td1+"&&pageMsg.pageNo=1";
 	}
 </script>
 </head>
@@ -92,8 +93,8 @@
 
 				<form class="navbar-form navbar-right"
 					action="adminsearchProByNameForLike" method="get">
-					<input name="proForm.content" type="text" class="form-control"
-						placeholder="Search..."> <input type="submit"
+					<input name="proForm.content" type="text" class="form-control" disabled="disabled"
+						placeholder="Search..."> <input type="submit" disabled="disabled"
 						class="form-control btn btn-info" value="查询">
 				</form>
 			</div>
@@ -106,32 +107,29 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="#">详情(点我没有用！)</a></li>
 					<li><a href="admingetAllDeptList?pageMsg.pageNo=1">学院管理</a></li>
-					<li><a href="#">专业管理</a></li>
+					<li><a href="admingetAllProList?pageMsg.pageNo=1">专业管理</a></li>
 					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
-					<li><a href="#">辅导员管理</a></li>
 					<li class="active"><a href="#">班级管理</a></li>
-					<li><a href="#">学生管理</a></li>
-					<li><a href="#"></a></li>
+					<li><a href="membergetStudentIndex">学生管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="membergetTeachingPlanIndex?tpForm.className=2016001">教学方案制定（班级选课）</a></li>
-					<li><a href="#">成绩管理</a></li>
-					<li><a href="#"></a></li>
+					<li><a href="membergetScoreIndex?scoreForm.studentNo=0">成绩管理</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<button type="button" class="btn btn-success " onclick="javascript:location.href='adminadd?msg.method=1'">添加</button>
+				<button type="button" class="btn btn-success " onclick="javascript:location.href='memberadd?msg.method=7'">添加</button>
 
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th class="col-sm-2">ID</th>
+							<th class="col-sm-2">班级</th>
 							<th class="col-sm-4">专业名称</th>
 							<th class="col-sm-4">人数</th>
 							<th class="hidden">专业ID</th>

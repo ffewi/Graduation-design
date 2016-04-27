@@ -26,7 +26,39 @@
 <!-- Custom styles for this template -->
 <link href="<%=application.getContextPath()%>/bootstrap/dashboard.css"
 	rel="stylesheet">
-
+<script type="text/javascript" src="../jquery/jquery-1.6.js" ></script>
+<script type="text/javascript">
+	function getCourse(s){
+		//alert(s.value);
+		var term = s.value;
+		var cno = $('#classNo').val();
+		
+		alert(cno);
+		var url = "membergetTerm.action";
+		var param ={
+				'tpForm.term':term,
+				'tpForm.className':cno
+		};
+		$.post(url,param,callback);
+	}
+	function callback(result,textStatus){
+		if (textStatus  == 'success') {
+			if (result!=null) {
+				//alert(result);
+				var selectCourse =  $('#list1');
+				selectCourse.empty();
+				//var s = result.split(",");
+				var json =  eval("(" + result + ")");
+				//alert(json.length);
+				for (var v1 = 0; v1 < json.length; v1++) {
+					var courseNo = json[v1].courseNo;
+					var courseName = json[v1].courseName;
+					selectCourse.append("<option value='"+courseNo+"'>"+courseNo+courseName+"</option>");
+				}
+			}
+		}
+	}
+</script>
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -60,8 +92,8 @@
 					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#">教师管理</a></li>
-					<li><a href="membergetClassIndex?pageMsg.pageNo=1">班级管理</a></li>
+					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
+					<li class="active"><a href="#">班级管理</a></li>
 					<li><a href="membergetStudentIndex">学生管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
@@ -73,39 +105,25 @@
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<s:form action="memberexeUpdateTeacher" method="post" >
+				<s:form action="memberexeUpdateClass" method="post" >
 					<div class="row input-group col-sm-4" style="margin-top: 60px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">ID</span> <input type="text"  readonly="readonly"
-							name="teacherForm.teacherNo" class="form-control" value="<s:property value="teacherForm.teacherNo"/>">
+						<span class="input-group-addon" style="width:100px">班级号</span> <input type="text" readonly="readonly"
+							 name="cfForm.className" class="form-control"  value='<s:property value="cfForm.className"/>'>
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">教师名称</span> <input type="text"
-							name="teacherForm.teacherName" class="form-control" value="<s:property value="teacherForm.teacherName"/>">
+						<span class="input-group-addon" style="width:100px">人数限制</span><input type="text" 
+							 name="cfForm.stuTotal" class="form-control"  value='<s:property value="cfForm.stuTotal"/>'>
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">性别</span>
+						<span class="input-group-addon" style="width:100px">专业</span>
 							<!-- 使用select -->
-						<select name="teacherForm.sex" class="form-control">
-							<option value="男">男</option>
-							<option value="女">女</option>
-						</select>
-					</div>
-					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">教师职称</span><input type="text"
-							name="teacherForm.positionCall" class="form-control" value="<s:property value="teacherForm.positionCall"/>">
-					</div>
-					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">所属院系</span>
-							<!-- 使用select -->
-						<select name="teacherForm.deptNo" class="form-control">
-							<s:iterator id="list" value="list" >
-								<option value='<s:property value="deptNo"/>'><s:property value="deptNo"/>
-								<s:property value="deptName"/></option>
+						<select id="list1" name="cfForm.professionNo" class="form-control">
+							<s:iterator id="list" value="proList">
+								<option value="<s:property value="professionNo"/>">
+								<s:property value="professionNo"/><s:property value="professionName"/></option>
 							</s:iterator>
-							<option hidden=""
-								value="<s:property value="teacherForm.deptNo"/>" selected>
-								<s:property value="teacherForm.deptNo" /><s:property value="teacherForm.deptName" />
-							</option>
+							<option hidden="hidden" selected="selected" value="<s:property value="cfForm.professionNo"/>">
+							<s:property value="cfForm.professionNo"/><s:property value="cfForm.professionName"/></option>
 						</select>
 					</div>
 					<div align="center" class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px;">

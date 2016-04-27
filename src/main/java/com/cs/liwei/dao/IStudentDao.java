@@ -2,7 +2,9 @@ package com.cs.liwei.dao;
 
 import java.util.List;
 
+import com.cs.liwei.beans.ScoreForm;
 import com.cs.liwei.beans.StudentForm;
+import com.cs.liwei.pojo.Score;
 import com.cs.liwei.pojo.Student;
 
 /**
@@ -46,4 +48,34 @@ public interface IStudentDao extends IBaseDao {
      * @return
      */
     List<StudentForm> getStudentByNameForLike(String name);
+    /**
+     * 查询学生有成绩的课程
+     * @param studentNo
+     * @return
+     */
+    List<ScoreForm> getScoreMsgIsHaveGrade(int studentNo);
+    /**
+     * 查询出有课程没有成绩的学生的课程下拉选项
+     * @param studentNo
+     * @return
+     */
+    List<ScoreForm> getIsNotHaveCoureIndex(int studentNo);
+    /**
+     * 
+     * @param s
+     * @return
+     */
+    boolean addScore(Score s);
+    /**
+     * 更新score
+     * @param s
+     * @return
+     */
+    boolean updateScore(Score s);
+    /**
+     * 删除score  通过 studentNo 和courseNo
+     * @param s
+     * @return
+     */
+    boolean delScore(Score s);
 }

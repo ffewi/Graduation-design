@@ -5,6 +5,7 @@ import java.util.List;
 import com.cs.liwei.beans.ClassForm;
 import com.cs.liwei.beans.TeacherForm;
 import com.cs.liwei.beans.TeachingPlanForm;
+import com.cs.liwei.pojo.ClassTable;
 import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Teacher;
 import com.cs.liwei.pojo.Teaching;
@@ -58,11 +59,22 @@ public interface ITeacherDao extends IBaseDao {
 	 */
 	boolean delTeacherById(int teacherNo);
 	/**
+     * 通过className删除
+     * @param className
+     */
+    boolean delClassByClassName(String className);
+	/**
 	 * 通过 className  courseNo 删除
 	 * @param t
 	 * @return
 	 */
 	boolean delTeachingByCourseNoAndClassName(Teaching t);
+	/**
+     * 通过 className 删除
+     * @param t
+     * @return
+     */
+    boolean delTeachingByClassName(String className);
 	/**
 	 * dao层
 	 * 模糊查询老师 用过名称
@@ -113,4 +125,16 @@ public interface ITeacherDao extends IBaseDao {
 	 * @return
 	 */
 	List<ClassForm> getAllClassListByPage(int pageNo);
+	/**
+	 * 保存 class 数据有 className,prefessionNo,stuTotal
+	 * @param ct
+	 * @return
+	 */
+	boolean saveClassByClassNameAndProNoAndstuTotal(ClassTable ct);
+	/**
+	 * 有无className
+	 * @param name
+	 * @return
+	 */
+	boolean hasClassName(String name);
 }

@@ -2,6 +2,7 @@ package com.cs.liwei.service;
 
 import java.util.List;
 
+import com.cs.liwei.beans.ScoreForm;
 import com.cs.liwei.beans.StudentForm;
 
 public interface StudentManager {
@@ -33,4 +34,34 @@ public interface StudentManager {
      *  
      */
     List<StudentForm> queryByStudentName(String name);
+    /**
+     * 查询学生已经有成绩的的课程
+     * @param studentNo
+     * @return
+     */
+    List<ScoreForm> queryByStudentNoAndIsHaveGrade(int studentNo);
+    /**
+     * 查出学生有课，但是没有成绩的 课程
+     * @param studentNo
+     * @return
+     */
+    List<ScoreForm> getIsNotHaveCoureIndex(int studentNo);
+    /**
+     * 添加成绩
+     * @param sf
+     * @return
+     */
+    List<ScoreForm> addScoreByScore(ScoreForm sf);
+    /**
+     * 执行更新score
+     * @param sf
+     * @return
+     */
+    List<ScoreForm> exeUpdateScore(ScoreForm sf);
+    /**
+     * 执行删除score
+     * @param sf
+     * @return
+     */
+    boolean delScoreByStuAndCou(ScoreForm sf);
 }

@@ -60,53 +60,43 @@
 					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#">教师管理</a></li>
+					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
 					<li><a href="membergetClassIndex?pageMsg.pageNo=1">班级管理</a></li>
 					<li><a href="membergetStudentIndex">学生管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="membergetTeachingPlanIndex?tpForm.className=20160001">教学方案制定（班级选课）</a></li>
-					<li><a href="membergetScoreIndex?scoreForm.studentNo=0">成绩管理</a></li>
+					<li><a href="membergetTeachingPlanIndex?tpForm.className=2016001">教学方案制定（班级选课）</a></li>
+					<li class="active"><a href="#">成绩管理</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<s:form action="memberexeUpdateTeacher" method="post" >
+				<s:form action="memberexeUpdateScore" method="post" >
 					<div class="row input-group col-sm-4" style="margin-top: 60px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">ID</span> <input type="text"  readonly="readonly"
-							name="teacherForm.teacherNo" class="form-control" value="<s:property value="teacherForm.teacherNo"/>">
+						<span class="input-group-addon" style="width:100px">学生ID</span> <input type="text"  readonly="readonly"
+							name="scoreForm.studentNo" class="form-control" value='<s:property value="scoreForm.studentNo"/>'>
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">教师名称</span> <input type="text"
-							name="teacherForm.teacherName" class="form-control" value="<s:property value="teacherForm.teacherName"/>">
+						<span class="input-group-addon" style="width:100px">平时成绩</span> <input type="text"
+							name="scoreForm.pingshiScore" class="form-control" placeholder="平时成绩" value='<s:property value="scoreForm.pingshiScore"/>'>
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">性别</span>
-							<!-- 使用select -->
-						<select name="teacherForm.sex" class="form-control">
-							<option value="男">男</option>
-							<option value="女">女</option>
-						</select>
+						<span class="input-group-addon" style="width:100px">考试成绩</span> <input type="text"
+							name="scoreForm.examScore" class="form-control" placeholder="考试成绩" value='<s:property value="scoreForm.examScore"/>'>
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">教师职称</span><input type="text"
-							name="teacherForm.positionCall" class="form-control" value="<s:property value="teacherForm.positionCall"/>">
+						<span class="input-group-addon" style="width:100px">最终成绩</span> <input type="text" readonly="readonly"
+							name="scoreForm.finalScore" class="form-control" placeholder="最终成绩" value='<s:property value="scoreForm.finalScore"/>'>
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">所属院系</span>
-							<!-- 使用select -->
-						<select name="teacherForm.deptNo" class="form-control">
-							<s:iterator id="list" value="list" >
-								<option value='<s:property value="deptNo"/>'><s:property value="deptNo"/>
-								<s:property value="deptName"/></option>
-							</s:iterator>
-							<option hidden=""
-								value="<s:property value="teacherForm.deptNo"/>" selected>
-								<s:property value="teacherForm.deptNo" /><s:property value="teacherForm.deptName" />
-							</option>
-						</select>
+						<span class="input-group-addon" style="width:100px">绩点</span> <input type="text" readonly="readonly"
+							name="scoreForm.gradePoint" class="form-control" placeholder="绩点" value='<s:property value="scoreForm.gradePoint"/>'>
+					</div>
+					<div class="row input-group col-sm-4 hidden" style="margin-top: 20px;margin-left: 80px">
+						<span class="input-group-addon" style="width:100px">课程名称</span> <input type="text" readonly="readonly"
+							name="scoreForm.courseNo" class="form-control" placeholder="课程名称" value='<s:property value="scoreForm.courseNo"/>'>
 					</div>
 					<div align="center" class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px;">
 						<button type="submit" style="width:120px" class="btn btn-default">确定</button>

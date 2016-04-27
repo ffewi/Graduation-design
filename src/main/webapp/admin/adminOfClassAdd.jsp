@@ -92,58 +92,35 @@
 					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="#">教师管理</a></li>
-					<li><a href="#">辅导员管理</a></li>
-					<li><a href="#">教学秘书管理</a></li>
-					<li><a href="#">学生管理</a></li>
-					<li><a href="#"></a></li>
+					<li><a href="membergetAllTeacherList?pageMsg.pageNo=1">教师管理</a></li>
+					<li class="active"><a href="#">班级管理</a></li>
+					<li><a href="membergetStudentIndex">学生管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="#">教学方案制定（班级选课）</a></li>
-					<li class="active"><a href="#">班级管理</a></li>
-					<li><a href="#"></a></li>
+					<li><a href="membergetTeachingPlanIndex?tpForm.className=20160001">教学方案制定（班级选课）</a></li>
+					<li><a href="membergetScoreIndex?scoreForm.studentNo=0">班级管理</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<s:form action="memberaddTeaching" method="post" >
+				<s:form action="memberaddClass" method="post" >
 					<div class="row input-group col-sm-4" style="margin-top: 60px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">班级号</span> <input type="text"  readonly="readonly"
-							id="classNo" name="tpForm.className" class="form-control"  value='<s:property value="tpForm.className"/>'>
-					</div>
-					
-					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">学期</span>
-							<!-- 使用select -->
-						<select name="tpForm.term" class="form-control" onchange="getCourse(this);">
-							<option value="1">1 大一上</option>
-							<option value="2">2 大一下</option>
-							<option value="3">3 大二上</option>
-							<option value="4">4 大二下</option>
-							<option value="5">5 大三上</option>
-							<option value="6">6 大三下</option>
-							<option value="7">7 大四上</option>
-							<option value="8">8 大四下</option>
-						</select>
+						<span class="input-group-addon" style="width:100px">班级号</span> <input type="text" readonly="readonly"
+							 name="cfForm.className" class="form-control"  placeholder="班级号：如2016001 自动生成">
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">授课老师</span>
-							<!-- 使用select -->
-						<select name="tpForm.teacherNo" class="form-control">
-							<s:iterator id="list2" value="teacherList">
-								<option value="<s:property value="teacherNo"/>"><s:property value="teacherNo"/><s:property value="teacherName"/></option>
-							</s:iterator>
-						</select>
+						<span class="input-group-addon" style="width:100px">人数限制</span><input type="text" 
+							 name="cfForm.stuTotal" class="form-control"  placeholder="1~60">
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">课程</span>
+						<span class="input-group-addon" style="width:100px">专业</span>
 							<!-- 使用select -->
-						<select id="list1" name="tpForm.courseNo" class="form-control">
-							<s:iterator id="list" value="courseList">
-								<option value="<s:property value="courseNo"/>">
-								<s:property value="courseNo"/><s:property value="courseName"/></option>
+						<select id="list1" name="cfForm.professionNo" class="form-control">
+							<s:iterator id="list" value="proList">
+								<option value="<s:property value="professionNo"/>">
+								<s:property value="professionNo"/><s:property value="professionName"/></option>
 							</s:iterator>
 						</select>
 					</div>
