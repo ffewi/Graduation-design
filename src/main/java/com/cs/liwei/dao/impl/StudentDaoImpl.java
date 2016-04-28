@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cs.liwei.beans.ScoreForm;
+import com.cs.liwei.beans.StudentDetail;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.dao.IStudentDao;
 import com.cs.liwei.pojo.Score;
@@ -155,8 +156,8 @@ public class StudentDaoImpl extends IBaseDaoImpl implements IStudentDao {
     public boolean addScore(Score s) {
         // addScore
         session = getSession();
-        String hsql ="insert into Score(studentNo,courseNo,examType,pingshiScore,examScore,finalScore"
-                +",gradePoint) values(?,?,?,?,?,?,?)";
+        String hsql = "insert into Score(studentNo,courseNo,examType,pingshiScore,examScore,finalScore"
+                + ",gradePoint) values(?,?,?,?,?,?,?)";
         Query exe = session.createSQLQuery(hsql);
         exe.setParameter(0, s.getStudentNo());
         exe.setParameter(1, s.getCourseNo());
@@ -167,7 +168,7 @@ public class StudentDaoImpl extends IBaseDaoImpl implements IStudentDao {
         exe.setParameter(6, s.getGradePoint());
         int num = exe.executeUpdate();
         session.close();
-        if (num==1) {
+        if (num == 1) {
             return true;
         }
         return false;
@@ -177,7 +178,7 @@ public class StudentDaoImpl extends IBaseDaoImpl implements IStudentDao {
     public boolean updateScore(Score s) {
         // update
         session = getSession();
-        String hsql ="update Score s set s.pingshiScore=?,s.examScore=?,s.finalScore=?,s.gradePoint=?"
+        String hsql = "update Score s set s.pingshiScore=?,s.examScore=?,s.finalScore=?,s.gradePoint=?"
                 + "  where s.studentNo=? and s.courseNo=?";
         Query exe = session.createSQLQuery(hsql);
         exe.setParameter(0, s.getPingshiScore());
@@ -188,25 +189,126 @@ public class StudentDaoImpl extends IBaseDaoImpl implements IStudentDao {
         exe.setParameter(5, s.getCourseNo());
         int num = exe.executeUpdate();
         session.close();
-        if (num==1) {
+        if (num == 1) {
             return true;
         }
         return false;
     }
+
     @Override
     public boolean delScore(Score s) {
         // delete
         session = getSession();
-        String hsql ="delete from Score"
-                + "  where studentNo=? and courseNo=?";
+        String hsql = "delete from Score" + "  where studentNo=? and courseNo=?";
         Query exe = session.createSQLQuery(hsql);
         exe.setParameter(0, s.getStudentNo());
         exe.setParameter(1, s.getCourseNo());
         int num = exe.executeUpdate();
         session.close();
-        if (num==1) {
+        if (num == 1) {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Student checkUser(Student stu) {
+
+        session = getSession();
+        String hsql = "from Student where studentNo=?";
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, stu.getStudentNo());
+        // exe.setParameter(1, stu.getStuPass());
+        List<?> result = exe.list();
+        System.out.println("student:checklogin in :" + result.size());
+        session.close();
+        if (!result.isEmpty() && result.size() == 1) {
+            return (Student) result.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public float getAvgPoint(int studentNo) {
+        // 获取平均绩点
+        session = getSession();
+        String hsql = "select AVG(gradePoint) avgPoint from score where studentNo=? and finalScore>60";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, studentNo);
+        // exe.setParameter(1, stu.getStuPass());
+        List<?> list = exe.list();
+        System.out.println("获取平均绩点 :");
+        float avgPoint = 0;
+        if (null!=list && list.size()==1) {
+            if (list.get(0)!=null) {
+                avgPoint = Float.parseFloat(list.get(0).toString());
+            }
+         }
+        session.close();
+        return avgPoint;
+    }
+
+    @Override
+    public StudentDetail getXueFenCountByCourseType(int studentNo) {
+        // 根据courseType 统计学分
+        session = getSession();
+        String hsql = "select  sum(credit) countXueFen,courseType total from course "
+                + "where courseNo in (select courseNo from score where studentNo=? and finalScore>60)"
+                + "GROUP BY courseType;";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, studentNo);
+        Iterator<?> it = exe.list().iterator();
+        System.out.println("获取分类学分统计 :");
+        int totalXueFen = 0;
+        int i = 0;
+        StudentDetail sd = new StudentDetail();
+        while (it.hasNext()) {
+            Object[] arr = (Object[]) it.next();
+            // 先获取类型 判断后赋值
+            String courseType = (String) arr[1];
+            System.out.println("courseType：" + courseType);
+            totalXueFen = Integer.parseInt(arr[0].toString());
+            i++;
+            if (courseType.equals("必修课")) {
+                sd.setBiXiuXueFen(totalXueFen);
+                System.out.println("处理顺序：" + i);
+            }
+            if (courseType.equals("选修课")) {
+                sd.setXuanXiuXueFen(totalXueFen);
+                System.out.println("处理顺序：" + i);
+            }
+            if (courseType.equals("通识教育")) {
+                sd.setTongShiXueFen(totalXueFen);
+                System.out.println("处理顺序：" + i);
+            }
+            if (courseType.equals("社会实践")) {
+                sd.setSheHuiShiJian(totalXueFen);
+                System.out.println("处理顺序：" + i);
+            }
+        }
+        session.close();
+        return sd;
+    }
+
+    @Override
+    public int getHadTotalXueFen(int studentNo) {
+        // 统计 已经拥有 且最终成绩 大于60的学分总数
+        session = getSession();
+        String hsql = "select  sum(credit) totalXueFen from course "
+                + "where courseNo in (select courseNo from score where studentNo=? and finalScore>60)";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, studentNo);
+        // exe.setParameter(1, stu.getStuPass());
+        List<?> list = exe.list();
+        System.out.println("获取总学分 :");
+        int totalPoint = 0;
+
+        if (null!=list && list.size()==1) {
+           if (list.get(0)!=null) {
+               totalPoint = Integer.parseInt(list.get(0).toString());
+           }
+        }
+            session.close();
+        return totalPoint;
     }
 }

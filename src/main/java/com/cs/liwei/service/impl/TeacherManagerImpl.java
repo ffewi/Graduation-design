@@ -289,4 +289,24 @@ public class TeacherManagerImpl implements TeacherManager {
         }
         return null;
     }
+
+	@Override
+	public List<ClassForm> exeUpdateClass(ClassForm cfForm) {
+		// 调用dao层 更新class
+		ClassTable ct = new ClassTable();
+        ct.setClassName(cfForm.getClassName());
+        ct.setProfessionNo(cfForm.getProfessionNo());
+        ct.setStuTotal(cfForm.getStuTotal());
+        
+        boolean isOk = dao.updateClass(ct);
+        if (isOk) {
+            List<ClassForm> list = new ArrayList<ClassForm>();
+            Profession pro = new Profession();
+            pro = (Profession) dao.findByID(pro, cfForm.getProfessionNo());
+            cfForm.setProfessionName(pro.getProfessionName());
+            list.add(cfForm);
+            return list;
+        }
+        return null;
+	}
 }

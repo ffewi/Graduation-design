@@ -358,4 +358,21 @@ public class TeacherDaoImpl extends IBaseDaoImpl implements ITeacherDao {
         }
         return true;
     }
+
+	@Override
+	public boolean updateClass(ClassTable ct) {
+		// update
+		session = getSession();
+        String hsql = "update ClassTable c set c.professionNo=?,c.stuTotal=? where c.className=? ";
+        Query exe = session.createQuery(hsql);
+        exe.setParameter(0, ct.getProfessionNo());
+        exe.setParameter(1, ct.getStuTotal());
+        exe.setParameter(2, ct.getClassName());
+        int num = exe.executeUpdate();
+        session.close();
+        if (num == 1) {
+            return true;
+        }
+		return false;
+	}
 }

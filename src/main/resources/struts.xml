@@ -13,9 +13,16 @@
             <result name="success">/login.jsp</result>  
             <result name="error">/Fail.jsp</result>  
         </action> 
-        <action name="login" class="logAction">  
+        <action name="logout" class="logoutAction" method="logoutUser">  
+        	<result name="login">/stu/login.jsp</result>
+            <result name="input">/Register.jsp</result>  
+            <result name="success">/login.jsp</result>  
+            <result name="error">/Fail.jsp</result>  
+        </action> 
+        <action name="login" class="logAction" >  
         	<result name="adminHome">/admin/adminHome.jsp</result>
-            <result name="input">/page/BYSJPage/home/login.jsp</result>  
+        	<result name="studentHome">/stu/homeWelcom.jsp</result>
+            <result name="input">/stu/login.jsp</result>  
             <result name="success">/index.jsp</result>  
             <result name="error">/Fail.jsp</result>  
         </action> 
@@ -49,7 +56,8 @@
         	<result name="scoreAdd">/admin/adminOfScoreAdd.jsp</result>
         	<result name="scoreUpdate">/admin/adminOfScoreUpdate.jsp</result>
         </action>
-        <action name="assistant" class="assistantAction" method="{1}">  
+        <action name="student*" class="stuAction" method="{1}">  
+        	<result name="studentIndex">/stu/home.jsp</result> 
             <result name="input">/page/BYSJPage/home/login.jsp</result>  
             <result name="success">/index.jsp</result>  
             <result name="error">/Fail.jsp</result>  

@@ -113,8 +113,10 @@
 						<!-- 使用select -->
 						<select name="courseForm.selectType" class="form-control">
 
-							<option value="必修">必修</option>
-							<option value="选修">选修</option>
+							<option value="必修课">必修课</option>
+							<option value="选修课">选修课</option>
+							<option value="通识教育">通识教育</option>
+							<option value="社会实践">社会实践</option>
 							<option hidden
 								value="<s:property value="courseForm.courseType"/>" selected>
 								<s:property value="courseForm.courseType" />

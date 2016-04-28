@@ -18,5 +18,10 @@ public class StudentAction extends ActionSupport {
         
         return "pageName";
     }
+    
+    public String indexPage(){
+        System.out.println("comming--------------------studentIndex");
+        return "studentIndex";
+    }
 
 }

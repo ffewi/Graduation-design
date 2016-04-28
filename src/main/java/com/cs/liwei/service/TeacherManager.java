@@ -105,4 +105,9 @@ public interface TeacherManager {
      * @return
      */
     List<ClassForm> saveClass(ClassForm cfForm);
+    /**
+     * 更新class
+     * @return
+     */
+    List<ClassForm> exeUpdateClass(ClassForm cfForm);
 }

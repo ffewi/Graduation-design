@@ -98,6 +98,7 @@ public class AdminMember extends ActionSupport {
             break;
         case 2:
             // student修改也跳转
+            classList = teacher.getAllClassName();
             returnMsg = "studentUpdate";
             break;
         case 3:
@@ -131,6 +132,7 @@ public class AdminMember extends ActionSupport {
             break;
         case Method.ADD_STUDENT:
             // 其实这里应该准备className数据，但是我比较懒，写死算了
+            classList = teacher.getAllClassName();
             returnMsg = "studentAdd";
             break;
         case Method.ADD_TEACHING:
@@ -320,7 +322,17 @@ public class AdminMember extends ActionSupport {
         }
         return "teachingIndex";
     }
-
+//执行exeUpdateClass
+    public String exeUpdateClass(){
+    	System.out.println(cfForm.getStuTotal()+":"+cfForm.getProfessionNo()+":"+cfForm.getClassName());
+    	cfList = teacher.exeUpdateClass(cfForm);
+    	if (pageMsg == null) {
+            pageMsg = new Page();
+        }
+        pageMsg.setPageNo(1);
+        pageMsg.setPageCount(1);
+    	return "classIndex";
+    }
     // 执行 studentUpdate
     public String exeUpdateStudent() {
         stuList = student.updateStudentByID(studentForm);

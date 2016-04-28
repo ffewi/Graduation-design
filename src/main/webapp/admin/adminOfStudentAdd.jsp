@@ -32,8 +32,9 @@
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-            </button>-->
-				<a class="navbar-brand" href="#">欢迎您：</a><span class="navbar-brand"><%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></span>
+				</button>
+				--> <a class="navbar-brand" href="#">欢迎您：</a><span
+					class="navbar-brand"><%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></span>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -42,9 +43,12 @@
 					<li><a href="#">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
-				<form class="navbar-form navbar-right "  action="adminsearchDeptByNameForLike" method="get">
-					<input id="deptID" name="deptForm.content" disabled="disabled" type="text" class="form-control " placeholder="Search...">
-					<input type="submit" disabled="disabled" class="form-control btn btn-info " value="查询">
+				<form class="navbar-form navbar-right "
+					action="adminsearchDeptByNameForLike" method="get">
+					<input id="deptID" name="deptForm.content" disabled="disabled"
+						type="text" class="form-control " placeholder="Search...">
+					<input type="submit" disabled="disabled"
+						class="form-control btn btn-info " value="查询">
 				</form>
 			</div>
 		</div>
@@ -65,7 +69,8 @@
 					<li class="active"><a href="#">学生管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="membergetTeachingPlanIndex?tpForm.className=20160001">教学方案制定（班级选课）</a></li>
+					<li><a
+						href="membergetTeachingPlanIndex?tpForm.className=20160001">教学方案制定（班级选课）</a></li>
 					<li><a href="membergetScoreIndex?scoreForm.studentNo=0">成绩管理</a></li>
 				</ul>
 			</div>
@@ -73,39 +78,46 @@
 
 				<h2 class="sub-header">
 					欢迎：<%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></h2>
-				<s:form action="memberaddStudent" method="post" >
-					<div class="row input-group col-sm-4" style="margin-top: 60px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">ID</span> <input type="text"  readonly="readonly"
-							name="studentForm.studentNo" class="form-control" placeholder="学生编号 你不需要填的，自动生成">
+				<s:form action="memberaddStudent" method="post">
+					<div class="row input-group col-sm-4"
+						style="margin-top: 60px; margin-left: 80px">
+						<span class="input-group-addon" style="width: 100px">ID</span> <input
+							type="text" readonly="readonly" name="studentForm.studentNo"
+							class="form-control" placeholder="学生编号 你不需要填的，自动生成">
 					</div>
-					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">学生名称</span> <input type="text"
-							name="studentForm.studentName" class="form-control" placeholder="学生名称">
+					<div class="row input-group col-sm-4"
+						style="margin-top: 20px; margin-left: 80px">
+						<span class="input-group-addon" style="width: 100px">学生名称</span> <input
+							type="text" name="studentForm.studentName" class="form-control"
+							placeholder="学生名称">
 					</div>
-					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">性别</span>
-							<!-- 使用select -->
+					<div class="row input-group col-sm-4"
+						style="margin-top: 20px; margin-left: 80px">
+						<span class="input-group-addon" style="width: 100px">性别</span>
+						<!-- 使用select -->
 						<select name="studentForm.sex" class="form-control">
 							<option value="男">男</option>
 							<option value="女">女</option>
 						</select>
 					</div>
-					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
-						<span class="input-group-addon" style="width:100px">班级</span>
-							<!-- 使用select -->
+					<div class="row input-group col-sm-4"
+						style="margin-top: 20px; margin-left: 80px">
+						<span class="input-group-addon" style="width: 100px">班级</span>
+						<!-- 使用select -->
 						<select name="studentForm.className" class="form-control">
-							<option value="2016001">2016001</option>
-							<option value="2016002">2016002</option>
-							<option value="2016003">2016003</option>
-							<option value="2016004">2016004</option>
+							<s:iterator id="list" value="classList">
+								<option value="<s:property value="className"/>"><s:property
+										value="className" /></option>
+							</s:iterator>
 						</select>
 					</div>
-					<div align="center" class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px;">
-						<button type="submit" style="width:120px" class="btn btn-default">确定</button>
-						<button type="button" style="margin-left: 40px;width:120px" class="btn btn-default"
-							onclick="javascript:history.go(-1);">返回</button>	
+					<div align="center" class="row input-group col-sm-4"
+						style="margin-top: 20px; margin-left: 80px;">
+						<button type="submit" style="width: 120px" class="btn btn-default">确定</button>
+						<button type="button" style="margin-left: 40px; width: 120px"
+							class="btn btn-default" onclick="javascript:history.go(-1);">返回</button>
 					</div>
-						
+
 				</s:form>
 			</div>
 		</div>

@@ -98,10 +98,10 @@
 						<span class="input-group-addon" style="width:100px">班级</span>
 							<!-- 使用select -->
 						<select name="studentForm.className" class="form-control">
-							<option value="2016001">2016001</option>
-							<option value="2016002">2016002</option>
-							<option value="2016003">2016003</option>
-							<option value="2016004">2016004</option>
+							<s:iterator id="list" value="classList">
+								<option value="<s:property value="className"/>"><s:property
+										value="className" /></option>
+							</s:iterator>
 							<option hidden="hidden"
 								value="<s:property value="studentForm.className"/>" selected>
 								<s:property value="studentForm.className" />

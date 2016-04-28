@@ -137,4 +137,10 @@ public interface ITeacherDao extends IBaseDao {
 	 * @return
 	 */
 	boolean hasClassName(String name);
+	/**
+	 * 更新class
+	 * @param ct
+	 * @return
+	 */
+	boolean updateClass(ClassTable ct);
 }

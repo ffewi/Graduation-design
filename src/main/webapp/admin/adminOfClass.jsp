@@ -155,7 +155,7 @@
 					<ul class="pager">
 						<s:if test="pageMsg.pageNo>1">
 							<li class="previous"><a
-								href="javascript:location.href='admingetAllProList?
+								href="javascript:location.href='membergetClassIndex?
 							pageMsg.pageNo=<s:property value="pageMsg.pageNo-1" />
 							&&pageMsg.pageCount=<s:property value="pageMsg.pageCount" />'">&larr;
 									上一页</a></li>
@@ -169,7 +169,7 @@
 						</span></li>
 						<s:if test="pageMsg.pageNo+1<=pageMsg.pageCount">
 							<li class="next"><a
-								href="javascript:location.href='admingetAllProList?
+								href="javascript:location.href='membergetClassIndex?
 							pageMsg.pageNo=<s:property value="pageMsg.pageNo+1" />
 							&& pageMsg.pageCount=<s:property value="pageMsg.pageCount" />'">下一页
 									&rarr;</a></li>

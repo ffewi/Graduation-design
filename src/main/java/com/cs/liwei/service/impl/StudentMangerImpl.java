@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.cs.liwei.beans.ScoreForm;
+import com.cs.liwei.beans.StudentDetail;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.dao.IStudentDao;
 import com.cs.liwei.pojo.Course;
@@ -161,6 +162,7 @@ public class StudentMangerImpl implements StudentManager {
         }
         return null;
     }
+
     @Override
     public boolean delScoreByStuAndCou(ScoreForm sf) {
         // 调用dao层 更新score
@@ -172,5 +174,31 @@ public class StudentMangerImpl implements StudentManager {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Student checkLogin(Student stu) {
+        // validate
+        Student msg = dao.checkUser(stu);
+        if (msg != null) {
+            return msg;
+        }
+        return null;
+    }
+
+    @Override
+    public StudentDetail getStudentTotalCountDetail(int studentNo) {
+        // 分两步 1 获取 学分统计 2 获取 平均绩点
+        StudentDetail stuDetail = dao.getXueFenCountByCourseType(studentNo);
+        if (stuDetail==null) {
+            System.out.println("[getStudentTotalCountDetail]:----------------");
+            return null;
+        }
+        float avgPoint = dao.getAvgPoint(studentNo);
+        avgPoint = (float) (Math.round(avgPoint*100)/100.00);
+        int totalXueFen = dao.getHadTotalXueFen(studentNo);
+        stuDetail.setAvgPoint(avgPoint);
+        stuDetail.setTotalXueFen(totalXueFen);
+        return stuDetail;
     }
 }

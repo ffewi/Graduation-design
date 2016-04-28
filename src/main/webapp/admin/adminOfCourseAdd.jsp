@@ -95,8 +95,10 @@
 						<span class="input-group-addon" style="width:100px">课程类型</span> 
 						<!-- 使用select -->
 						<select name="courseForm.selectType" class="form-control">
-							<option value="必修">必修</option>
-							<option value="选修">选修</option>
+							<option value="必修课">必修课</option>
+							<option value="选修课">选修课</option>
+							<option value="通识教育">通识教育</option>
+							<option value="社会实践">社会实践</option>
 						</select>
 					</div>
 					<div class="row input-group col-sm-4" style="margin-top: 20px;margin-left: 80px">
