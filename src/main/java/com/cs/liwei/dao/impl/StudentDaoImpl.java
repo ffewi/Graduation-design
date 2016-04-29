@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cs.liwei.beans.ScoreForm;
+import com.cs.liwei.beans.StuShowGrade;
 import com.cs.liwei.beans.StudentDetail;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.dao.IStudentDao;
@@ -310,5 +311,72 @@ public class StudentDaoImpl extends IBaseDaoImpl implements IStudentDao {
         }
             session.close();
         return totalPoint;
+    }
+
+    @Override
+    public List<Integer> studentOwnTerm(int studentNo) {
+        //#已经学了的学期
+        session = getSession();
+        String hsql = "select  DISTINCT c.term from score s,course c "
+                +"where s.courseNo=c.courseNo AND s.studentNo=? ORDER BY term;";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, studentNo);
+        // exe.setParameter(1, stu.getStuPass());
+        if (exe.list().isEmpty()) {
+            return null;
+        }
+        Iterator<?> it = exe.list().iterator();
+        System.out.println("获取拥有的term :");
+        session.close();
+        List<Integer> list = new ArrayList<Integer>();
+        while (it.hasNext()) {
+            Object termId = (Object) it.next();
+            list.add((Integer) termId);
+        }
+        System.out.println("list's size is :"+list.size());
+        return list;
+    }
+
+    @Override
+    public List<StuShowGrade> getStuShowGradeByTerm(int studentNo, int term, int pageNo) {
+        // 获取 以term 分页的 学生 查看页信息
+        session = getSession();
+        String hsql = "select s.studentNo,s.courseNo,s.finalScore,s.gradePoint,c.credit,st.className,c.courseName,"
+                +" t.teacherNo,tea.teacherName,c.term from score s,student st ,course c,teaching t,teacher tea"
+                +" where  s.studentNo=st.studentNo and s.courseNo=c.courseNo and t.courseNo=c.courseNo  and t.teacherNo=tea.teacherNo"
+                +" and t.className=st.className and  s.studentNo=? and c.term=?";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, studentNo);
+        exe.setParameter(1, term);
+        int size = exe.list().size();
+        exe.setFirstResult((pageNo-1)*10);
+        exe.setMaxResults(10);
+        if (exe.list().isEmpty()) {
+            return null;
+        }
+        Iterator<?> it = exe.list().iterator();
+        
+        System.out.println("获取信息页面 :");
+        session.close();
+        List<StuShowGrade> list = new ArrayList<StuShowGrade>();
+        StuShowGrade ssg = null;
+        while (it.hasNext()) {
+            Object[] arr = (Object[]) it.next();
+            ssg = new StuShowGrade();
+            ssg.setStudentNo((int) arr[0]);
+            ssg.setCourseNo((int) arr[1]);
+            ssg.setFinalScore((int) arr[2]);
+            ssg.setGradePoint((float) arr[3]);
+            ssg.setCredit((int) arr[4]);
+            ssg.setClassName((String) arr[5]);
+            ssg.setCourseName((String) arr[6]);
+            ssg.setTeacherNo((int) arr[7]);
+            ssg.setTeacherName((String) arr[8]);
+            ssg.setTerm((int) arr[9]);
+            ssg.setPageNum(size);
+            list.add(ssg);
+        }
+        System.out.println("list's size is :"+list.size()+"实际条数："+size);
+        return list;
     }
 }

@@ -3,6 +3,7 @@ package com.cs.liwei.dao;
 import java.util.List;
 
 import com.cs.liwei.beans.ScoreForm;
+import com.cs.liwei.beans.StuShowGrade;
 import com.cs.liwei.beans.StudentDetail;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.pojo.Score;
@@ -118,4 +119,18 @@ public interface IStudentDao extends IBaseDao {
      * @return
      */
     int getHadTotalXueFen(int studentNo);
+    /**
+     * 学生已经学过的学期
+     * @param studentNo
+     * @return
+     */
+    List<Integer> studentOwnTerm(int studentNo);
+    /**
+     * 根据学号，学期  分页信息 获取 页面数据量固定10
+     * @param studentNo
+     * @param term
+     * @param pageNo
+     * @return List<StuShowGrade>
+     */
+    List<StuShowGrade> getStuShowGradeByTerm(int studentNo,int term,int pageNo);
 }

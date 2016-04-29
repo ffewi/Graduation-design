@@ -64,7 +64,9 @@
                 <h1 class="cover-heading">灰常欢迎你: ${student.studentName }又回来了</h1>
                 <p class="lead">你的成绩概统为一下部分</p>
                 <p class="lead">
-                    <a href='<s:url action="studentindexPage"></s:url>' class="btn btn-lg btn-default">进入主页，带你飞</a>
+                    <a href='<s:url action="studentindexPage">
+                    	<s:param name="stu.studentNo" value="stuMsg.studentNo " />
+                    </s:url>' class="btn btn-lg btn-default">进入主页，带你飞</a>
                 </p>
             </div>
 

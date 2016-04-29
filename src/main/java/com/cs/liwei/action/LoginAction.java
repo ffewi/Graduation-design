@@ -32,6 +32,7 @@ public class LoginAction extends ActionSupport {
     private TeacherManager teacherManager;
 
     private StudentDetail sd;
+    private Student stuMsg;
     /*public String invokeUser() {
         ActionContext.getContext().getSession().put("用户名：可以定义一个常量", "getUsername()");
         ActionContext.getContext().getSession().put("用户密码：可以定义一个常量", "getPassword()");
@@ -86,6 +87,10 @@ public class LoginAction extends ActionSupport {
                     System.out.println("sd == null==================");
                     sd = new StudentDetail();
                 }*/
+                if (stuMsg==null) {
+                    stuMsg = new Student();
+                }
+                stuMsg.setStudentNo(stu.getStudentNo());
                 returnMsg = "studentHome";
             }
             break;
@@ -115,6 +120,12 @@ public class LoginAction extends ActionSupport {
     }
     public void setSd(StudentDetail sd) {
         this.sd = sd;
+    }
+    public Student getStuMsg() {
+        return stuMsg;
+    }
+    public void setStuMsg(Student stuMsg) {
+        this.stuMsg = stuMsg;
     }
 
 }

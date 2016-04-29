@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.cs.liwei.beans.ScoreForm;
+import com.cs.liwei.beans.StuShowGrade;
 import com.cs.liwei.beans.StudentDetail;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.dao.IStudentDao;
@@ -200,5 +201,25 @@ public class StudentMangerImpl implements StudentManager {
         stuDetail.setAvgPoint(avgPoint);
         stuDetail.setTotalXueFen(totalXueFen);
         return stuDetail;
+    }
+
+    @Override
+    public List<Integer> getTermdropDownMenu(int studentNo) {
+        // 调用dao层  获取term 下拉值
+        List<Integer> list = dao.studentOwnTerm(studentNo);
+        if (null!=list &&!list.isEmpty()) {
+            return list;
+        }
+        return null;
+    }
+
+    @Override
+    public List<StuShowGrade> getStuMsgByTermAndByPageNo(int studentNo, int term, int pageNo) {
+        // 调用dao层 获取 学生 成绩信息  区分 term
+        List<StuShowGrade> list = dao.getStuShowGradeByTerm(studentNo, term, pageNo);
+        if (null!=list && !list.isEmpty()) {
+            return list;
+        }
+        return null;
     }
 }

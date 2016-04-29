@@ -3,6 +3,7 @@ package com.cs.liwei.service;
 import java.util.List;
 
 import com.cs.liwei.beans.ScoreForm;
+import com.cs.liwei.beans.StuShowGrade;
 import com.cs.liwei.beans.StudentDetail;
 import com.cs.liwei.beans.StudentForm;
 import com.cs.liwei.pojo.Student;
@@ -90,11 +91,29 @@ public interface StudentManager {
      * @return
      */
     boolean delScoreByStuAndCou(ScoreForm sf);
+
     /**
-     * studentWelcomPage 获取学生 
-     * 平均绩点  总学分  必修学分  通识学分  选修学分  社会实践
+     * studentWelcomPage 获取学生 平均绩点 总学分 必修学分 通识学分 选修学分 社会实践
+     * 
      * @param studentNo
      * @return
      */
     StudentDetail getStudentTotalCountDetail(int studentNo);
+
+    /**
+     * 获取term下拉选项
+     * 
+     * @param studentNo
+     * @return
+     */
+    List<Integer> getTermdropDownMenu(int studentNo);
+
+    /**
+     * 返回值中的pageNum 用于统计 term下 是否分页
+     * 
+     * @param term
+     * @param pageNo
+     * @return List<StuShowGrade>
+     */
+    List<StuShowGrade> getStuMsgByTermAndByPageNo(int studentNo, int term, int pageNo);
 }
