@@ -14,9 +14,19 @@ public class LogoutAction extends ActionSupport {
      */
     private static final long serialVersionUID = 1291710848909775843L;
 
-    public String logoutUser(){
-        System.out.println("User log out success!");
+    public String student(){
+        System.out.println("student log out success!");
         ActionContext.getContext().getSession().remove("student");
-        return "login";
+        return "stulogin";
+    }
+    public String admin(){
+    	System.out.println("admin log out success!");
+        ActionContext.getContext().getSession().remove("admin");
+        return "adminlogin";
+    }
+    public String teacherout(){
+    	System.out.println("teacher log out success!");
+        ActionContext.getContext().getSession().remove("teacher");
+        return "teacherlogin";
     }
 }

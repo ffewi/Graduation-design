@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../icon/favicon.ico">
+    <link rel="icon" href="icon/favicon.ico">
 
     <title>学生欢迎页面</title>
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -47,11 +47,12 @@
 				    <span style="color:red" ><s:fielderror fieldName="user.username"></s:fielderror></span>
 				    <input style="margin-top: 20px "  type="password"  name="user.password" class="form-control" placeholder="Password" required>
 				    <span style="color:red" ><s:fielderror fieldName="user.password"></s:fielderror></span>
-				    <div class="checkbox hidden">
-				      <label>
-				        <input type="checkbox" checked="checked" name="user.type" value="2"> 用户类型
-				      </label>
-				    </div>
+				    
+				    <select name="user.type" class="form-control" style="margin-top:20px  ">
+					<option value="0">管理员</option>
+					<option value="1">老师</option>
+					<option value="2">学生</option>
+					</select>
 				    <button class="btn btn-lg btn-primary btn-block"  style="margin-top: 20px" type="submit">登录</button>
 				  </form>
 				   </div>

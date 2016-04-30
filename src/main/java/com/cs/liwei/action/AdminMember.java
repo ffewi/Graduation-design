@@ -75,7 +75,7 @@ public class AdminMember extends ActionSupport {
         for (Course course : courseList) {
             System.out.println(course);
         }
-        JSONArray json = JSONArray.fromCollection(courseList);
+        JSONArray json = JSONArray.fromObject(courseList);
         System.out.println(json.toString());
         try {
             ServletActionContext.getResponse().setCharacterEncoding("UTF-8");

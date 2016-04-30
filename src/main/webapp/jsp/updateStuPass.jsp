@@ -8,34 +8,32 @@
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
+		<form role="form" action="studentchangePass?stu.studentNo=${student.studentNo }" method="post" onsubmit="return changePass();">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">标题</h4>
+				<h4 class="modal-title" id="myModalLabel" style="color:green">修改密码</h4>
 			</div>
 			<div class="modal-body">
-				<h1>主体内容</h1>
-
-
-
-				<div class="input-group col-sm-6 col-sm-offset-3"
+				
+				<div id="divpass1" class="input-group col-sm-6 col-sm-offset-3"
 					style="padding-top: 30px;">
-					<span class="input-group-addon" style="width: 100px"
-						id="basic-addon1">password1</span> <input type="text"
-						class="form-control " placeholder="Username"
+					 <input type="password" id="pass1" name="stu.stuPass"
+						class="form-control " placeholder="新密码"
 						aria-describedby="basic-addon1">
 				</div>
-				<div class="input-group col-sm-6 col-sm-offset-3"
+				<div id="divpass2" class="input-group col-sm-6 col-sm-offset-3"
 					style="padding-top: 30px;">
-					<span class="input-group-addon" style="width: 100px"
-						id="basic-addon1">password2</span> <input type="text"
-						class="form-control " placeholder="Username"
+					 <input type="password" id ="pass2"
+						class="form-control " placeholder="重复输入"
 						aria-describedby="basic-addon1">
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" class="btn btn-primary  form-group">提交更改</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>

@@ -25,48 +25,33 @@
 	rel="stylesheet">
 <script type="text/javascript" src="../jquery/jquery-1.6.js"></script>
 <script type="text/javascript">
-	function changPage() {
-		var l1 = document.getElementById("divc1");
-		alert(l1.innerHTML);
-		//l1.innerHTML+="<p>新来的(innerHTML)</p>";
-	}
-	function nextPage(b){
-		
+	//下一页，上一页
+	function nextPage(b) {
 		var term = document.getElementById("selectId").value;
 		var stuNo = document.getElementById("stuId").innerText;
 		var pageNo = document.getElementById("pageNo").innerText;
 		var pageCount = document.getElementById("pageCount").innerText;
-		pageNo = parseInt(pageNo)+b;
-		if (pageNo>pageCount) {
-			pageNo=pageCount;
+		pageNo = parseInt(pageNo) + b;
+		if (pageNo > pageCount) {
+			pageNo = pageCount;
+			return false;
 		}
-		if (pageNo<=0) {
-			pageNo=1;
+		if (pageNo <= 0) {
+			pageNo = 1;
+			return false;
 		}
-		document.getElementById("pageNo").innerText=pageNo;
+		document.getElementById("pageNo").innerText = pageNo;
 		//alert(term+":"+stuNo+":"+pageNo);
 		var url = "studentajaxNextPage.action";
 		var param = {
 			'ssgForm.term' : term,
 			'ssgForm.studentNo' : stuNo,
-			'pageMsg.pageNo':pageNo
+			'pageMsg.pageNo' : pageNo
 		};
-		$.post(url, param, callback);
-		
-	}
-	function getStuMsg(msg) {
-		var term = msg.value;
-		var stuNo = document.getElementById("stuId").innerText;
-		//alert(stuNo);
-		var url = "studentajaxTermChange.action";
-		var param = {
-			'ssgForm.term' : term,
-			'ssgForm.studentNo' : stuNo
-		};
-		$.post(url, param, callback);
+		$.post(url, param, callbackNext);
 
 	}
-	function callback(result, textStatus) {
+	function callbackNext(result, textStatus) {
 		if (textStatus == 'success') {
 			//alert("success!");
 			if (result != null) {
@@ -74,9 +59,7 @@
 				var tb = document.getElementById("mytb1");
 				//alert(tb.innerHTML);
 				tb.innerHTML = "";
-
 				var json = eval("(" + result + ")");
-
 				//alert(json.toString());
 				for (var v1 = 0; v1 < json.length; v1++) {
 
@@ -119,11 +102,181 @@
 								+ "</td>" + "<td>" + json[v1].credit + "</td>"
 								+ "</tr> ";
 					}
+
 				}
 
 			}
 		}
 
+	}
+	//下拉学期获得信息
+	function getStuMsg(msg) {
+		var term = msg.value;
+		var stuNo = document.getElementById("stuId").innerText;
+		//alert(stuNo);
+		var url = "studentajaxTermChange.action";
+		var param = {
+			'ssgForm.term' : term,
+			'ssgForm.studentNo' : stuNo
+		};
+		$.post(url, param, callbackTerm);
+
+	}
+	function callbackTerm(result, textStatus) {
+		if (textStatus == 'success') {
+			//alert("success!");
+			if (result != null) {
+				//alert(result);
+				var tb = document.getElementById("mytb1");
+				//alert(tb.innerHTML);
+				tb.innerHTML = "";
+				var json = eval("(" + result + ")");
+				//设置分页数据
+				if (json != null) {
+					var pageCount = json[0].pageNum;
+					//var test =  Math.floor(pageCount/8);
+					var pages = pageCount / 8 == 0 ? pageCount / 8 : Math
+							.ceil(pageCount / 8);
+					//alert("现在的总页数为:"+ pages+"::::");
+					if (pages == 0) {
+						document.getElementById("pageNo").innerText = 0;
+					} else {
+						document.getElementById("pageNo").innerText = 1;
+					}
+					document.getElementById("pageCount").innerText = pages;
+				}
+				//alert(json.toString());
+				for (var v1 = 0; v1 < json.length; v1++) {
+
+					var finalScore = json[v1].finalScore;
+					if (finalScore < 60) {
+						tb.innerHTML += "<tr style='color: red;' > <td class='hidden'>"
+								+ json[v1].studentNo
+								+ "/></td>"
+								+ "<td>"
+								+ json[v1].courseNo
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].courseName
+								+ "</td>"
+								+ "<td class='hidden'>"
+								+ json[v1].teacherNo
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].teacherName
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].finalScore
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].gradePoint
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].credit
+								+ "</td>"
+								+ "</tr> ";
+					} else {
+						tb.innerHTML += "<tr> <td class='hidden'>"
+								+ json[v1].studentNo + "/></td>" + "<td>"
+								+ json[v1].courseNo + "</td>" + "<td>"
+								+ json[v1].courseName + "</td>"
+								+ "<td class='hidden'>" + json[v1].teacherNo
+								+ "</td>" + "<td>" + json[v1].teacherName
+								+ "</td>" + "<td>" + json[v1].finalScore
+								+ "</td>" + "<td>" + json[v1].gradePoint
+								+ "</td>" + "<td>" + json[v1].credit + "</td>"
+								+ "</tr> ";
+					}
+
+				}
+
+			}
+		}
+
+	}
+
+	function getSearchMsg() {
+		var term = document.getElementById("selectId").value;
+		var stuNo = document.getElementById("stuId").innerText;
+		var content = document.getElementById("ssgCourseName");
+		//alert("内容:" + content.value.trim() + ";学期：" + term + ";学号：" + stuNo);
+		if (content.value.trim() == '') {
+			alert("请输入内容：")
+			return false;
+		}
+		var courseName = content.value.trim();
+		var url = "studentajaxSearchByCourName.action";
+		var param = {
+			'ssgForm.term' : term,
+			'ssgForm.studentNo' : stuNo,
+			'ssgForm.courseName' : courseName
+		};
+		$.post(url, param, callbackSearch);
+
+	}
+	function callbackSearch(result, textStatus) {
+		if (textStatus == 'success') {
+			if (result != null) {
+				var tb = document.getElementById("mytb1");
+				tb.innerHTML = "";
+				var json = eval("(" + result + ")");
+				//设置分页数据
+				if (json != null) {
+					var pageCount = json[0].pageNum;
+					//var test =  Math.floor(pageCount/8);
+					var pages = pageCount / 8 == 0 ? pageCount / 8 : Math
+							.ceil(pageCount / 8);
+					//alert("现在的总页数为:"+ pages+"::::");
+					if (pages == 0) {
+						document.getElementById("pageNo").innerText = 0;
+					} else {
+						document.getElementById("pageNo").innerText = 1;
+					}
+					document.getElementById("pageCount").innerText = pages;
+				}
+				for (var v1 = 0; v1 < json.length; v1++) {
+					var finalScore = json[v1].finalScore;
+					if (finalScore < 60) {
+						tb.innerHTML += "<tr style='color: red;' > <td class='hidden'>"
+								+ json[v1].studentNo
+								+ "/></td>"
+								+ "<td>"
+								+ json[v1].courseNo
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].courseName
+								+ "</td>"
+								+ "<td class='hidden'>"
+								+ json[v1].teacherNo
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].teacherName
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].finalScore
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].gradePoint
+								+ "</td>"
+								+ "<td>"
+								+ json[v1].credit
+								+ "</td>"
+								+ "</tr> ";
+					} else {
+						tb.innerHTML += "<tr> <td class='hidden'>"
+								+ json[v1].studentNo + "/></td>" + "<td>"
+								+ json[v1].courseNo + "</td>" + "<td>"
+								+ json[v1].courseName + "</td>"
+								+ "<td class='hidden'>" + json[v1].teacherNo
+								+ "</td>" + "<td>" + json[v1].teacherName
+								+ "</td>" + "<td>" + json[v1].finalScore
+								+ "</td>" + "<td>" + json[v1].gradePoint
+								+ "</td>" + "<td>" + json[v1].credit + "</td>"
+								+ "</tr> ";
+					}
+				}
+			}
+		}
 	}
 </script>
 </head>
@@ -133,20 +286,22 @@
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">毕业设计:</a> <span
-					class="navbar-brand">${student.studentName }</span>
+				<a class="navbar-brand" href="studentwelcomPage?stu.studentNo=${admin.studentNo }">毕业设计:</a> <span
+					class="navbar-brand">${admin.studentName }</span>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 
 					<li><a href="#">设置</a></li>
-					<li><a href="logout">注销</a></li>
+					<li><a href="logoutstudent">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
-				<form class="navbar-form navbar-right" action="#">
-					<input id="deptID" name="deptForm.content" type="text"
-						class="form-control" placeholder="Search..."> <input
-						type="submit" class="form-control btn btn-info" value="查询">
+				<form class="navbar-form navbar-right" action="#"
+					onsubmit="return false;">
+					<input id="ssgCourseName" name="ssgForm.content" type="text"
+						class="form-control" placeholder="请输入课程名称查询"> <input
+						type="submit" class="form-control btn btn-info" value="查询"
+						onclick="getSearchMsg();">
 				</form>
 			</div>
 		</div>
@@ -157,11 +312,14 @@
 			<div class="col-sm-9  col-md-10 col-md-offset-1 main">
 
 				<h6 class="sub-header">
-					你的身份是：学生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学号：<span id="stuId">${student.studentNo }</span>
+					你的身份是：学生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学号：<span id="stuId">${admin.studentNo }</span>
 				</h6>
 				<div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-4 main">
-					<select id="selectId" class="pagination col-md-4  " onchange="getStuMsg(this);">
-						<option disabled="disabled">第一个没有用的选项</option>
+					<select id="selectId" class="pagination col-md-4  "
+						onchange="getStuMsg(this);">
+						<s:if test="termList==null">
+							<option disabled="disabled">你是刚来的吧！等你长大了再来</option>
+						</s:if>
 						<s:iterator id="li" value="termList" status="tl">
 							<option class="center-block" value="<s:property  />">
 								<s:if test="#li ==1">第一学期：初入茅庐</s:if>
@@ -174,6 +332,7 @@
 								<s:if test="#li ==8">第八学期：毕业设计</s:if>
 							</option>
 						</s:iterator>
+
 					</select>
 				</div>
 				<div class="">
@@ -220,21 +379,18 @@
 						</tbody>
 					</table>
 				</div>
-				<div style="position: fixed; bottom: 0;"
+				<div style="position: fixed; bottom: 0; padding-top: 50px"
 					class=" col-sm-5 col-sm-offset-3 col-md-5 col-md-offset-2 main">
-					<!-- <ul class="pagination ">
-						<li><a href="#">&laquo;</a></li>
-
-						<li><a href="#">&raquo;</a></li>
-					</ul> -->
 					<ul class="pager">
-						<li class="previous "><a href="javascript:void(0)" onclick="nextPage(-1);"><span
-								aria-hidden="true">&larr;</span> Older</a></li>
-								<li class=" "><span
-								aria-hidden="true"><span id="pageNo"><s:property value="pageMsg.pageNo"/></span>/<span id="pageCount"><s:property value="pageMsg.pageCount"/></span>页</span></li>
-								<li class="next"><a href="javascript:void(0)"  onclick="nextPage(1);">Newer <span
-								aria-hidden="true">&rarr;</span></a></li>
-						
+						<li class="previous "><a href="javascript:void(0)"
+							onclick="nextPage(-1);"><span aria-hidden="true">&larr;</span>
+								上一页</a></li>
+						<li class=" "><span aria-hidden="true"><span
+								id="pageNo"><s:property value="pageMsg.pageNo" /></span>/<span
+								id="pageCount"><s:property value="pageMsg.pageCount" /></span>页</span></li>
+						<li class="next"><a href="javascript:void(0)"
+							onclick="nextPage(1);">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+
 					</ul>
 				</div>
 			</div>

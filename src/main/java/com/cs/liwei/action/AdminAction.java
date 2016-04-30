@@ -35,9 +35,9 @@ public class AdminAction extends ActionSupport {
      */
 	private static final long serialVersionUID = -7243750676583760197L;
 
-	public String exampleMethod() {
-		System.out.println("这是个测试");
-		return "dept";
+	public String home() {
+		System.out.println("返回主页");
+		return "adminhome";
 	}
 
 	// add 请求分类

@@ -32,13 +32,13 @@
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">欢迎您：</a><span class="navbar-brand"><%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></span>
+				<a class="navbar-brand" href="adminhome">欢迎您：</a><span class="navbar-brand"><%=((Admin) ActionContext.getContext().getSession().get("admin")).getAccount()%></span>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 
-					<li><a href="javascript:void(0)" onclick="showcaoz();">设置</a></li>
-					<li><a href="#">注销</a></li>
+					<li><a href="#">设置</a></li>
+					<li><a href="logoutadmin">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
 				<form class="navbar-form navbar-right "
@@ -56,7 +56,7 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="#">详情(点我没有用！)</a></li>
+					<li><a href="adminhome">首&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
 					<li><a href="admingetAllDeptList?pageMsg.pageNo=1">学院管理</a></li>
 					<li><a href="admingetAllProList?pageMsg.pageNo=1">专业管理</a></li>
 					<li class="active"><a href="#">课程管理</a></li>
@@ -100,7 +100,7 @@
 									<s:property value="professionName" /></option>
 							</s:iterator>
 
-							<option hidden
+							<option hidden="hidden"
 								value="<s:property value="courseForm.professionNo"/>" selected>
 								<s:property value="courseForm.professionNo" />
 								<s:property value="courseForm.professionName" />
@@ -117,7 +117,7 @@
 							<option value="选修课">选修课</option>
 							<option value="通识教育">通识教育</option>
 							<option value="社会实践">社会实践</option>
-							<option hidden
+							<option hidden="hidden"
 								value="<s:property value="courseForm.courseType"/>" selected>
 								<s:property value="courseForm.courseType" />
 							</option>
@@ -131,7 +131,7 @@
 							<option value="2">2</option>
 							<option value="3">3</option>
 							<option value="4">4</option>
-							<option hidden
+							<option hidden="hidden"
 								value="<s:property value="courseForm.credit"/>" selected>
 								<s:property value="courseForm.credit" />
 							</option>
@@ -149,7 +149,7 @@
 							<option value="6">6 大三下</option>
 							<option value="7">7 大四上</option>
 							<option value="8">8 大四下</option>
-							<option hidden value="<s:property value="courseForm.term"/>"
+							<option hidden="hidden" value="<s:property value="courseForm.term"/>"
 								selected>
 								<s:property value="courseForm.term" />
 								<s:if test="courseForm.term==1">大一上</s:if>

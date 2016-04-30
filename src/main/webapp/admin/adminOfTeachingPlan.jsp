@@ -63,13 +63,13 @@
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">欢迎您：</a><span class="navbar-brand"><%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount() %></span>
+				<a class="navbar-brand" href="adminhome">欢迎您：</a><span class="navbar-brand"><%=((Admin)ActionContext.getContext().getSession().get("admin")).getAccount() %></span>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 
 					<li><a href="#">设置</a></li>
-					<li><a href="#">注销</a></li>
+					<li><a href="logoutadmin">注销</a></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
 				<form class="navbar-form navbar-right" action="membersearchTeachingByNameForLike" method="get">
@@ -85,7 +85,7 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="#">详情(点我没有用！)</a></li>
+					<li><a href="adminhome">首&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
 					<li><a href="admingetAllDeptList?pageMsg.pageNo=1">学院管理</a></li>
 					<li><a href="admingetAllProList?pageMsg.pageNo=1">专业管理</a></li>
 					<li><a href="admingetAllCourseList?pageMsg.pageNo=1">课程管理</a></li>
