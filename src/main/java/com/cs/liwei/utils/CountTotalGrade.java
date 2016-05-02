@@ -16,7 +16,12 @@ public class CountTotalGrade {
         }
         return instance;
     }
-    
+    /**
+     * 
+     * @param s1 平时成绩
+     * @param s2 测试成绩
+     * @return
+     */
     public static int finalScore(int s1,int s2){
         int result = s1+ (int)Math.round(s2*0.7);
         return result;

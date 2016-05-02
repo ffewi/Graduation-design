@@ -4,11 +4,11 @@
 <!-- 添加弹框  -->
 <!-- 模态框（Modal） -->
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="myModal" tabindex="-2" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog" style="margin-left: 0">
 		<div class="modal-content">
-		<form role="form" action="studentchangePass?stu.studentNo=${admin.studentNo }" method="post" onsubmit="return changePass();">
+		<form role="form" action="teacherchangePass?tea.teacherNo=${admin.teacherNo }" method="post" onsubmit="return changePass();">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
@@ -18,7 +18,7 @@
 				
 				<div id="divpass1" class="input-group col-sm-6 col-sm-offset-3"
 					style="padding-top: 30px;">
-					 <input type="password" id="pass1" name="stu.stuPass"
+					 <input type="password" id="pass1" name="tea.teacherPwd"
 						class="form-control " placeholder="新密码"
 						aria-describedby="basic-addon1">
 				</div>

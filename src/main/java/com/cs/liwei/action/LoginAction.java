@@ -1,5 +1,7 @@
 package com.cs.liwei.action;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -9,6 +11,7 @@ import com.cs.liwei.beans.StudentDetail;
 import com.cs.liwei.beans.UserForm;
 import com.cs.liwei.pojo.Admin;
 import com.cs.liwei.pojo.Student;
+import com.cs.liwei.pojo.Teacher;
 import com.cs.liwei.service.AdminManager;
 import com.cs.liwei.service.StudentManager;
 import com.cs.liwei.service.TeacherManager;
@@ -32,6 +35,7 @@ public class LoginAction extends ActionSupport {
 	private TeacherManager teacherManager;
 
 	private StudentDetail sd;
+	private List<String> classMenuName;
 	private Student stuMsg;
 
 	/*
@@ -62,12 +66,32 @@ public class LoginAction extends ActionSupport {
 			if (isLogin) {
 				ActionContext.getContext().getSession().put("admin", admin);
 				returnMsg = "adminHome";
-			}else {
+			} else {
 				returnMsg = "adminlogin";
 			}
 			break;
 		case UserForm.TEA_TYPE:
 			System.out.println("teacher");
+			Teacher t = new Teacher();
+			t.setTeacherNo(Integer.parseInt(user.getUsername()));
+			t.setTeacherPwd(user.getPassword());
+			// 验证用户
+			Teacher resultOftea = teacherManager.checkLogin(t);
+			if (null != resultOftea) {
+				isLogin = resultOftea.getTeacherPwd().equals(t.getTeacherPwd())
+						&& resultOftea.getTeacherNo() == t.getTeacherNo();
+			}
+			if (isLogin) {
+				t.setTeacherName(resultOftea.getTeacherName());
+				ActionContext.getContext().getSession().put("admin", t);
+				//设置老师授课的班级
+				classMenuName = teacherManager.getTeachingClassName(t.getTeacherNo());
+				System.out.println((classMenuName==null)+"  ---------------------------"+classMenuName.toString());
+				returnMsg = "teacherHome";
+			}else {
+				addActionError("登录失败！");
+				returnMsg = "teacherlogin";
+			}
 			break;
 		case UserForm.STU_TYPE:
 			System.out.println("student");
@@ -132,5 +156,16 @@ public class LoginAction extends ActionSupport {
 	public void setStuMsg(Student stuMsg) {
 		this.stuMsg = stuMsg;
 	}
+
+	public List<String> getClassMenuName() {
+		return classMenuName;
+	}
+
+	public void setClassMenuName(List<String> classMenuName) {
+		this.classMenuName = classMenuName;
+	}
+
+	
+	
 
 }

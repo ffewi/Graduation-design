@@ -3,6 +3,7 @@ package com.cs.liwei.service;
 import java.util.List;
 
 import com.cs.liwei.beans.ClassForm;
+import com.cs.liwei.beans.TeacherAddOrUpdateGrade;
 import com.cs.liwei.beans.TeacherForm;
 import com.cs.liwei.beans.TeachingPlanForm;
 import com.cs.liwei.pojo.ClassTable;
@@ -110,4 +111,40 @@ public interface TeacherManager {
      * @return
      */
     List<ClassForm> exeUpdateClass(ClassForm cfForm);
+    /**
+     * 检查教师登录
+     * @param t
+     * @return
+     */
+    Teacher checkLogin(Teacher t);
+    /**
+     * 教师更新密码
+     * @param teacherNo
+     * @param pass
+     * @return
+     */
+    boolean changePass(int teacherNo,String pass);
+    /**
+     * 获取所教的班级
+     * @param teacherNo
+     * @return
+     */
+    List<String> getTeachingClassName(int teacherNo);
+    /**
+     * 获取老师 所选班级下 自己教的课程
+     * @param tau
+     * @return
+     */
+    List<TeacherAddOrUpdateGrade> getCourseMenuByTeacherNoAndClassName(TeacherAddOrUpdateGrade tau);
+    /**
+     * 获取老师可以录入的学生消息
+     * @param tau
+     * @return
+     */
+    List<TeacherAddOrUpdateGrade> getStudentLuru(TeacherAddOrUpdateGrade tau);
+    /**
+     * 教师录入成绩，只需要插入即可
+     * @param tau
+     */
+    void insertStudnetScore(TeacherAddOrUpdateGrade tau);
 }

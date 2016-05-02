@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cs.liwei.beans.ClassForm;
 import com.cs.liwei.beans.Method;
+import com.cs.liwei.beans.TeacherAddOrUpdateGrade;
 import com.cs.liwei.beans.TeacherForm;
 import com.cs.liwei.beans.TeachingPlanForm;
 import com.cs.liwei.dao.ITeacherDao;
@@ -16,9 +17,12 @@ import com.cs.liwei.pojo.ClassTable;
 import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Dept;
 import com.cs.liwei.pojo.Profession;
+import com.cs.liwei.pojo.Score;
 import com.cs.liwei.pojo.Teacher;
 import com.cs.liwei.pojo.Teaching;
 import com.cs.liwei.service.TeacherManager;
+import com.cs.liwei.utils.CountGradePoint;
+import com.cs.liwei.utils.CountTotalGrade;
 
 @Service
 public class TeacherManagerImpl implements TeacherManager {
@@ -308,5 +312,78 @@ public class TeacherManagerImpl implements TeacherManager {
             return list;
         }
         return null;
+	}
+
+	@Override
+	public Teacher checkLogin(Teacher t) {
+		// 调用dao层 检查老师信息
+		Teacher t1 = new Teacher();
+		t1=(Teacher) dao.findByID(t1, t.getTeacherNo());
+		if (null!=t1) {
+			return t1;
+		}
+		return null;
+	}
+
+	@Override
+	public boolean changePass(int teacherNo, String pass) {
+		// 调用dao层更新密码
+		boolean isOk = dao.changePass(teacherNo, pass);
+		if (isOk) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<String> getTeachingClassName(int teacherNo) {
+		// 调用dao层 获取班级列表
+		List<String> list = dao.getTeachingClassNameByTeacherNo(teacherNo);
+		if (null!=list && !list.isEmpty()) {
+			return list;
+		}
+		return null;
+	}
+
+	@Override
+	public List<TeacherAddOrUpdateGrade> getCourseMenuByTeacherNoAndClassName(
+			TeacherAddOrUpdateGrade tau) {
+		// 调用dao层 获取信息
+		List<TeacherAddOrUpdateGrade> list = dao.getCourseMenuByTeacherNoAndClassName(tau);
+		if (list!=null) {
+			return list;
+		}
+		return null;
+	}
+
+	@Override
+	public List<TeacherAddOrUpdateGrade> getStudentLuru(
+			TeacherAddOrUpdateGrade tau) {
+		// 通过dao获取
+		if (tau.getPageNo()<=0) {
+			tau.setPageNo(1);
+		}
+		List<TeacherAddOrUpdateGrade> list = dao.getStudentLuru(tau.getTeacherNo(), tau.getCourseNo(), tau.getClassName(), tau.getPageNo());
+		if (null!=list && !list.isEmpty()) {
+			return list;
+		}
+		return null;
+	}
+
+	@Override
+	public void insertStudnetScore(TeacherAddOrUpdateGrade tau) {
+		// 调用dao层 教师录入学生成绩
+		//此处需要加工最终成绩 以及 绩点
+		int fenshu = CountTotalGrade.finalScore(tau.getPingshiScore(), tau.getExamScore());
+		float jidian = CountGradePoint.countPoint(fenshu);
+		Score sc = new Score();
+		sc.setStudentNo(tau.getStudentNo());
+		sc.setCourseNo(tau.getCourseNo());
+		sc.setPingshiScore(tau.getPingshiScore());
+		sc.setExamScore(tau.getExamScore());
+		sc.setFinalScore(fenshu);
+		sc.setGradePoint(jidian);
+		sc.setExamType("闭卷");
+		dao.insertStudentScoreByTeacherNo(sc);
 	}
 }

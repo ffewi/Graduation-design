@@ -50,7 +50,7 @@ public class LoginIntercept extends AbstractInterceptor {
 		}else {
 			System.out.println("老师好！");
 		} 
-        System.out.println(user.toString());
+        //System.out.println(user.toString());
         // 如果没有登陆，或者登陆所有的用户名不是yuewei，都返回重新登陆  
         /*if (user != null && user.equals("yuewei")) {  
             System.out.println("test");  

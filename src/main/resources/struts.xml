@@ -30,6 +30,7 @@
         <action name="logout*" class="logoutAction" method="{1}">  
         	<result name="stulogin">/stu/login.jsp</result>
         	<result name="adminlogin">/stu/login.jsp</result>
+        	<result name="teacherlogin">/tea/login.jsp</result>
             <result name="input">/admin/login.jsp</result>  
             <result name="success">/login.jsp</result>  
             <result name="error">/Fail.jsp</result>  
@@ -37,9 +38,11 @@
         <action name="login" class="logAction" >  
         	<result name="adminHome">/admin/adminHome.jsp</result>
         	<result name="studentHome">/stu/homeWelcom.jsp</result>
-            <result name="stulogin">/stu/login.jsp</result>  
+        	<result name="teacherHome">/tea/home.jsp</result>
+        	<result name="stulogin">/stu/login.jsp</result>
+            <result name="teacherlogin">/tea/login.jsp</result>  
             <result name="adminlogin">/admin/login.jsp</result>  
-            <result name="input">/stu/login.jsp</result>  
+            <result name="input">/admin/login.jsp</result>  
             <result name="success">/index.jsp</result>  
             <result name="error">/Fail.jsp</result>  
         </action> 
@@ -84,6 +87,10 @@
             <result name="success">/index.jsp</result>  
             <result name="error">/Fail.jsp</result>  
         </action> 
+        
+        <action name="teacher*" class="teaAction" method="{1}">  
+        	<result name="changePass">/tea/login.jsp</result> 
+        </action>
     </package>  
   
 </struts>  
