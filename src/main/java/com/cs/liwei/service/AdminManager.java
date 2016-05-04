@@ -126,4 +126,18 @@ public interface AdminManager {
      * @return
      */
     int getPageTotal(int categoryOfMethod);
+    /**
+     * 判断用存在否
+     * @param ad
+     * @param type
+     * @return
+     */
+    boolean isHaveUser(Admin ad,int type);
+    /**
+     * 修改所有角色密码，用过type值决定，0:admin 1:teacher 2:student
+     * @param ad
+     * @param type
+     * @return
+     */
+    boolean xiugaiPass(Admin ad,int type);
 }

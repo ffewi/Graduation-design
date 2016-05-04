@@ -16,6 +16,8 @@ import com.cs.liwei.pojo.Admin;
 import com.cs.liwei.pojo.Course;
 import com.cs.liwei.pojo.Dept;
 import com.cs.liwei.pojo.Profession;
+import com.cs.liwei.pojo.Student;
+import com.cs.liwei.pojo.Teacher;
 import com.cs.liwei.service.AdminManager;
 
 @Service
@@ -151,7 +153,7 @@ public class AdminManagerImpl implements AdminManager {
 		course.setCredit(courseMsg.getSelectCredit()[0]);
 		// 开课学期
 		course.setTerm(courseMsg.getSelectTerm()[0]);
-		System.out.println(course + "专业名称无须设置！");
+		//System.out.println(course + "专业名称无须设置！");
 		// 进行course更新
 		Course result = dao.updateCourseByID(course);
 
@@ -228,7 +230,7 @@ public class AdminManagerImpl implements AdminManager {
 			courseNo++;
 			obj = dao.findByID(course, courseNo);
 		}
-		System.out.println("可用的coureID:" + courseNo);
+		//System.out.println("可用的coureID:" + courseNo);
 		course.setCourseNo(courseNo);
 		course.setCourseName(courseForm.getCourseName());
 		course.setProfessionNo(proId);
@@ -249,7 +251,7 @@ public class AdminManagerImpl implements AdminManager {
 			courseForm.setCredit(course.getCredit());
 			courseForm.setTerm(course.getTerm());
 			courseForm.setProfessionNo(proId);
-			System.out.println(courseForm);
+			//System.out.println(courseForm);
 			list.add(courseForm);
 			return list;
 		}
@@ -333,5 +335,75 @@ public class AdminManagerImpl implements AdminManager {
 		}
 		return pages;
 	}
+
+    @Override
+    public boolean isHaveUser(Admin ad, int type) {
+        // 调用dao find
+        //type:(0:admin;1:teacher;2:student)
+        boolean isHave = false;
+        switch (type) {
+        case 0:
+            Admin admin = new Admin();
+            admin= (Admin) dao.findByID(admin, ad.getAccount());
+            // System.out.println(admin==null);
+            if (null!=admin) {
+                isHave = true;
+            }
+            break;
+        case 1:
+            Teacher t = new Teacher();
+            t = (Teacher) dao.findByID(t, ad.getAccount());
+            if (null!=t) {
+                isHave = true;
+            }
+            break;
+        case 2:
+            Student stu = new Student();
+            stu =  (Student) dao.findByID(stu, ad.getAccount());
+            //System.out.println(stu==null);
+            if (null!=stu) {
+                isHave = true;
+            }
+            break;
+        default:
+            isHave = false;
+            break;
+        }
+        return isHave;
+    }
+
+    @Override
+    public boolean xiugaiPass(Admin ad, int type) {
+        // 调用dao层修改密码
+        String sql ="";
+        boolean hasChange = false;
+        switch (type) {
+        case 0:
+            sql = "update manager set pwd =? where account=?";
+            boolean isOk0 = dao.changePassBySQL(ad, sql);
+            if (isOk0) {
+                hasChange = true;
+            }
+            break;
+        case 1:
+            sql ="update teacher set teacherPwd=? where teacherNo=?";
+            boolean isOk1 = dao.changePassBySQL(ad, sql);
+            if (isOk1) {
+                hasChange = true;
+            }
+            break;
+        case 2:
+            sql ="update student set stuPass=? where studentNo=?";
+            boolean isOk2 = dao.changePassBySQL(ad, sql);
+            if (isOk2) {
+                hasChange = true;
+            }
+            break;
+
+        default:
+            break;
+        }
+        return hasChange;
+    }
 
 }

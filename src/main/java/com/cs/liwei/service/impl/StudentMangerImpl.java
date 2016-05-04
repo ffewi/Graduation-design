@@ -47,9 +47,9 @@ public class StudentMangerImpl implements StudentManager {
 		stu.setClassName(stuForm.getClassName());
 		stu.setStuPass("123456");
 		stu.setStuState(1);
-		System.out.println("kaishi  insert");
+		//System.out.println("kaishi  insert");
 		Integer stuId = dao.save(stu);
-		System.out.println("get professionNAME!");
+        // System.out.println("get professionNAME!");
 		String proName = dao.getProNameByClassName(stuForm.getClassName());
 		stuForm.setStudentNo(stuId);
 		stuForm.setProfessionName(proName);
@@ -66,7 +66,7 @@ public class StudentMangerImpl implements StudentManager {
 		stu.setStudentName(stuForm.getStudentName());
 		stu.setSex(stuForm.getSex());
 		stu.setClassName(stuForm.getClassName());
-		System.out.println(stu);
+		//System.out.println(stu);
 		// 调用dao层 更新
 		boolean result = dao.updateStudent(stu);
 		if (result) {
@@ -194,7 +194,7 @@ public class StudentMangerImpl implements StudentManager {
 		// 分两步 1 获取 学分统计 2 获取 平均绩点
 		StudentDetail stuDetail = dao.getXueFenCountByCourseType(studentNo);
 		if (stuDetail == null) {
-			System.out.println("[getStudentTotalCountDetail]:----------------");
+			//System.out.println("[getStudentTotalCountDetail]:----------------");
 			return null;
 		}
 		float avgPoint = dao.getAvgPoint(studentNo);

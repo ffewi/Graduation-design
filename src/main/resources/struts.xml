@@ -29,7 +29,7 @@
         </action> 
         <action name="logout*" class="logoutAction" method="{1}">  
         	<result name="stulogin">/stu/login.jsp</result>
-        	<result name="adminlogin">/stu/login.jsp</result>
+        	<result name="adminlogin">/admin/login.jsp</result>
         	<result name="teacherlogin">/tea/login.jsp</result>
             <result name="input">/admin/login.jsp</result>  
             <result name="success">/login.jsp</result>  

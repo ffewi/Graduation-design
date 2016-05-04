@@ -173,5 +173,11 @@ public interface IAdminDao extends IBaseDao {
 	 * @return
 	 */
 	int countCourseByProId(int professionNo);
-
+	/**
+	 * 修改密码，需要传入sql语句
+	 * @param ad
+	 * @param sql
+	 * @return
+	 */
+	boolean changePassBySQL(Admin ad,String sql);
 }

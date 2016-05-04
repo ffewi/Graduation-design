@@ -82,14 +82,14 @@ public class TeacherAction extends ActionSupport {
     // 开始修改单个
     public String ajaxStudentxiugaiCJ() {
         // 不做返回数据响应
-        System.out.println("教师修改学生成绩！");
+        // System.out.println("教师修改学生成绩！");
         teacher.updateStudnetScore(tauForm);
         return null;
     }
 
     // 教师模糊查询学生姓名 修改成绩
     public String ajaxSearchStudentToUpdate() {
-        
+
         List<TeacherAddOrUpdateGrade> resultList = teacher.getStudentSeacherByStuName(tauForm);
         if (resultList != null && !resultList.isEmpty()) {
             JSONArray json = JSONArray.fromObject(resultList);
@@ -101,17 +101,7 @@ public class TeacherAction extends ActionSupport {
                 System.out.println("json error!");
                 e.printStackTrace();
             }
-        }/*else {
-            //JSONArray json = JSONArray.fromObject("");
-            try {
-                ServletActionContext.getResponse().setCharacterEncoding("UTF-8");
-                ServletActionContext.getResponse().getWriter().println(" ");
-                // System.out.println(json.toString());
-            } catch (IOException e) {
-                System.out.println("json error!");
-                e.printStackTrace();
-            }
-        }*/
+        }
         return null;
     }
 

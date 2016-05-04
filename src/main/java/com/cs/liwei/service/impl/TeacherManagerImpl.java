@@ -123,6 +123,7 @@ public class TeacherManagerImpl implements TeacherManager {
             return false;
         }
     }
+
     @Override
     public boolean delClassByClassName(String className) {
         // 开始删除
@@ -134,6 +135,7 @@ public class TeacherManagerImpl implements TeacherManager {
             return false;
         }
     }
+
     @Override
     public boolean delTeachingByCourseNoAndClassName(TeachingPlanForm teaching) {
         // 开始删除
@@ -269,16 +271,16 @@ public class TeacherManagerImpl implements TeacherManager {
         ct.setProfessionNo(cfForm.getProfessionNo());
         ct.setStuTotal(cfForm.getStuTotal());
         int num = dao.countClass();
-        Integer className = 2016000+num;
+        Integer className = 2016000 + num;
         boolean isHave = dao.hasClassName(className.toString());
         if (isHave) {
             className = 2016000;
             while (isHave) {
-                className +=1;
+                className += 1;
                 isHave = dao.hasClassName(className.toString());
             }
         }
-//        System.out.println(ct1);
+        // System.out.println(ct1);
         ct.setClassName(className.toString());
         ct.setAssisantNo(20160101);
         boolean isOk = dao.saveClassByClassNameAndProNoAndstuTotal(ct);
@@ -294,14 +296,14 @@ public class TeacherManagerImpl implements TeacherManager {
         return null;
     }
 
-	@Override
-	public List<ClassForm> exeUpdateClass(ClassForm cfForm) {
-		// 调用dao层 更新class
-		ClassTable ct = new ClassTable();
+    @Override
+    public List<ClassForm> exeUpdateClass(ClassForm cfForm) {
+        // 调用dao层 更新class
+        ClassTable ct = new ClassTable();
         ct.setClassName(cfForm.getClassName());
         ct.setProfessionNo(cfForm.getProfessionNo());
         ct.setStuTotal(cfForm.getStuTotal());
-        
+
         boolean isOk = dao.updateClass(ct);
         if (isOk) {
             List<ClassForm> list = new ArrayList<ClassForm>();
@@ -312,106 +314,93 @@ public class TeacherManagerImpl implements TeacherManager {
             return list;
         }
         return null;
-	}
+    }
 
-	@Override
-	public Teacher checkLogin(Teacher t) {
-		// 调用dao层 检查老师信息
-		Teacher t1 = new Teacher();
-		t1=(Teacher) dao.findByID(t1, t.getTeacherNo());
-		if (null!=t1) {
-			return t1;
-		}
-		return null;
-	}
+    @Override
+    public Teacher checkLogin(Teacher t) {
+        // 调用dao层 检查老师信息
+        Teacher t1 = new Teacher();
+        t1 = (Teacher) dao.findByID(t1, t.getTeacherNo());
+        if (null != t1) {
+            return t1;
+        }
+        return null;
+    }
 
-	@Override
-	public boolean changePass(int teacherNo, String pass) {
-		// 调用dao层更新密码
-		boolean isOk = dao.changePass(teacherNo, pass);
-		if (isOk) {
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean changePass(int teacherNo, String pass) {
+        // 调用dao层更新密码
+        boolean isOk = dao.changePass(teacherNo, pass);
+        if (isOk) {
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	public List<String> getTeachingClassName(int teacherNo) {
-		// 调用dao层 获取班级列表
-		List<String> list = dao.getTeachingClassNameByTeacherNo(teacherNo);
-		if (null!=list && !list.isEmpty()) {
-			return list;
-		}
-		return null;
-	}
+    @Override
+    public List<String> getTeachingClassName(int teacherNo) {
+        // 调用dao层 获取班级列表
+        List<String> list = dao.getTeachingClassNameByTeacherNo(teacherNo);
+        if (null != list && !list.isEmpty()) {
+            return list;
+        }
+        return null;
+    }
 
-	@Override
-	public List<TeacherAddOrUpdateGrade> getCourseMenuByTeacherNoAndClassName(
-			TeacherAddOrUpdateGrade tau) {
-		// 调用dao层 获取信息
-		List<TeacherAddOrUpdateGrade> list = dao.getCourseMenuByTeacherNoAndClassName(tau);
-		if (list!=null) {
-			return list;
-		}
-		return null;
-	}
-
-	@Override
-	public List<TeacherAddOrUpdateGrade> getStudentLuru(
-			TeacherAddOrUpdateGrade tau) {
-		// 通过dao获取
-		if (tau.getPageNo()<=0) {
-			tau.setPageNo(1);
-		}
-		List<TeacherAddOrUpdateGrade> list = dao.getStudentLuru(tau.getTeacherNo(), tau.getCourseNo(), tau.getClassName(), tau.getPageNo());
-		if (null!=list && !list.isEmpty()) {
-			return list;
-		}
-		return null;
-	}
-	@Override
-    public List<TeacherAddOrUpdateGrade> getStudentXiugai(
+    @Override
+    public List<TeacherAddOrUpdateGrade> getCourseMenuByTeacherNoAndClassName(
             TeacherAddOrUpdateGrade tau) {
+        // 调用dao层 获取信息
+        List<TeacherAddOrUpdateGrade> list = dao.getCourseMenuByTeacherNoAndClassName(tau);
+        if (list != null) {
+            return list;
+        }
+        return null;
+    }
+
+    @Override
+    public List<TeacherAddOrUpdateGrade> getStudentLuru(TeacherAddOrUpdateGrade tau) {
         // 通过dao获取
-        if (tau.getPageNo()<=0) {
+        if (tau.getPageNo() <= 0) {
             tau.setPageNo(1);
         }
-        List<TeacherAddOrUpdateGrade> list = dao.getStudentXiugai(tau.getTeacherNo(), tau.getCourseNo(), tau.getClassName(), tau.getPageNo());
-        if (null!=list && !list.isEmpty()) {
+        List<TeacherAddOrUpdateGrade> list = dao.getStudentLuru(tau.getTeacherNo(),
+                tau.getCourseNo(), tau.getClassName(), tau.getPageNo());
+        if (null != list && !list.isEmpty()) {
             return list;
         }
         return null;
     }
+
     @Override
-    public List<TeacherAddOrUpdateGrade> getStudentSeacherByStuName(
-            TeacherAddOrUpdateGrade tau) {
+    public List<TeacherAddOrUpdateGrade> getStudentXiugai(TeacherAddOrUpdateGrade tau) {
         // 通过dao获取
-        List<TeacherAddOrUpdateGrade> list = dao.getStudentSeacherByStuName(tau.getTeacherNo(), tau.getCourseNo(), tau.getClassName(), tau.getStudentName());
-        if (null!=list && !list.isEmpty()) {
+        if (tau.getPageNo() <= 0) {
+            tau.setPageNo(1);
+        }
+        List<TeacherAddOrUpdateGrade> list = dao.getStudentXiugai(tau.getTeacherNo(),
+                tau.getCourseNo(), tau.getClassName(), tau.getPageNo());
+        if (null != list && !list.isEmpty()) {
             return list;
         }
         return null;
     }
-	@Override
-	public void insertStudnetScore(TeacherAddOrUpdateGrade tau) {
-		// 调用dao层 教师录入学生成绩
-		//此处需要加工最终成绩 以及 绩点
-		int fenshu = CountTotalGrade.finalScore(tau.getPingshiScore(), tau.getExamScore());
-		float jidian = CountGradePoint.countPoint(fenshu);
-		Score sc = new Score();
-		sc.setStudentNo(tau.getStudentNo());
-		sc.setCourseNo(tau.getCourseNo());
-		sc.setPingshiScore(tau.getPingshiScore());
-		sc.setExamScore(tau.getExamScore());
-		sc.setFinalScore(fenshu);
-		sc.setGradePoint(jidian);
-		sc.setExamType("闭卷");
-		dao.insertStudentScoreByTeacherNo(sc);
-	}
-	@Override
-    public void updateStudnetScore(TeacherAddOrUpdateGrade tau) {
+
+    @Override
+    public List<TeacherAddOrUpdateGrade> getStudentSeacherByStuName(TeacherAddOrUpdateGrade tau) {
+        // 通过dao获取
+        List<TeacherAddOrUpdateGrade> list = dao.getStudentSeacherByStuName(tau.getTeacherNo(),
+                tau.getCourseNo(), tau.getClassName(), tau.getStudentName());
+        if (null != list && !list.isEmpty()) {
+            return list;
+        }
+        return null;
+    }
+
+    @Override
+    public void insertStudnetScore(TeacherAddOrUpdateGrade tau) {
         // 调用dao层 教师录入学生成绩
-        //此处需要加工最终成绩 以及 绩点
+        // 此处需要加工最终成绩 以及 绩点
         int fenshu = CountTotalGrade.finalScore(tau.getPingshiScore(), tau.getExamScore());
         float jidian = CountGradePoint.countPoint(fenshu);
         Score sc = new Score();
@@ -421,7 +410,24 @@ public class TeacherManagerImpl implements TeacherManager {
         sc.setExamScore(tau.getExamScore());
         sc.setFinalScore(fenshu);
         sc.setGradePoint(jidian);
-        //sc.setExamType("闭卷");
+        sc.setExamType("闭卷");
+        dao.insertStudentScoreByTeacherNo(sc);
+    }
+
+    @Override
+    public void updateStudnetScore(TeacherAddOrUpdateGrade tau) {
+        // 调用dao层 教师录入学生成绩
+        // 此处需要加工最终成绩 以及 绩点
+        int fenshu = CountTotalGrade.finalScore(tau.getPingshiScore(), tau.getExamScore());
+        float jidian = CountGradePoint.countPoint(fenshu);
+        Score sc = new Score();
+        sc.setStudentNo(tau.getStudentNo());
+        sc.setCourseNo(tau.getCourseNo());
+        sc.setPingshiScore(tau.getPingshiScore());
+        sc.setExamScore(tau.getExamScore());
+        sc.setFinalScore(fenshu);
+        sc.setGradePoint(jidian);
+        // sc.setExamType("闭卷");
         dao.updateStudentScoreByTeacherNo(sc);
     }
 }

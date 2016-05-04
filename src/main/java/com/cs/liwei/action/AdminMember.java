@@ -63,20 +63,20 @@ public class AdminMember extends ActionSupport {
     private static final long serialVersionUID = 5512566885571007850L;
 
     public String exampleMethod() {
-        System.out.println("这是个测试");
+        // System.out.println("这是个测试");
         return "adminMember";
     }
 
     // 测试ajax
     public String getTerm() {
-        System.out.println("ajax----------test!" + ":" + tpForm.getTerm() + ":"
-                + tpForm.getClassName());
+        // System.out.println("ajax----------test!" + ":" + tpForm.getTerm() + ":"
+        // + tpForm.getClassName());
         courseList = teacher.getAllCourseByTerm(tpForm.getTerm(), tpForm.getClassName());
-        for (Course course : courseList) {
-            System.out.println(course);
-        }
+        // for (Course course : courseList) {
+        // System.out.println(course);
+        // }
         JSONArray json = JSONArray.fromObject(courseList);
-        System.out.println(json.toString());
+        // System.out.println(json.toString());
         try {
             ServletActionContext.getResponse().setCharacterEncoding("UTF-8");
             ServletActionContext.getResponse().getWriter().println(json.toString());
@@ -108,7 +108,7 @@ public class AdminMember extends ActionSupport {
             break;
         case 4:
             // class修改也跳转
-            System.out.println("calssUPDAE---------------------");
+            // System.out.println("calssUPDAE---------------------");
             proList = admin.getAllProfessionNameIndex();
             returnMsg = "classUpdate";
             break;
@@ -139,7 +139,7 @@ public class AdminMember extends ActionSupport {
             // 获取所有老师
             teacherList = teacher.getAllTeacher();
             // 获取学期下面的课程
-            System.out.println("className: add teaching:" + tpForm.getClassName());
+            // System.out.println("className: add teaching:" + tpForm.getClassName());
             courseList = teacher.getAllCourseByTerm(1, tpForm.getClassName());
             // 其实这里应该准备className数据，但是我比较懒，写死算了
             returnMsg = "teachingAdd";
@@ -164,7 +164,7 @@ public class AdminMember extends ActionSupport {
     // 执行更新操作 teacher
     public String exeUpdateTeacher() {
 
-        System.out.println("teacherUpdate!");
+        // System.out.println("teacherUpdate!");
         teaList = teacher.updateDeptByID(teacherForm);
         if (pageMsg == null) {
             pageMsg = new Page();
@@ -187,8 +187,8 @@ public class AdminMember extends ActionSupport {
 
     // 执行更新teaching
     public String exeUpdateTeaching() {
-        System.out.println(tpForm.getClassName() + ":" + tpForm.getCourseNo() + ":"
-                + tpForm.getTeacherNo() + "：" + tpForm.getTerm());
+        // System.out.println(tpForm.getClassName() + ":" + tpForm.getCourseNo() + ":"
+        // + tpForm.getTeacherNo() + "：" + tpForm.getTerm());
         // 修改，只修改上课老师
         tpList = teacher.updateTeachingJustChangeTeacher(tpForm);
         classList = teacher.getAllClassName();
@@ -202,9 +202,9 @@ public class AdminMember extends ActionSupport {
 
     // 获取老师默认页面
     public String getAllTeacherList() {
-        System.out.println("adminMember");
+        // System.out.println("adminMember");
         teaList = teacher.getAllTeacherList(pageMsg.getPageNo(), 10);
-        System.out.println(teaList.size());
+        // System.out.println(teaList.size());
         pageMsg.setPageCount(teacher.getPageTotal(Method.PAGE_TEACHER));
         return "teacherIndex";
     }
@@ -248,7 +248,7 @@ public class AdminMember extends ActionSupport {
 
     // 获取班级默认页面
     public String getClassIndex() {
-        System.out.println("classIndex!--------------------");
+        // System.out.println("classIndex!--------------------");
         cfList = teacher.getClassIndexList(pageMsg.getPageNo());
         pageMsg.setPageCount(teacher.getPageTotal(Method.PAGE_CLASS));
         return "classIndex";
@@ -279,8 +279,8 @@ public class AdminMember extends ActionSupport {
 
     // 添加score
     public String addScore() {
-        System.out.println(scoreForm.getStudentNo() + ":" + scoreForm.getPingshiScore() + ":"
-                + scoreForm.getExamScore() + scoreForm.getCourseNo());
+        // System.out.println(scoreForm.getStudentNo() + ":" + scoreForm.getPingshiScore() + ":"
+        // + scoreForm.getExamScore() + scoreForm.getCourseNo());
         scoreList = student.addScoreByScore(scoreForm);
         if (pageMsg == null) {
             pageMsg = new Page();
@@ -292,8 +292,8 @@ public class AdminMember extends ActionSupport {
 
     // 添加class
     public String addClass() {
-        System.out.println(cfForm.getClassName() + ":" + cfForm.getProfessionNo() + ":"
-                + cfForm.getStuTotal());
+        // System.out.println(cfForm.getClassName() + ":" + cfForm.getProfessionNo() + ":"
+        // + cfForm.getStuTotal());
         cfList = teacher.saveClass(cfForm);
         if (pageMsg == null) {
             pageMsg = new Page();
@@ -305,8 +305,8 @@ public class AdminMember extends ActionSupport {
 
     // 添加teaching
     public String addTeaching() {
-        System.out.println(tpForm.getClassName() + ":" + tpForm.getTerm() + ":"
-                + tpForm.getTeacherNo() + ":" + tpForm.getCourseNo());
+        // System.out.println(tpForm.getClassName() + ":" + tpForm.getTerm() + ":"
+        // + tpForm.getTeacherNo() + ":" + tpForm.getCourseNo());
         // 保存教学制定 saveTeachingPlan；
         tpList = teacher.saveTeachingPlan(tpForm);
         classList = teacher.getAllClassName();
@@ -322,17 +322,19 @@ public class AdminMember extends ActionSupport {
         }
         return "teachingIndex";
     }
-//执行exeUpdateClass
-    public String exeUpdateClass(){
-    	System.out.println(cfForm.getStuTotal()+":"+cfForm.getProfessionNo()+":"+cfForm.getClassName());
-    	cfList = teacher.exeUpdateClass(cfForm);
-    	if (pageMsg == null) {
+
+    // 执行exeUpdateClass
+    public String exeUpdateClass() {
+        // System.out.println(cfForm.getStuTotal()+":"+cfForm.getProfessionNo()+":"+cfForm.getClassName());
+        cfList = teacher.exeUpdateClass(cfForm);
+        if (pageMsg == null) {
             pageMsg = new Page();
         }
         pageMsg.setPageNo(1);
         pageMsg.setPageCount(1);
-    	return "classIndex";
+        return "classIndex";
     }
+
     // 执行 studentUpdate
     public String exeUpdateStudent() {
         stuList = student.updateStudentByID(studentForm);
@@ -346,7 +348,7 @@ public class AdminMember extends ActionSupport {
 
     // 删除 teacher
     public String delTeacherById() {
-        System.out.println(teacherForm.getTeacherNo() + "===================");
+        // System.out.println(teacherForm.getTeacherNo() + "===================");
         boolean result = teacher.delTeacherById(teacherForm.getTeacherNo());
         if (result) {
             teaList = teacher.getAllTeacherList(pageMsg.getPageNo(), 10);
@@ -381,8 +383,9 @@ public class AdminMember extends ActionSupport {
         }
         return "classIndex";
     }
-//删除score 
-    public String delScoreByStuAndCou(){
+
+    // 删除score
+    public String delScoreByStuAndCou() {
         boolean rs = student.delScoreByStuAndCou(scoreForm);
         if (rs) {
             scoreList = student.queryByStudentNoAndIsHaveGrade(scoreForm.getStudentNo());
@@ -394,9 +397,10 @@ public class AdminMember extends ActionSupport {
         }
         return "scoreIndex";
     }
+
     // 删除teaching
     public String delTeachingByCourseNoAndClassName() {
-        System.out.println(":---" + tpForm.getClassName() + ":" + tpForm.getCourseNo());
+        // System.out.println(":---" + tpForm.getClassName() + ":" + tpForm.getCourseNo());
         // 调用删除
         boolean isOk = teacher.delTeachingByCourseNoAndClassName(tpForm);
         // 刷新数据
@@ -455,8 +459,8 @@ public class AdminMember extends ActionSupport {
 
     // 模糊查询teaching by className
     public String searchTeachingByNameForLike() {
-        System.out.println("hello-------------" + tpForm.getContent() + ":  "
-                + tpForm.getClassName());
+        // System.out.println("hello-------------" + tpForm.getContent() + ":  "
+        // + tpForm.getClassName());
         // 调用查询
         tpList = teacher.getTeachingByNameForLike(tpForm);
         classList = teacher.getAllClassName();
@@ -476,7 +480,7 @@ public class AdminMember extends ActionSupport {
 
     // 精确查询学生
     public String searchScoreByStuNo() {
-        System.out.println(scoreForm.getStudentNo());
+        // System.out.println(scoreForm.getStudentNo());
         scoreList = student.queryByStudentNoAndIsHaveGrade(scoreForm.getStudentNo());
         if (pageMsg == null) {
             pageMsg = new Page();

@@ -41,7 +41,7 @@
 				
 				<div class="row col-sm-3 col-center-block">
 				
-				  <form class="form-signin" role="form" action="login" method="get">
+				  <form class="form-signin" role="form" action="login" method="post">
 				    <h2 class="form-signin-heading text-center">    </h2>
 				    <input type="text"  name="user.username" class="form-control " placeholder="username" required autofocus>
 				    <span style="color:red" ><s:fielderror fieldName="user.username"></s:fielderror></span>
