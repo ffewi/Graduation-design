@@ -498,7 +498,98 @@ public class TeacherDaoImpl extends IBaseDaoImpl implements ITeacherDao {
 		}
 		return null;
 	}
-
+	@Override
+    public List<TeacherAddOrUpdateGrade> getStudentXiugai(int teacherNo,
+            int courseNo, String className, int pageNo) {
+        // 查询教师可以录入的学生
+        session = getSession();
+        String hsql = "select tt.*,sc.pingshiScore,sc.examScore,sc.finalScore from (select t.courseNo,t.courseName,s.studentNo,s.studentName from teaching  t,student s"
+                + " where s.className=t.className and teacherNo=? and t.className=?"
+                + " and courseNo=?) tt LEFT JOIN score sc "
+                + " on tt.courseNo=sc.courseNo and tt.studentNo=sc.studentNo"
+                + " where sc.finalScore IS not Null";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, teacherNo);
+        exe.setParameter(1, className);
+        exe.setParameter(2, courseNo);
+        List<?> list = exe.list();
+        int totalSize = 0;
+        if (null!=list) {
+            totalSize = list.size();
+        }
+        exe.setFirstResult((pageNo-1)*8);
+        exe.setMaxResults(8);
+        list = exe.list();
+        session.close();
+        if (list != null && !list.isEmpty()) {
+            List<TeacherAddOrUpdateGrade> clist = new ArrayList<TeacherAddOrUpdateGrade>();
+            TeacherAddOrUpdateGrade tauContent = null;
+            Iterator<?> it = list.iterator();
+            while (it.hasNext()) {
+                Object[] tauMsg = (Object[]) it.next();
+                tauContent = new TeacherAddOrUpdateGrade();
+                tauContent.setCourseNo((int) tauMsg[0]);
+                tauContent.setCourseName((String) tauMsg[1]);
+                tauContent.setStudentNo((int) tauMsg[2]);
+                tauContent.setStudentName((String) tauMsg[3]);
+                tauContent.setPingshiScore((int) tauMsg[4]);
+                tauContent.setExamScore((int) tauMsg[5]);
+                tauContent.setPageNum(totalSize);
+                clist.add(tauContent);
+            }
+            /*
+             * System.out.println(clist.size()); if (clist.size()>0) {
+             * System.out.println(clist.get(0).toString()); }
+             */
+            return clist;
+        }
+        return null;
+    }
+    @Override
+    public List<TeacherAddOrUpdateGrade> getStudentSeacherByStuName(int teacherNo,
+            int courseNo, String className, String studentName) {
+        // 查询教师可以录入的学生
+        session = getSession();
+        String hsql = "select tt.*,sc.pingshiScore,sc.examScore,sc.finalScore from (select t.courseNo,t.courseName,s.studentNo,s.studentName from teaching  t,student s"
+                + " where s.className=t.className and teacherNo=? and t.className=?"
+                + " and courseNo=?) tt LEFT JOIN score sc "
+                + " on tt.courseNo=sc.courseNo and tt.studentNo=sc.studentNo"
+                + " where sc.finalScore IS not Null and tt.studentName like ?";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, teacherNo);
+        exe.setParameter(1, className);
+        exe.setParameter(2, courseNo);
+        exe.setParameter(3, "%"+studentName+"%");
+        List<?> list = exe.list();
+        int totalSize = 0;
+        if (null!=list) {
+            totalSize = list.size();
+        }
+        session.close();
+        if (list != null && !list.isEmpty()) {
+            List<TeacherAddOrUpdateGrade> clist = new ArrayList<TeacherAddOrUpdateGrade>();
+            TeacherAddOrUpdateGrade tauContent = null;
+            Iterator<?> it = list.iterator();
+            while (it.hasNext()) {
+                Object[] tauMsg = (Object[]) it.next();
+                tauContent = new TeacherAddOrUpdateGrade();
+                tauContent.setCourseNo((int) tauMsg[0]);
+                tauContent.setCourseName((String) tauMsg[1]);
+                tauContent.setStudentNo((int) tauMsg[2]);
+                tauContent.setStudentName((String) tauMsg[3]);
+                tauContent.setPingshiScore((int) tauMsg[4]);
+                tauContent.setExamScore((int) tauMsg[5]);
+                tauContent.setPageNum(totalSize);
+                clist.add(tauContent);
+            }
+            /*
+             * System.out.println(clist.size()); if (clist.size()>0) {
+             * System.out.println(clist.get(0).toString()); }
+             */
+            return clist;
+        }
+        return null;
+    }
 	@Override
 	public void insertStudentScoreByTeacherNo(Score s) {
 		// insert
@@ -515,4 +606,19 @@ public class TeacherDaoImpl extends IBaseDaoImpl implements ITeacherDao {
 		exe.executeUpdate();
 		session.close();
 	}
+	@Override
+    public void updateStudentScoreByTeacherNo(Score s) {
+        // insert
+        session = getSession();
+        String hsql ="update score set pingshiScore=?,examScore=?,finalScore=?,gradePoint=? where studentNo=? and courseNo=?";
+        Query exe = session.createSQLQuery(hsql);
+        exe.setParameter(0, s.getPingshiScore());
+        exe.setParameter(1, s.getExamScore());
+        exe.setParameter(2, s.getFinalScore());
+        exe.setParameter(3, s.getGradePoint());
+        exe.setParameter(4, s.getStudentNo());
+        exe.setParameter(5, s.getCourseNo());
+        exe.executeUpdate();
+        session.close();
+    }
 }

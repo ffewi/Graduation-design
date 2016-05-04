@@ -214,8 +214,36 @@ public interface ITeacherDao extends IBaseDao {
 	List<TeacherAddOrUpdateGrade> getStudentLuru(int teacherNo, int courseNo,
 			String className, int pageNo);
 	/**
+     * 获取老师可以修改的学生成绩信息
+     * 
+     * @param teacherNo
+     * @param courseNo
+     * @param className
+     * @param pageNo
+     * @return
+     */
+    List<TeacherAddOrUpdateGrade> getStudentXiugai(int teacherNo, int courseNo,
+    String className, int pageNo);
+    /**
+     * 获取老师查询后可以修改的学生成绩信息
+     * 
+     * @param teacherNo
+     * @param courseNo
+     * @param className
+     * @param studentName
+     * @return
+     */
+    List<TeacherAddOrUpdateGrade> getStudentSeacherByStuName(int teacherNo, int courseNo,
+            String className, String studentName);
+	/**
 	 * 录入加工后的成绩
 	 * @param s
 	 */
 	void insertStudentScoreByTeacherNo(Score s);
+	/**
+     * 修改加工后的成绩 需要数据有：
+     * studentNo, courseNo,pingshiScore,examScore,finalScore,gradePoint
+     * @param s
+     */
+    void updateStudentScoreByTeacherNo(Score s);
 }

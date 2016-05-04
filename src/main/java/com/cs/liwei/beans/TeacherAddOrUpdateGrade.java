@@ -23,12 +23,21 @@ public class TeacherAddOrUpdateGrade {
 	private int examScore;
 
 	private int pageNo;
+	//查询出来可以修改成绩的总条数
+	private int pageNum;
 	
 	
 	
 	
-	
-	public String getStudentName() {
+	public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public String getStudentName() {
 		return studentName;
 	}
 

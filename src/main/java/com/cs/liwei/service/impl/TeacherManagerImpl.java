@@ -369,7 +369,29 @@ public class TeacherManagerImpl implements TeacherManager {
 		}
 		return null;
 	}
-
+	@Override
+    public List<TeacherAddOrUpdateGrade> getStudentXiugai(
+            TeacherAddOrUpdateGrade tau) {
+        // 通过dao获取
+        if (tau.getPageNo()<=0) {
+            tau.setPageNo(1);
+        }
+        List<TeacherAddOrUpdateGrade> list = dao.getStudentXiugai(tau.getTeacherNo(), tau.getCourseNo(), tau.getClassName(), tau.getPageNo());
+        if (null!=list && !list.isEmpty()) {
+            return list;
+        }
+        return null;
+    }
+    @Override
+    public List<TeacherAddOrUpdateGrade> getStudentSeacherByStuName(
+            TeacherAddOrUpdateGrade tau) {
+        // 通过dao获取
+        List<TeacherAddOrUpdateGrade> list = dao.getStudentSeacherByStuName(tau.getTeacherNo(), tau.getCourseNo(), tau.getClassName(), tau.getStudentName());
+        if (null!=list && !list.isEmpty()) {
+            return list;
+        }
+        return null;
+    }
 	@Override
 	public void insertStudnetScore(TeacherAddOrUpdateGrade tau) {
 		// 调用dao层 教师录入学生成绩
@@ -386,4 +408,20 @@ public class TeacherManagerImpl implements TeacherManager {
 		sc.setExamType("闭卷");
 		dao.insertStudentScoreByTeacherNo(sc);
 	}
+	@Override
+    public void updateStudnetScore(TeacherAddOrUpdateGrade tau) {
+        // 调用dao层 教师录入学生成绩
+        //此处需要加工最终成绩 以及 绩点
+        int fenshu = CountTotalGrade.finalScore(tau.getPingshiScore(), tau.getExamScore());
+        float jidian = CountGradePoint.countPoint(fenshu);
+        Score sc = new Score();
+        sc.setStudentNo(tau.getStudentNo());
+        sc.setCourseNo(tau.getCourseNo());
+        sc.setPingshiScore(tau.getPingshiScore());
+        sc.setExamScore(tau.getExamScore());
+        sc.setFinalScore(fenshu);
+        sc.setGradePoint(jidian);
+        //sc.setExamType("闭卷");
+        dao.updateStudentScoreByTeacherNo(sc);
+    }
 }
